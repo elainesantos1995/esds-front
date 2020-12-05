@@ -1,0 +1,30 @@
+<a routerLink= '/'>Home</a>
+
+<form [formGroup]="formularioDeLogin" (ngSubmit)="onSubmit()" novalidate>
+
+<fieldset class="login">
+<div>
+    <div>
+        <label for="login">Login</label>
+        <input type="text" id="login" name="login" formControlName="login">
+        <!-- <div *ngIf="submissao && f.login.errors">
+            <div *ngIf="f.login.error.required">
+                Login requerido!
+            </div>
+        </div> -->
+    </div>
+    <div>
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" formControlName="senha" >
+        <!-- <div *ngIf="submissao && f.senha.errors">
+            <div *ngIf="f.senha.error.required">
+                Senha requerida!
+            </div>
+        </div> -->
+    </div>
+    <button [disabled]="carregamento">Enviar</button>
+</div>
+</fieldset>
+
+</form>
+
