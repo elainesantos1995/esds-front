@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-relatorios',
+  templateUrl: './relatorios.component.html',
+  styleUrls: ['./relatorios.component.css']
 })
-export class HomeComponent implements OnInit {
+export class RelatoriosComponent implements OnInit {
 
   data: any;
   assiduidade: any;
@@ -43,8 +43,7 @@ export class HomeComponent implements OnInit {
                     "#36A2EB"
                 ]
             }]    
-        };
-
+          }
    }
 
   ngOnInit(): void {

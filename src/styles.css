@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cabecalho{
+    width: 100%;
+    height: 60px;
+}
+
+.navegacao{
+    width: 20%;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+    overflow-x: hidden;
+    margin-top: 36px;
+    background-color: rgb(9, 231, 231) !important;
+    /* background-color: rgba(69, 134, 15, 0.925) !important; */
+}
+
+.conteudo{
+    width: 80%;
+    display: inline-block;
+    margin-top: 40px;
+}
+
+.pai{
+    height: 100%;
+}

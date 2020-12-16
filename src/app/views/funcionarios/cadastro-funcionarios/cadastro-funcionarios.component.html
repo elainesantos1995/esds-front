@@ -1,0 +1,85 @@
+<div class="conteudo">
+
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+    
+    <form id="formFuncionario" #funcionarioForm="ngForm" (ngSubmit)="onSubmit()">
+    <div>
+    
+        <p-tabView>
+        <p-tabPanel header="Dados Pessoais">       
+        
+            <div>
+                <div class="p-fluid">
+                    
+                    <table>
+
+                <td>
+                <div class="p-field tamanho">
+                    <label for="nome">Nome</label>
+                    <input id="nome" type="text" pInputText name="nome" [(ngModel)]="funcionario.nome"> 
+                </div>
+                <div class="p-field tamanhoSecundario">
+                    <label for="dataNascimento">Data de Nascimento</label>
+                    <input id="dataNascimento" type="date" pInputText
+                        name="dataNascimento" [(ngModel)]="funcionario.dataNascimento">                         
+                </div>
+                <div class="p-field tamanhoSecundario">
+                    <label for="cpf">CPF</label>
+                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="funcionario.cpf"></p-inputMask>
+                </div>
+                <div class="p-field tamanhoSecundario">
+                    <label for="rg">RG</label>
+                    <input id="rg" type="text" pInputText name="rg" [(ngModel)]="funcionario.rg"> 
+                </div>
+                <div class="p-field tamanhoSecundario">
+                    <label for="dataExpedicao">Data de Expedição</label>
+                    <input id="dataExpedicao" type="text" pInputText name="rgDataEmissao" [(ngModel)]="funcionario.rgDataEmissao"> 
+                </div>
+            </td>
+            <td>
+                <div class="p-field tamanhoSecundario">
+                    <label for="orgaoEmissor">Órgão Emissor</label>
+                    <input id="orgaoEmissor" type="text" pInputText name="rgOrgaoEmissor" [(ngModel)]="funcionario.rgOrgaoEmissor"> 
+                </div>
+                <div class="p-field tamanhoSecundario">
+                    <label for="admin">Admin</label>
+                    <input id="admin" type="text"pInputText name="admin" [(ngModel)]="funcionario.admin"> 
+                </div>
+                <div class="p-field tamanhoSecundario">
+                    <label for="login">Login</label>
+                    <input id="login" type="text"pInputText name="login" [(ngModel)]="funcionario.login"> 
+                </div>
+                <div class="p-field tamanhoSecundario" *ngIf="!funcionario.id">
+                    <label for="senha">Senha</label>
+                    <input id="senha" type="password" pPassword name="senha" [(ngModel)]="funcionario.senha"> 
+                </div>
+                <div class="p-field tamanhoSecundario">
+                    <label for="matriculaCFESS">Matrícula CFESS</label>
+                    <input id="matriculaCFESS" type="text"pInputText name="matriculaCFESS" [(ngModel)]="funcionario.matriculaCFESS"> 
+                </div>              
+            
+            </td>
+        </table>
+   
+        </div>
+        </div>
+        
+
+        
+        
+        </p-tabPanel>
+        <p-tabPanel header="Endereço">
+            Content 2
+        </p-tabPanel>
+        </p-tabView>
+
+        
+    </div>
+
+    <button pButton id="enviar" label="Salvar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="!funcionario.id"></button>
+    <button pButton id="enviar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="funcionario.id"></button>
+    <button pButton id="cancelar" label="Voltar" (click)="navegate(['/funcionarios/'])" style="width: 100px; margin-left: 5px;"></button>
+</form>
+
+
+</div>

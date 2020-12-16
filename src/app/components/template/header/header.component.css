@@ -1,0 +1,23 @@
+:host ::ng-deep .header.p-toolbar{
+    background-color:white;
+}
+
+:host img{
+    height: 60px;
+    border: none;
+}
+
+.header{
+    background-color:white;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 0px auto;
+}
+
+.botao{
+    margin-right: 10px;
+    width: 40px; 
+    height: 30px;
+}

@@ -1,30 +1,29 @@
-<a routerLink= '/'>Home</a>
+<!-- <a routerLink= '/'>Home</a> -->
+
+<img src="assets/img/logo.png" alt="logo" class="logo">
 
 <form [formGroup]="formularioDeLogin" (ngSubmit)="onSubmit()" novalidate>
 
-<fieldset class="login">
-<div>
-    <div>
-        <label for="login">Login</label>
-        <input type="text" id="login" name="login" formControlName="login">
-        <!-- <div *ngIf="submissao && f.login.errors">
-            <div *ngIf="f.login.error.required">
-                Login requerido!
+<div class="login">
+    
+    <p-fieldset legend="Registre-se">
+        
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="nome">Login</label>
+                <input pInputText id="nome" type="text" pInputText formControlName="login">
             </div>
-        </div> -->
-    </div>
-    <div>
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" name="senha" formControlName="senha" >
-        <!-- <div *ngIf="submissao && f.senha.errors">
-            <div *ngIf="f.senha.error.required">
-                Senha requerida!
+            <div class="p-field">
+                <label for="cpf">Senha</label>
+                <input id="cpf" type="password" pInputText formControlName="senha"> 
             </div>
-        </div> -->
-    </div>
-    <button [disabled]="carregamento">Enviar</button>
+        </div>
+    
+        <button pButton id="enviar" [disabled]="carregamento" label="Enviar" style="width: 180px;"></button>
+
+    </p-fieldset>
+
 </div>
-</fieldset>
 
 </form>
 

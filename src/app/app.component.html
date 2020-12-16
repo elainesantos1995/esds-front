@@ -1,8 +1,32 @@
-<div>
+<div *ngIf="usuarioAtual" class="cabecalho">
+  
+  <div style="height: 10px;">
+    <app-header></app-header>
+  </div>
+  
+  <div *ngIf="usuarioAtual" >
+      
+    <button pButton pRipple icon="pi pi-arrow-circle-right" 
+      class="p-button-rounded p-button-success p-mr-2" style="margin-left: 1300px; margin-top: 20px;"
+      (click)="logout()">
+    </button>
+
+  </div>
+  
+</div>
+
+<div class="pai">
+
+  <div *ngIf="usuarioAtual" class="navegacao">     
+    <app-nav></app-nav>
+  </div>
+
   <router-outlet></router-outlet>
 </div>
 
-<div *ngIf="usuarioAtual">
-  <a href="#" (click)="logout()">Sair</a>
-</div>
+
+
+
+
+
 

@@ -1,0 +1,9 @@
+:host ::ng-deep .menu.p-menu{
+    background-color: transparent;
+    width: 100%;
+    font-weight: 500px;
+    color: white;
+    border: 0px;
+    vertical-align: top;
+    
+}
