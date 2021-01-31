@@ -17,6 +17,8 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {CalendarModule} from 'primeng/calendar';
+import {DropdownModule} from 'primeng/dropdown';
+
 
 @NgModule({
   exports: [
@@ -36,7 +38,8 @@ import {CalendarModule} from 'primeng/calendar';
     InputNumberModule,
     ConfirmDialogModule,
     BreadcrumbModule,
-    CalendarModule
+    CalendarModule,
+    DropdownModule  
    
   ]
 })

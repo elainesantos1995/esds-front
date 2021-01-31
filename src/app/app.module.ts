@@ -16,15 +16,16 @@ import { JwtInterceptor} from 'src/app/_helpers/JwtInterceptor';
 import {ErrorInterceptor } from 'src/app/_helpers/ErrorInterceptor';
 
 import { NavComponent } from './components/template/nav/nav.component';
-
+import {CadastroBeneficiarioComponent } from './views/beneficiarios/cadastro-beneficiario/cadastro-beneficiario.component';
+import {ListarBeneficiariosComponent} from './views/beneficiarios/listar-beneficiarios/listar-beneficiarios.component';
 import { CadastroFuncionariosComponent } from './views/funcionarios/cadastro-funcionarios/cadastro-funcionarios.component';
 import { ListarFuncionariosComponent } from './views/funcionarios/listar-funcionarios/listar-funcionarios.component';
-
-// import { ContentComponent } from './components/template/content/content.component';
 
 import {ChartModule} from 'primeng/chart';
 import { RelatoriosComponent } from './views/relatorios/relatorios.component';
 import { ApiServiceFuncionarios} from 'src/app/_servicos/funcionarioService';
+import {ApiServiceBeneficiarios } from 'src/app/_servicos/beneficiarioService';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ApiServiceFuncionarios} from 'src/app/_servicos/funcionarioService';
     CadastroFuncionariosComponent,
     RelatoriosComponent,
     ListarFuncionariosComponent,
-    // ContentComponent
+    CadastroBeneficiarioComponent,
+    ListarBeneficiariosComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,7 @@ import { ApiServiceFuncionarios} from 'src/app/_servicos/funcionarioService';
     PrimeNgModule,
     ChartModule
   ],
-  providers: [ApiServiceFuncionarios, 
+  providers: [ApiServiceFuncionarios, ApiServiceBeneficiarios,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
   bootstrap: [AppComponent],

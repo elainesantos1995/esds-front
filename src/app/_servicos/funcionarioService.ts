@@ -13,6 +13,7 @@ export class ApiServiceFuncionarios{
     
     
     url = 'http://localhost:8090/api/entrevistador';
+    urlCad = '';
     
     constructor(private http: HttpClient){ }
     
@@ -21,11 +22,21 @@ export class ApiServiceFuncionarios{
     };
 
     salvar(funcionario: Funcionario): Observable <Funcionario> {
-        return this.http.post<Funcionario>(this.url, JSON.stringify(funcionario), this.httpOptions)
-            .pipe(
-                retry(2),
-                catchError(this.handleError)
-        )
+     
+      if(funcionario.tipo === 'Entrevistador'){
+        this.urlCad='http://localhost:8090/api/entrevistador';
+      }else if(funcionario.tipo === 'Facilitador'){
+        this.urlCad='http://localhost:8090/api/facilitador';
+      }else{
+        this.urlCad='http://localhost:8090/api/assistente-social';
+      }       
+     
+      return this.http.post<Funcionario>(this.urlCad, JSON.stringify(funcionario), this.httpOptions)
+          .pipe(
+              retry(2),
+              catchError(this.handleError)
+      )
+     
     }
 
     editar(id: number, funcionario): Observable<any> {

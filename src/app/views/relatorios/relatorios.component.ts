@@ -1,21 +1,41 @@
 import { Component, OnInit } from '@angular/core';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import { ApiServiceFuncionarios} from 'src/app/_servicos/funcionarioService';
+import { Funcionario } from 'src/app/_modelos/funcionario';
 
 @Component({
   selector: 'app-relatorios',
-  templateUrl: './relatorios.component.html',
+  templateUrl: './relatorios.component.html', 
   styleUrls: ['./relatorios.component.css']
 })
 export class RelatoriosComponent implements OnInit {
 
   data: any;
   assiduidade: any;
+  getDocumentDefinition: any = this.getDocumentDefinitionValue();
+  funcionarios: Funcionario[];
+  nome: string = 'Programa';
+  numero: number = 20;
 
-  constructor() {
+  
+  constructor(private funcionarioService: ApiServiceFuncionarios) {   
+    this.gerarGraficoUm();
+    this.gerarGraficoDois();
+      
+   }
+
+  ngOnInit(): void {
+    
+  } 
+
+  gerarGraficoUm(): void{
     this.data = {
       labels: ['Executado','Pendente'],
       datasets: [
           {
-              data: [220, 80],
+              data: [this.numero, 20],
               backgroundColor: [
                   
                   "#36A2EB",
@@ -28,25 +48,88 @@ export class RelatoriosComponent implements OnInit {
               ]
           }]    
       };
-
-      this.assiduidade = {
-        labels: ['Inadimplente','Satisfatória'],
-        datasets: [
-            {
-                data: [300, 50],
-                backgroundColor: [
-                    "rgb(7, 204, 204)",
-                    "#36A2EB"
-                ],
-                hoverBackgroundColor: [
-                    "rgb(7, 204, 204)",
-                    "#36A2EB"
-                ]
-            }]    
-          }
-   }
-
-  ngOnInit(): void {
   }
+
+  gerarGraficoDois(): void{
+    this.assiduidade = {
+      labels: ['Inadimplente','Satisfatória'],
+      datasets: [
+          {
+              data: [300, 50],
+              backgroundColor: [
+                  "rgb(7, 204, 204)",
+                  "#36A2EB"
+              ],
+              hoverBackgroundColor: [
+                  "rgb(7, 204, 204)",
+                  "#36A2EB"
+              ]
+          }]    
+        }
+  }
+  
+
+  generatePdf() {   
+    pdfMake.createPdf(this.getDocumentDefinition).open();  
+  }
+
+  downloadPdf() { 
+    const documentDefinition = {content: 'Isto é para teste.' }; 
+    pdfMake.createPdf(documentDefinition).download();
+  }
+
+  OpenInTheSameWindowPdf() { 
+    const documentDefinition = {content: 'Isto é para teste.' }; 
+    pdfMake.createPdf(documentDefinition).open({}, window);
+  }
+
+  printPdf() { 
+    const documentDefinition = {content: 'Isto é para teste.' }; 
+    pdfMake.createPdf(documentDefinition).print();
+  }
+
+  getDocumentDefinitionValue(): any{     
+      return {
+        content: [
+        {
+          text: 'PROGRAMA SOCIAL' + this.nome,
+          bold: true,
+          fontSize: 20,
+          alignment: 'center',
+          margin: [0, 0, 0, 20]        
+        }, 
+        {
+        columns: [
+          [{
+            text: 'Programa : ' 
+          },
+          {
+            text: 'Edição : '  
+          },
+          {
+            text: 'Aporte financeiros: ' 
+          },
+          {
+            text: 'Qtd de Beneficiários : ' 
+          }] 
+         ]
+        }],
+        styles: {
+          name: {
+            fontSize: 16,
+            bold: true
+        }
+      }
+    };  
+  }
+  
+
+
+
+
+
+  
+  
+  
 
 }

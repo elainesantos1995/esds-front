@@ -11,4 +11,5 @@ export class Funcionario{
     senha: string;
     admin: boolean;
     matriculaCFESS: string;
+    tipo: string;
 }

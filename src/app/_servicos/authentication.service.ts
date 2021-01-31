@@ -28,6 +28,7 @@ export class AuthenticationService{
         this.comportamentoUsuarioAtual.next(usuario);
 
         return usuario;
+
       }));
     }
 

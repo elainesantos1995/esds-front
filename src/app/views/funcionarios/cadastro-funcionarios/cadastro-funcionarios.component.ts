@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, FormBuilder, FormGroup, Validators, NgForm} from '@angular/forms';
+import { FormsModule, FormBuilder, FormGroup, Validators, NgForm, FormControl} from '@angular/forms';
 import { Route, ActivatedRoute, Router } from '@angular/router';
 
 import { Funcionario } from 'src/app/_modelos/funcionario';
@@ -9,6 +9,8 @@ import { ApiServiceFuncionarios} from 'src/app/_servicos/funcionarioService';
 import { Location } from '@angular/common';
 import { parseI18nMeta } from '@angular/compiler/src/render3/view/i18n/meta';
 import { first } from 'rxjs/operators';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {MenuItem} from 'primeng/api';
 
 @Component({
   selector: 'app-cadastro-funcionarios',
@@ -17,11 +19,15 @@ import { first } from 'rxjs/operators';
 })
 export class CadastroFuncionariosComponent implements OnInit {
 
+  tipoSelecionado: string;
+  valorSelecionadoAdmin: boolean = false;
   formularioDeCadastro: FormGroup;
   funcionarios: Funcionario[];
-  funcionario: Funcionario = {id: null, nome:'', cpf: '', rg: '', rgDataEmissao: '', rgOrgaoEmissor: '', admin: false, dataNascimento: null, matricula: '', login: '', matriculaCFESS:'', senha:''};
+  funcionario: Funcionario = {id: null, nome:'', cpf: '', rg: '', rgDataEmissao: '', rgOrgaoEmissor: '', admin: this.valorSelecionadoAdmin, dataNascimento: null, matricula: '', login: '', matriculaCFESS:'', senha:'', tipo: '' };
   id: number;
-  items: any[];
+  items: MenuItem[];
+  tiposDeFuncionarios: any[];
+  display: boolean = false;
 
   constructor(
     private funcionarioService: ApiServiceFuncionarios,
@@ -31,19 +37,20 @@ export class CadastroFuncionariosComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+
     this.id = this.activatedRoute.snapshot.params['id'];    
     if(this.id){
       this.funcionarioService.buscarPorId(this.id)
       .pipe(first())
       .subscribe(response => {
-        this.funcionario = response; 
-        // this.funcionario.senha ='';
+        this.funcionario = response;
         console.log(response);
       },
         erroResponse => new Funcionario());
       } 
     this.buscarTodos();
     this.carregarItensBreadCrumb();
+    this.carregarTiposDeFuncionarios();
   }
 
   onSubmit(): void{
@@ -52,17 +59,36 @@ export class CadastroFuncionariosComponent implements OnInit {
         this.navegate(['/funcionarios/']);
       });
     }else{
-    this.funcionarioService.salvar(this.funcionario)
-    .subscribe(resposta => {
-      this.navegate(['/funcionarios/']);
-    });
+
+        this.funcionario.tipo = this.tipoSelecionado;
+        this.funcionarioService.salvar(this.funcionario)
+          .subscribe(resposta => {
+          console.log(this.tipoSelecionado);
+          console.log(resposta)
+          alert("Salvo com sucesso!")
+          this.navegate(['/funcionarios/']);
+      });
+      
   }
+  }
+
+ 
+  showDialog() {  
+      this.display = true;
   }
 
   carregarItensBreadCrumb(){
     this.items = [
-      {label:'Listagem', url: 'http://localhost:4200/funcionarios'},
+      {label:' Listagem', url: 'http://localhost:4200/funcionarios', icon: 'pi pi-home'},
       {label:'Cadastro'}
+  ];
+  }
+
+  carregarTiposDeFuncionarios(){
+    this.tiposDeFuncionarios = [
+      {name: 'Assistente Social', value: 'Assistente Social'},
+      {name: 'Facilitador', value: 'Facilitador'},
+      {name: 'Entrevistador', value: 'Entrevistador'}
   ];
   }
 

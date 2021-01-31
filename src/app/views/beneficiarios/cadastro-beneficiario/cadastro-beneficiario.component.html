@@ -1,0 +1,159 @@
+<div class="conteudo">
+
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+    
+    <form id="formBeneficiario" #beneficiarioForm="ngForm" (ngSubmit)="onSubmit()">
+    <div>
+    
+        <p-tabView>
+        <p-tabPanel header="Dados Pessoais">       
+        
+            <div>
+                <div class="p-fluid">
+                    
+                    <table>
+
+                 <td> 
+                <div class="p-field tamanhoSecundario">
+                    <label for="nome">Nome*</label>
+                    <input id="nome" type="text" pInputText name="nome" 
+                    [(ngModel)]="beneficiario.nome" required #nome="ngModel"> 
+
+                    <div *ngIf="!nome.valid && nome.touched" class="alerta">
+                        Nome inválido! 
+                    </div>
+                </div>
+                <div class="p-field tamanhoSecundario">
+                    <label for="dataNascimento">Data de Nascimento*</label>
+                    <input id="dataNascimento" type="date" pInputText
+                        name="dataNascimento" [(ngModel)]="beneficiario.dataNascimento" required #data="ngModel">                         
+               
+                    
+                        <div *ngIf="!data.valid && data.touched" class="alerta">
+                            Data de Nascimento inválida! 
+                        </div>
+                </div>
+                <div class="p-field tamanhoSecundario" *ngIf="!beneficiario.id">
+                    <label for="cpf">CPF*</label>
+                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="beneficiario.cpf" required #campocpf="ngModel"></p-inputMask>
+                
+                    <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
+                        CPF inválido! 
+                    </div>
+                
+                </div>
+                <div class="p-field tamanhoSecundario" *ngIf="beneficiario.id">
+                    <label for="cpf">CPF*</label>
+                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="beneficiario.cpf" required #campocpf="ngModel" disabled></p-inputMask>
+                
+                    <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
+                        CPF inválido! 
+                    </div>
+                
+                </div>
+                <div class="p-field p-col-12 p-md-4">
+                    <label for="dropdown">Estado Civil*</label>
+                    <span class="p-float-label">
+                        <p-dropdown [options]="estadosCivis" [(ngModel)]="estadoCivil" 
+                        placeholder="Selecione o estado civil" optionLabel="name" 
+                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+                    </span>
+                
+                    <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+                        Estado Civil inválido! 
+                    </div>                
+                </div>
+                <div class="p-field p-col-12 p-md-4">
+                    <label for="dropdown">Genero*</label>
+                    <span class="p-float-label">
+                        <p-dropdown [options]="generos" [(ngModel)]="genero" 
+                        placeholder="Selecione o gênero" optionLabel="name" 
+                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #sexo="ngModel"></p-dropdown>
+                    </span>
+                
+                    <div *ngIf="!sexo.valid && sexo.touched" class="alerta">
+                        Genero inválido! 
+                    </div>                
+                </div>
+                <div class="p-field tamanhoSecundario">
+                    <label for="rg">RG*</label>
+                    <input id="rg" type="text" pInputText name="rg" [(ngModel)]="beneficiario.rg" required #rg="ngModel"> 
+                
+                    <div *ngIf="!rg.valid && rg.touched" class="alerta">
+                        RG inválido! 
+                    </div>
+                </div>
+                <div class="p-field tamanhoSecundario">
+                    <label for="dataExpedicao">Data de Expedição*</label>
+                    <input id="dataExpedicao" type="date" pInputText name="rgDataEmissao" [(ngModel)]="beneficiario.rgDataEmissao" required #emissao="ngModel"> 
+                
+                    <div *ngIf="!emissao.valid && emissao.touched" class="alerta">
+                        Data de Expedicao inválida! 
+                    </div>
+                </div>
+                
+                <div class="p-field tamanhoSecundario">
+                    <label for="orgaoEmissor">Órgão Emissor*</label>
+                    <input id="orgaoEmissor" type="text" pInputText name="rgOrgaoEmissor" [(ngModel)]="beneficiario.rgOrgaoEmissor" required #orgao="ngModel"> 
+                    
+                    <div *ngIf="!orgao.valid && orgao.touched" class="alerta">
+                        Órgão Emissor inválido! 
+                    </div>               
+                </div>                
+            </td>             
+        </table>
+   
+        </div>
+    </div>
+        
+
+        
+        
+        </p-tabPanel>
+            <p-tabPanel header="Endereço">
+                <div class="p-fluid">
+                <table>
+                    <td>
+
+                            <div class="p-field tamanhoSecundario">
+                                <label for="log">Logradouro</label>
+                                <input id="log" pInputText type="text" name="log">
+                            </div>
+                            <div class="p-field tamanhoSecundario">
+                                <label for="numero">Número</label>
+                                <input id="numero" pInputText type="text">
+                            </div>
+                            <div class="p-field tamanhoSecundario">
+                                <label for="bairro">Bairro</label>
+                                <input id="bairro" pInputText type="text">
+                            </div>
+                            <div class="p-field tamanhoSecundario">
+                                <label for="comp">Complemento</label>
+                                <input id="comp" pInputText type="text">
+                            </div>
+                            <div class="p-field tamanhoSecundario">
+                                <label for="cep">CEP</label>
+                                <input id="cep" pInputText type="text">
+                            </div>
+                            <div class="p-field tamanhoSecundario">
+                                <label for="ref">Ponto de Referência</label>
+                                <input id="ref" pInputText type="text">
+                            </div>
+                        </td>
+                    </table>
+                </div>
+            </p-tabPanel>
+        </p-tabView>        
+    </div>
+
+    <button pButton id="enviar" label="Salvar" type="submit" 
+    style="width: 100px; margin-left: 20px;" *ngIf="!beneficiario.id"></button>   
+    <button pButton id="enviar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="beneficiario.id"></button>
+    <button pButton id="cancelar" label="Voltar" (click)="navegate(['/beneficiarios/'])" style="width: 100px; margin-left: 5px;"></button>
+    
+
+    </form>
+
+
+</div>
+

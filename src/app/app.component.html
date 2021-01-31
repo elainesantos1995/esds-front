@@ -1,17 +1,11 @@
 <div *ngIf="usuarioAtual" class="cabecalho">
   
-  <div style="height: 10px;">
-    <app-header></app-header>
-  </div>
+    <app-header style="display: inline-block;"></app-header>   
   
-  <div *ngIf="usuarioAtual" >
-      
-    <button pButton pRipple icon="pi pi-arrow-circle-right" 
-      class="p-button-rounded p-button-success p-mr-2" style="margin-left: 1300px; margin-top: 20px;"
-      (click)="logout()">
+    <button id="btnSair" pButton pRipple icon="pi pi-arrow-circle-right" 
+      class="p-button-rounded p-button-success p-mr-2" 
+      (click)="logout()" style=" display: inline-block;">
     </button>
-
-  </div>
   
 </div>
 

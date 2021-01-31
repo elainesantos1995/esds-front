@@ -4,6 +4,9 @@
     font-weight: 500px;
     color: white;
     border: 0px;
-    vertical-align: top;
-    
+    vertical-align: top;    
+}
+
+:host ::ng-deep .p-menuitem-link-active{
+    background-color:white !important; 
 }

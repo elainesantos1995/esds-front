@@ -5,26 +5,79 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .cabecalho{
     width: 100%;
-    height: 60px;
+    height: 80px;
+    position: relative; 
+    top: 0;
+    background-color:  white;
 }
 
 .navegacao{
-    width: 20%;
+    width: 15%;
     height: 100%;
     display: inline-block;
     vertical-align: top;
     overflow-x: hidden;
-    margin-top: 36px;
-    background-color: rgb(9, 231, 231) !important;
-    /* background-color: rgba(69, 134, 15, 0.925) !important; */
+    /* margin-top: 36px; */
+    background-color: #04BFBF !important; 
 }
 
+/* VERDE ESCURO #338C30 */
+
 .conteudo{
-    width: 80%;
+    width: 85%;
     display: inline-block;
-    margin-top: 40px;
+    /* margin-top: 40px; */
 }
 
 .pai{
     height: 100%;
+}
+
+#btnSair{
+    margin-left: 95%; 
+    margin-top: -60px; 
+    margin-bottom: 40px;
+    background-color: lightgray;
+    border-color: lightgray;
+}
+
+.ng-invalid:not(form).ng-touched{
+    border: 1px solid red;
+}
+
+.alerta{
+    padding: 12px;
+    border: 1px solid red;
+    border-radius: 3px;
+    font-size: 10px;
+    color: red;
+    background-color: peachpuff;
+    width: 100%;
+    text-align: center;
+}
+
+.erro{
+    padding: 12px;
+    border: 1px solid red;
+    border-radius: 3px;
+    font-size: 10px;
+    color: red;
+    background-color: lightsalmon;
+    width: 100%;
+    text-align: center;
+}
+
+.sucesso{
+    padding: 12px;
+    border: 1px solid green;
+    border-radius: 3px;
+    font-size: 10px;
+    color: green;
+    background-color: lightgreen;
+    width: 100%;
+    text-align: center;
+}
+
+.btnNovo{ 
+    border: gray;
 }

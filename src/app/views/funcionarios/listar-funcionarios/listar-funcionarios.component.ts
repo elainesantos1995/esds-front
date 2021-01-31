@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Funcionario } from 'src/app/_modelos/funcionario';
 import { ApiServiceFuncionarios} from 'src/app/_servicos/funcionarioService';
+import {MenuItem} from 'primeng/api';
 
 @Component({
   selector: 'app-listar-funcionarios',
@@ -14,8 +15,9 @@ export class ListarFuncionariosComponent implements OnInit {
 
   funcionarios: Funcionario[];
   displayModal: boolean;
-  funcionarioSelecionado: Funcionario = {id: null, nome:'', cpf: '', rg: '', rgDataEmissao: '', rgOrgaoEmissor: '', admin: false, dataNascimento: null, matricula: '', login: '', matriculaCFESS:'', senha:''};
-  
+  funcionarioSelecionado: Funcionario = {id: null, nome:'', cpf: '', rg: '', rgDataEmissao: '', rgOrgaoEmissor: '', admin: false, dataNascimento: null, matricula: '', login: '', matriculaCFESS:'', senha:'', tipo:''};
+  items: MenuItem[];
+
   constructor(
     private funcionarioService: ApiServiceFuncionarios,
     private router: Router
@@ -23,6 +25,7 @@ export class ListarFuncionariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.buscarTodos();
+    this.carregarItensBreadCrumb();
   }
 
   buscarTodos(){
@@ -42,12 +45,16 @@ export class ListarFuncionariosComponent implements OnInit {
 
   deletar(){
     this.funcionarioService.deletar(this.funcionarioSelecionado.id)
-      .subscribe(response => {
-        console.log(this.funcionarioSelecionado.id);        
-        console.log(this.funcionarioSelecionado.nome);        
-        console.log(this.funcionarioSelecionado.cpf);
-      }
-      );
+      .subscribe(response => {  
+        location.reload();
+        return false;      
+      });
+  }
+
+  carregarItensBreadCrumb(){
+    this.items = [
+      {label:' Listagem', url: 'http://localhost:4200/funcionarios', icon: 'pi pi-home'}
+  ];
   }
 
 showModalDialog() {

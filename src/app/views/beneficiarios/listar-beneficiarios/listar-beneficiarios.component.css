@@ -1,0 +1,14 @@
+
+
+.btn-editar{ 
+    width: 30px; 
+    height: 30px;
+}
+
+.btn-deletar{    
+    height: 10px;
+}
+
+/* :host ::ng-deep p-breadcrumb{
+    height: 5px !important;
+} */

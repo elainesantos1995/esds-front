@@ -1,0 +1,92 @@
+<div class="conteudo">
+
+    <div style="width: 100%; display: inline-block; height: 5px !important;">
+        <p-breadcrumb [model]="items" style="display: inline-block; width: 100%; margin-top: 0%; height: 5px !important;"
+        class="breadCrumb">
+        </p-breadcrumb>
+    </div>
+    <br>
+    <br>
+    <div style="width: 100%; ">  
+        <button pButton type="button" label="Novo" icon="pi pi-plus"
+            class="p-button-success btnNovo"
+            style="display: inline-block; margin-top: 0%; margin-left: 90%;"
+            (click)="navegate(['/beneficiarios/beneficiarios-cadastro/'])">
+        </button>
+    </div>
+
+    <br>
+    <br>
+
+    <div>
+        <p-table #dt [value]="beneficiarios" [globalFilterFields]="['nome','cpf', 'rg']"
+            [paginator]="true" [rows]="5">
+            
+            <ng-template pTemplate="caption" style="height: min-content;">    
+                
+                <div style="display: inline-block;" >
+                    <h3 class="p-m-0" >Beneficiários</h3>
+                </div>    
+            
+                <div style="display: inline-block; margin-left: 1%;" >     
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." />
+                    </span>
+                </div>                
+           
+            </ng-template>
+    
+            <ng-template pTemplate="header" >
+    
+                <tr>
+                   
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Data de Nascimento</th>
+                    <th>CPF</th>
+                    <th>RG</th>
+                    <th>Data de Emissão</th>
+                    <th>órgão Emissor</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-benefi>
+                <tr>
+                   
+                    <td>{{benefi.id}}</td>
+                    <td>{{benefi.nome}}</td>
+                    <td>{{benefi.dataNascimento | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{benefi.cpf}}</td>
+                    <td>{{benefi.rg}}</td>
+                    <td>{{benefi.rgDataEmissao}}</td>
+                    <td>{{benefi.rgOrgaoEmissor}}</td>
+                    <td>
+                        
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary p-button-text" (click)="navegate(['/beneficiarios/beneficiarios-cadastro/'+ benefi.id])" ></button>
+                    
+                       <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" 
+                       (click)="showModalDialog()" (click)="setarBeneficiario(benefi)"></button>
+                        <p-dialog header="Deleção" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+                            [draggable]="false" [resizable]="false">
+                            
+                            <div *ngIf="beneficiarioSelecionado">
+                            <p class="p-m-0">Deseja realmente deletar o beneficiário {{ beneficiarioSelecionado.nome }} ?</p>
+                        </div>
+                            
+                            <ng-template pTemplate="footer">
+                                <p-button icon="pi pi-check" (click)="displayModal=false" label="Cancelar" styleClass="p-button-text" ></p-button>
+                                <p-button icon="pi pi-check" (click)="deletar()" (click)="displayModal=false" label="Ok" styleClass="p-button-text"></p-button>
+                            </ng-template>
+                        
+                        </p-dialog>
+                    </td>
+    
+                </tr>
+            </ng-template>
+            
+        </p-table>
+    </div>
+    
+    </div>
