@@ -4,6 +4,7 @@ import { Beneficiario } from 'src/app/_modelos/beneficiario';
 import { catchError, tap, map, retry } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 import { Endereco } from '../_modelos/endereco';
+import { BeneficiarioEnderecoDTO } from '../dto/beneficiarioEnderecoDTO';
 
 
 @Injectable({
@@ -13,7 +14,6 @@ import { Endereco } from '../_modelos/endereco';
 export class ApiServiceBeneficiarios{
 
     url = 'http://localhost:8090/api/beneficiarios';
-    urlEndereco = 'http://localhost:8090/api/enderecos';
 
 constructor(private http: HttpClient){ }
     
@@ -21,18 +21,9 @@ constructor(private http: HttpClient){ }
         headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
-/** */
-salvarEndereco(endereco: Endereco){
-  return this.http.post<Endereco>('http://localhost:8090/api/enderecos', JSON.stringify(endereco), this.httpOptions)
-    .pipe(
-        retry(2),
-        catchError(this.handleError)
-)
-}
+salvar(beneficiario: BeneficiarioEnderecoDTO){
 
-salvar(beneficiario: Beneficiario){
-
-    return this.http.post<Beneficiario>(this.url, JSON.stringify(beneficiario), this.httpOptions)
+    return this.http.post(this.url, JSON.stringify(beneficiario), this.httpOptions)
     .pipe(
         retry(2),
         catchError(this.handleError)
@@ -56,10 +47,6 @@ buscarTodos(): Observable<Beneficiario[]>{
 
 deletar(id : number): Observable<any>{
   return this.http.delete<any>(this.url+`/${id}`);
-}
-
-buscarEndereco(){
-
 }
 
 handleError(error: HttpErrorResponse) {

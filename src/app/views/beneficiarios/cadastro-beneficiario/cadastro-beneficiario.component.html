@@ -17,7 +17,7 @@
                 <div class="p-field tamanhoSecundario">
                     <label for="nome">Nome*</label>
                     <input id="nome" type="text" pInputText name="nome" 
-                    [(ngModel)]="beneficiario.nome" required #nome="ngModel"> 
+                    [(ngModel)]="beneficiarioEnderecoDTO.nome" required #nome="ngModel"> 
 
                     <div *ngIf="!nome.valid && nome.touched" class="alerta">
                         Nome inválido! 
@@ -26,7 +26,7 @@
                 <div class="p-field tamanhoSecundario">
                     <label for="dataNascimento">Data de Nascimento*</label>
                     <input id="dataNascimento" type="date" pInputText
-                        name="dataNascimento" [(ngModel)]="beneficiario.dataNascimento" required #data="ngModel">                         
+                        name="dataNascimento" [(ngModel)]="beneficiarioEnderecoDTO.dataNascimento" required #data="ngModel">                         
                
                     
                         <div *ngIf="!data.valid && data.touched" class="alerta">
@@ -35,7 +35,7 @@
                 </div>
                 <div class="p-field tamanhoSecundario" *ngIf="!beneficiario.id">
                     <label for="cpf">CPF*</label>
-                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="beneficiario.cpf" required #campocpf="ngModel"></p-inputMask>
+                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="beneficiarioEnderecoDTO.cpf" required #campocpf="ngModel"></p-inputMask>
                 
                     <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
                         CPF inválido! 
@@ -44,7 +44,7 @@
                 </div>
                 <div class="p-field tamanhoSecundario" *ngIf="beneficiario.id">
                     <label for="cpf">CPF*</label>
-                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="beneficiario.cpf" required #campocpf="ngModel" disabled></p-inputMask>
+                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="beneficiarioEnderecoDTO.cpf" required #campocpf="ngModel" disabled></p-inputMask>
                 
                     <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
                         CPF inválido! 
@@ -77,7 +77,7 @@
                 </div>
                 <div class="p-field tamanhoSecundario">
                     <label for="rg">RG*</label>
-                    <input id="rg" type="text" pInputText name="rg" [(ngModel)]="beneficiario.rg" required #rg="ngModel"> 
+                    <input id="rg" type="text" pInputText name="rg" [(ngModel)]="beneficiarioEnderecoDTO.rg" required #rg="ngModel"> 
                 
                     <div *ngIf="!rg.valid && rg.touched" class="alerta">
                         RG inválido! 
@@ -85,7 +85,7 @@
                 </div>
                 <div class="p-field tamanhoSecundario">
                     <label for="dataExpedicao">Data de Expedição*</label>
-                    <input id="dataExpedicao" type="date" pInputText name="rgDataEmissao" [(ngModel)]="beneficiario.rgDataEmissao" required #emissao="ngModel"> 
+                    <input id="dataExpedicao" type="date" pInputText name="rgDataEmissao" [(ngModel)]="beneficiarioEnderecoDTO.rgDataEmissao" required #emissao="ngModel"> 
                 
                     <div *ngIf="!emissao.valid && emissao.touched" class="alerta">
                         Data de Expedicao inválida! 
@@ -94,7 +94,7 @@
                 
                 <div class="p-field tamanhoSecundario">
                     <label for="orgaoEmissor">Órgão Emissor*</label>
-                    <input id="orgaoEmissor" type="text" pInputText name="rgOrgaoEmissor" [(ngModel)]="beneficiario.rgOrgaoEmissor" required #orgao="ngModel"> 
+                    <input id="orgaoEmissor" type="text" pInputText name="rgOrgaoEmissor" [(ngModel)]="beneficiarioEnderecoDTO.rgOrgaoEmissor" required #orgao="ngModel"> 
                     
                     <div *ngIf="!orgao.valid && orgao.touched" class="alerta">
                         Órgão Emissor inválido! 
@@ -117,27 +117,27 @@
 
                             <div class="p-field tamanhoSecundario">
                                 <label for="log">Logradouro</label>
-                                <input id="log" pInputText type="text" name="log">
+                                <input id="log" pInputText type="text" name="logradouro" [(ngModel)]="beneficiarioEnderecoDTO.logradouro">
                             </div>
                             <div class="p-field tamanhoSecundario">
                                 <label for="numero">Número</label>
-                                <input id="numero" pInputText type="text">
+                                <input id="numero" pInputText type="text" name="numero" [(ngModel)]="beneficiarioEnderecoDTO.numero">
                             </div>
                             <div class="p-field tamanhoSecundario">
                                 <label for="bairro">Bairro</label>
-                                <input id="bairro" pInputText type="text">
+                                <input id="bairro" pInputText type="text" name="bairro" [(ngModel)]="beneficiarioEnderecoDTO.bairro">
                             </div>
                             <div class="p-field tamanhoSecundario">
                                 <label for="comp">Complemento</label>
-                                <input id="comp" pInputText type="text">
+                                <input id="comp" pInputText type="text" name="complemento" [(ngModel)]="beneficiarioEnderecoDTO.complemento">
                             </div>
                             <div class="p-field tamanhoSecundario">
                                 <label for="cep">CEP</label>
-                                <input id="cep" pInputText type="text">
+                                <input id="cep" pInputText type="text" name="cep" [(ngModel)]="beneficiarioEnderecoDTO.cep">
                             </div>
                             <div class="p-field tamanhoSecundario">
                                 <label for="ref">Ponto de Referência</label>
-                                <input id="ref" pInputText type="text">
+                                <input id="ref" pInputText type="text" name="pontoDeReferencia" [(ngModel)]="beneficiarioEnderecoDTO.pontoDeReferencia">
                             </div>
                         </td>
                     </table>

@@ -7,7 +7,8 @@ import { Location } from '@angular/common';
 import { first } from 'rxjs/operators';
 import { Endereco } from 'src/app/_modelos/endereco';
 import {MenuItem} from 'primeng/api';
-
+import { Observable } from 'rxjs';
+import { BeneficiarioEnderecoDTO } from 'src/app/dto/beneficiarioEnderecoDTO';
 
 @Component({
   selector: 'app-cadastro-beneficiario',
@@ -20,14 +21,23 @@ export class CadastroBeneficiarioComponent implements OnInit {
   id: number;
   genero: any = null;
   estadoCivil: any = null;
-  beneficiario: Beneficiario = {id: null, nome:'', cpf: '', rg: '', rgDataEmissao: ''
-  , rgOrgaoEmissor: '', dataNascimento: null,  beneficiarioTitular: null,
-  estadoCivil: this.estadoCivil, sexo: this.genero, endereco: null};
   beneficiarios: Beneficiario[];
   items: MenuItem[];
   estadosCivis: any[];
   generos: any[];
-  endereco: Endereco;
+  
+  beneficiario: Beneficiario = {id: null, nome:'', cpf: '', rg: '', rgDataEmissao: ''
+  , rgOrgaoEmissor: '', dataNascimento: null,  beneficiarioTitular: null,
+  estadoCivil: this.estadoCivil, sexo: this.genero, endereco: null};
+
+  endereco: Endereco = {id: '', logradouro: '', numero: '', complemento: '',
+    bairro: '', cidade: '', cep: '', pontoDeReferencia: ''};
+
+  beneficiarioEnderecoDTO: BeneficiarioEnderecoDTO =  {nome: '',
+	sobrenome: '', dataNascimento: null, cpf: '',	rg: '', rgDataEmissao: '',
+	rgOrgaoEmissor: '', sexo: this.genero, estadoCivil: this.estadoCivil, telefone1: '',
+	telefone2: '', logradouro: '', numero: '', complemento: '',
+	bairro: '', cidade: '', cep: '', pontoDeReferencia: ''};
 
   constructor(
     private beneficiariosService: ApiServiceBeneficiarios,
@@ -37,7 +47,6 @@ export class CadastroBeneficiarioComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-
     
     this.carregarItensBreadCrumb();
     this.carregarEstadosCivis();
@@ -56,21 +65,14 @@ export class CadastroBeneficiarioComponent implements OnInit {
   }
 
   onSubmit(): void{
+
     if(this.id){
       this.beneficiariosService.editar(this.id, this.beneficiario).subscribe(resposta => {
         this.navegate(['/beneficiarios/']);
       });
     }else{
-
       
-      this.beneficiariosService.salvarEndereco(this.endereco)
-      .subscribe(resposta => {
-        this.endereco = resposta;      
-        console.log(this.endereco)  
-      });
-
-      this.beneficiario.endereco = this.endereco;
-      this.beneficiariosService.salvar(this.beneficiario)
+      this.beneficiariosService.salvar(this.beneficiarioEnderecoDTO)
       .subscribe(resposta => {
         alert("Salvo com sucesso!")
         this.navegate(['/beneficiarios/']);
@@ -123,7 +125,5 @@ cleanForm(form: NgForm) {
   form.resetForm();
   this.beneficiario = {} as Beneficiario;
 }
-
-
 
 }
