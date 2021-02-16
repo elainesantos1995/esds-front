@@ -20,7 +20,7 @@
 
 
 <div>
-        <p-table #dt [value]="funcionarios" [globalFilterFields]="['nome','cpf']"
+        <p-table #dt [value]="funcionariosDTO" [globalFilterFields]="['nome','cpf']"
         [paginator]="true" [rows]="5">
         
         <ng-template pTemplate="caption" style="height: min-content;">
@@ -69,9 +69,9 @@
                     <p-dialog header="Deleção" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
                         [draggable]="false" [resizable]="false">
                         
-                        <div *ngIf="funcionarioSelecionado">
-                        <p class="p-m-0">Deseja realmente deletar o funcionário {{ funcionarioSelecionado.nome }} ?</p>
-                    </div>
+                        <div *ngIf="funcionarioSelecionadoDTO">
+                            <p class="p-m-0">Deseja realmente deletar o funcionário {{ funcio.nome }} ?</p>
+                        </div>
                         
                         <ng-template pTemplate="footer">
                             <p-button icon="pi pi-check" (click)="displayModal=false" label="Cancelar" styleClass="p-button-text" ></p-button>

@@ -26,7 +26,6 @@ export class AuthenticationService{
         localStorage.setItem('usuarioAtual', JSON.stringify(usuario));
 
         this.comportamentoUsuarioAtual.next(usuario);
-
         return usuario;
 
       }));

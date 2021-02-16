@@ -4,11 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { Usuario } from '../_modelos';
 import { AuthenticationService } from '../_servicos';
+import {ConfirmationService, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [ConfirmationService, MessageService]
 })
 export class LoginComponent implements OnInit {
 
@@ -19,11 +21,17 @@ export class LoginComponent implements OnInit {
   erro = '';
   private readonly URLRETORNO = 'returnUrl';
 
+  display: boolean = false;
+  position: string;
+ 
   constructor(
     private router: Router, 
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
+    ) {
 
       if(this.authenticationService.valorUsuarioAtual){
         this.router.navigate(['/']);
@@ -31,6 +39,7 @@ export class LoginComponent implements OnInit {
     }
 
   ngOnInit(): void {
+
     this.formularioDeLogin = this.formBuilder.group({
       login: ['', Validators.required],
       senha: ['', Validators.required]
@@ -45,7 +54,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void{
     this.submissao = true;
-     if(this.formularioDeLogin.invalid){
+     if(this.formularioDeLogin.invalid){      
       return;
     }
     this.carregamento = true;
@@ -53,10 +62,20 @@ export class LoginComponent implements OnInit {
     .pipe(first()).subscribe(qualquer => {
       this.router.navigate([this.urlRetorno]);
     }, 
-    error => {
-      this.erro = error.error.message;
-      this.carregamento = false;
+    error => { 
+  //  this.showDialog(); 
+    this.erro = error.error.message;
+    this.carregamento = false;      
     });
+    
+  }  
+
+  showDialog() {
+    this.display = true;    
   }
+
+showPositionDialog(){
+  this.position = 'top-right';
+}
 
 }

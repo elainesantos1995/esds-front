@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Funcionario } from 'src/app/_modelos/funcionario';
 import { ApiServiceFuncionarios} from 'src/app/_servicos/funcionarioService';
 import {MenuItem} from 'primeng/api';
+import { FuncionarioEnderecoDTO } from 'src/app/dto/funcionarioEnderecoDTO';
 
 @Component({
   selector: 'app-listar-funcionarios',
@@ -13,9 +14,18 @@ import {MenuItem} from 'primeng/api';
 })
 export class ListarFuncionariosComponent implements OnInit {
 
-  funcionarios: Funcionario[];
+  funcionariosDTO: FuncionarioEnderecoDTO[];
   displayModal: boolean;
   funcionarioSelecionado: Funcionario = {id: null, nome:'', cpf: '', rg: '', rgDataEmissao: '', rgOrgaoEmissor: '', admin: false, dataNascimento: null, matricula: '', login: '', matriculaCFESS:'', senha:'', tipo:''};
+  genero: any = null;
+  valorSelecionadoAdmin: boolean = false;
+
+  funcionarioSelecionadoDTO: FuncionarioEnderecoDTO = {
+    id: null, nome: '', matricula: '', rg: '', rgDataEmissao: '', rgOrgaoEmissor: '',
+    cpf: '', dataNascimento: null, login: '', senha: '', admin: this.valorSelecionadoAdmin, 
+    matriculaCFESS: '', sexo: this.genero, tipo: '', logradouro: '', numero: '', complemento: '', bairro: '', 
+    cidade: '', cep: '', pontoDeReferencia: '', email: '', telefone1: '', telefone2: '', idEndereco: null
+  }
   items: MenuItem[];
 
   constructor(
@@ -29,14 +39,14 @@ export class ListarFuncionariosComponent implements OnInit {
   }
 
   buscarTodos(){
-    this.funcionarioService.buscarTodos().subscribe((funcionarios: Funcionario[]) => {
-     this.funcionarios = funcionarios;
-     console.log(funcionarios);
+    this.funcionarioService.buscarTodos().subscribe((funcionariosDTO: FuncionarioEnderecoDTO[]) => {
+     this.funcionariosDTO = funcionariosDTO;
+     console.log(funcionariosDTO);
    });
   }
 
-  setarFuncionario(funcionario: Funcionario): void{
-    this.funcionarioSelecionado = funcionario;
+  setarFuncionario(funcionarioEnderecoDTO: FuncionarioEnderecoDTO): void{
+    this.funcionarioSelecionadoDTO = funcionarioEnderecoDTO;
   }
 
   navegate(url: string[]): any{
@@ -44,7 +54,7 @@ export class ListarFuncionariosComponent implements OnInit {
   }
 
   deletar(){
-    this.funcionarioService.deletar(this.funcionarioSelecionado.id)
+    this.funcionarioService.deletar(this.funcionarioSelecionadoDTO.id)
       .subscribe(response => {  
         location.reload();
         return false;      

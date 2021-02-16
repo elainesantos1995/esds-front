@@ -1,27 +1,33 @@
-<!-- <a routerLink= '/'>Home</a> -->
-
 <img src="assets/img/logo.png" alt="logo" class="logo">
 
 <form [formGroup]="formularioDeLogin" (ngSubmit)="onSubmit()" novalidate>
 
 <div class="login">
     
-    <p-fieldset legend="Registre-se">
+    <p-fieldset legend="Entre">
         
         <div class="p-fluid">
             <div class="p-field">
                 <label for="nome">Login</label>
-                <input pInputText id="nome" type="text" pInputText formControlName="login">
+                <input pInputText id="nome" type="text" pInputText formControlName="login" required>
             </div>
             <div class="p-field">
-                <label for="cpf">Senha</label>
-                <input id="cpf" type="password" pInputText formControlName="senha"> 
+                <label for="senha">Senha</label>
+                <input id="senha" type="password" pInputText formControlName="senha" required>   
             </div>
         </div>
     
-        <button pButton id="enviar" [disabled]="carregamento" label="Enviar" style="width: 180px;"></button>
+        <button pButton id="enviar" (click)="showPositionDialog()"  [disabled]="carregamento" label="Enviar" style="width: 180px;"></button>
 
     </p-fieldset>
+
+    <p-dialog header="Erro!" [position]="position" [(visible)]="display" [position]="position" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="500"
+    [draggable]="false" [resizable]="false">
+    <p>Login e/senha inválido!.</p>
+        <ng-template pTemplate="footer">
+            <p-button icon="pi pi-check" (click)="displayPosition=false" label="Ok" styleClass="p-button-text"></p-button>
+        </ng-template>
+</p-dialog>
 
 </div>
 

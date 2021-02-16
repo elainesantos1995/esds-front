@@ -19,7 +19,7 @@
     <br>
 
     <div>
-        <p-table #dt [value]="beneficiarios" [globalFilterFields]="['nome','cpf', 'rg']"
+        <p-table #dt [value]="beneficiariosDTO" [globalFilterFields]="['nome','cpf', 'rg']"
             [paginator]="true" [rows]="5">
             
             <ng-template pTemplate="caption" style="height: min-content;">    
@@ -39,8 +39,7 @@
     
             <ng-template pTemplate="header" >
     
-                <tr>
-                   
+                <tr>                   
                     <th>ID</th>
                     <th>Nome</th>
                     <th>Data de Nascimento</th>
@@ -67,12 +66,12 @@
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary p-button-text" (click)="navegate(['/beneficiarios/beneficiarios-cadastro/'+ benefi.id])" ></button>
                     
                        <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" 
-                       (click)="showModalDialog()" (click)="setarBeneficiario(benefi)"></button>
+                       (click)="showModalDialog()" (click)="setarBeneficiarioDTO(benefi)"></button>
                         <p-dialog header="Deleção" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
                             [draggable]="false" [resizable]="false">
                             
-                            <div *ngIf="beneficiarioSelecionado">
-                            <p class="p-m-0">Deseja realmente deletar o beneficiário {{ beneficiarioSelecionado.nome }} ?</p>
+                            <div *ngIf="beneficiarioSelecionadoDTO">
+                            <p class="p-m-0">Deseja realmente deletar o beneficiário {{ beneficiarioSelecionadoDTO.nome }} ?</p>
                         </div>
                             
                             <ng-template pTemplate="footer">

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Beneficiario } from 'src/app/_modelos/beneficiario';
 import { ApiServiceBeneficiarios } from 'src/app/_servicos/beneficiarioService';
 import {MenuItem} from 'primeng/api';
+import { BeneficiarioEnderecoDTO } from 'src/app/dto/beneficiarioEnderecoDTO';
 
 @Component({
   selector: 'app-listar-beneficiarios',
@@ -12,15 +13,22 @@ import {MenuItem} from 'primeng/api';
 })
 export class ListarBeneficiariosComponent implements OnInit {
 
-  beneficiarios: Beneficiario[];
+
   genero: any = null;
   estadoCivil: any = null;
-  displayModal: boolean;
-  beneficiarioSelecionado: Beneficiario = {id: null, nome:'', cpf: '', rg: '', rgDataEmissao: ''
-  , rgOrgaoEmissor: '', dataNascimento: null,  beneficiarioTitular: null,
-  estadoCivil: this.estadoCivil, sexo: this.genero, endereco: null};
   items: MenuItem[];
   home: MenuItem;
+  displayModal: boolean;
+
+  beneficiariosDTO: BeneficiarioEnderecoDTO[];
+
+  beneficiarioSelecionadoDTO: BeneficiarioEnderecoDTO;
+
+  beneficiarioEnderecoDTO: BeneficiarioEnderecoDTO =  {id: null, nome: '',
+	sobrenome: '', dataNascimento: null, cpf: '',	rg: '', rgDataEmissao: '',
+	rgOrgaoEmissor: '', sexo: this.genero, estadoCivil: this.estadoCivil, telefone1: '',
+  telefone2: '', email: '', logradouro: '', numero: '', complemento: '', bairro: '', 
+  cidade: '', cep: '', pontoDeReferencia: '', beneficiarioTitular: null, idEndereco: null};
 
   constructor(
     private beneficiariosService: ApiServiceBeneficiarios,
@@ -33,13 +41,13 @@ export class ListarBeneficiariosComponent implements OnInit {
   }
 
   buscarTodos(){
-    this.beneficiariosService.buscarTodos().subscribe((beneficiarios: Beneficiario[]) => {
-     this.beneficiarios = beneficiarios;
+    this.beneficiariosService.buscarTodos().subscribe((beneficiariosDTO: BeneficiarioEnderecoDTO[]) => {
+     this.beneficiariosDTO = beneficiariosDTO;
    });
   }
 
-  setarBeneficiario(beneficiario: Beneficiario): void{
-    this.beneficiarioSelecionado = beneficiario;
+  setarBeneficiarioDTO(beneficiarioDTO: BeneficiarioEnderecoDTO): void{
+    this.beneficiarioSelecionadoDTO = beneficiarioDTO;
   }
 
   navegate(url: string[]): any{
@@ -47,7 +55,7 @@ export class ListarBeneficiariosComponent implements OnInit {
   }
 
   deletar(){
-    this.beneficiariosService.deletar(this.beneficiarioSelecionado.id)
+    this.beneficiariosService.deletar(this.beneficiarioSelecionadoDTO.id)
       .subscribe(response => {  
         location.reload();
         return false;      

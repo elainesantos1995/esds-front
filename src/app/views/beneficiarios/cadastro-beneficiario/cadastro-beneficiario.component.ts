@@ -5,10 +5,10 @@ import { FormsModule, FormBuilder, FormGroup, Validators, NgForm, FormControl} f
 import { Route, ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { first } from 'rxjs/operators';
-import { Endereco } from 'src/app/_modelos/endereco';
 import {MenuItem} from 'primeng/api';
 import { Observable } from 'rxjs';
 import { BeneficiarioEnderecoDTO } from 'src/app/dto/beneficiarioEnderecoDTO';
+import { CPFValidator } from 'src/app/_validators/cpfValidator';
 
 @Component({
   selector: 'app-cadastro-beneficiario',
@@ -17,6 +17,7 @@ import { BeneficiarioEnderecoDTO } from 'src/app/dto/beneficiarioEnderecoDTO';
 })
 export class CadastroBeneficiarioComponent implements OnInit {
 
+  
   formularioDeCadastro: FormGroup;
   id: number;
   genero: any = null;
@@ -25,28 +26,26 @@ export class CadastroBeneficiarioComponent implements OnInit {
   items: MenuItem[];
   estadosCivis: any[];
   generos: any[];
-  
-  beneficiario: Beneficiario = {id: null, nome:'', cpf: '', rg: '', rgDataEmissao: ''
-  , rgOrgaoEmissor: '', dataNascimento: null,  beneficiarioTitular: null,
-  estadoCivil: this.estadoCivil, sexo: this.genero, endereco: null};
 
-  endereco: Endereco = {id: '', logradouro: '', numero: '', complemento: '',
-    bairro: '', cidade: '', cep: '', pontoDeReferencia: ''};
-
-  beneficiarioEnderecoDTO: BeneficiarioEnderecoDTO =  {nome: '',
+  beneficiarioEnderecoDTO: BeneficiarioEnderecoDTO =  {id: null, nome: '',
 	sobrenome: '', dataNascimento: null, cpf: '',	rg: '', rgDataEmissao: '',
 	rgOrgaoEmissor: '', sexo: this.genero, estadoCivil: this.estadoCivil, telefone1: '',
-	telefone2: '', logradouro: '', numero: '', complemento: '',
-	bairro: '', cidade: '', cep: '', pontoDeReferencia: ''};
+  telefone2: '', email: '', logradouro: '', numero: '', complemento: '', bairro: '', 
+  cidade: '', cep: '', pontoDeReferencia: '', beneficiarioTitular: null, idEndereco: null};
 
   constructor(
     private beneficiariosService: ApiServiceBeneficiarios,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private formBuilder: FormBuilder
     ) { }
 
   ngOnInit(): void {
+
+    this.formularioDeCadastro = this.formBuilder.group({
+      cpf: ['', CPFValidator.isValidCpf()]
+    })
     
     this.carregarItensBreadCrumb();
     this.carregarEstadosCivis();
@@ -57,21 +56,25 @@ export class CadastroBeneficiarioComponent implements OnInit {
       this.beneficiariosService.buscarPorId(this.id)
       .pipe(first())
       .subscribe(response => {
-        this.beneficiario = response;
+        this.beneficiarioEnderecoDTO = response;
+      //  this.beneficiarioEnderecoDTO.dataNascimento = response.dataNascimento;
+      //  this.estadoCivil = response.estadoCivil;
+      // this.genero = response.sexo;
         console.log(response);
       },
-        erroResponse => new Beneficiario());
+        erroResponse => new BeneficiarioEnderecoDTO());
       } 
   }
 
   onSubmit(): void{
-
     if(this.id){
-      this.beneficiariosService.editar(this.id, this.beneficiario).subscribe(resposta => {
+      this.beneficiariosService.editar(this.id, this.beneficiarioEnderecoDTO).subscribe(resposta => {
         this.navegate(['/beneficiarios/']);
       });
     }else{
       
+      this.beneficiarioEnderecoDTO.sexo = this.genero;
+      this.beneficiarioEnderecoDTO.estadoCivil = this.estadoCivil;
       this.beneficiariosService.salvar(this.beneficiarioEnderecoDTO)
       .subscribe(resposta => {
         alert("Salvo com sucesso!")
@@ -79,18 +82,11 @@ export class CadastroBeneficiarioComponent implements OnInit {
       });
 
     }
-      this.carregarBeneficiarios();
   }
 
 navegate(url: string[]): any{
    this.router.navigate(url);
  }
-
-carregarBeneficiarios(){
-  this.beneficiariosService.buscarTodos().subscribe((beneficiarios: Beneficiario[]) => {
-  this.beneficiarios = beneficiarios;
-  });
-}
 
 carregarItensBreadCrumb(){
   this.items = [
@@ -121,9 +117,30 @@ carregarGeneros(){
 }
 
 cleanForm(form: NgForm) {
-  this.carregarBeneficiarios;
   form.resetForm();
-  this.beneficiario = {} as Beneficiario;
+  this.beneficiarioEnderecoDTO = {} as BeneficiarioEnderecoDTO;
+}
+
+
+testaCPF(strCPF): boolean {
+  let soma: number;
+  let resto: number;
+  
+if (strCPF == "00000000000") return false;
+
+for (let i=1; i<=9; i++) soma = soma + parseInt(strCPF.substring(i-1, i)) * (11 - i);
+resto = (soma * 10) % 11;
+
+  if ((resto == 10) || (resto === 11))  resto = 0;
+  if (resto != parseInt(strCPF.substring(9, 10)) ) return false;
+
+soma = 0;
+  for (let i = 1; i <= 10; i++) soma = soma + parseInt(strCPF.substring(i-1, i)) * (12 - i);
+  resto = (soma * 10) % 11;
+
+  if ((resto == 10) || (resto == 11))  resto = 0;
+  if (resto != parseInt(strCPF.substring(10, 11) ) ) return false;
+  return true;
 }
 
 }

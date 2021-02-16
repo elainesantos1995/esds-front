@@ -17,25 +17,36 @@
                 <div class="p-field tamanhoSecundario">
                     <label for="nome">Nome*</label>
                     <input id="nome" type="text" pInputText name="nome" 
-                    [(ngModel)]="funcionario.nome" required #nome="ngModel"> 
+                    [(ngModel)]="funcionarioEnderecoDTO.nome" required #nome="ngModel"> 
 
                     <div *ngIf="!nome.valid && nome.touched" class="alerta">
                         Nome inválido! 
                     </div>
                 </div>
+                <div class="p-field p-col-12 p-md-4">
+                    <label for="dropdown">Genero*</label>
+                    <span class="p-float-label">
+                        <p-dropdown [options]="generos" [(ngModel)]="genero" 
+                        placeholder="Selecione o gênero" optionLabel="name" 
+                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #sexo="ngModel"></p-dropdown>
+                    </span>
+                
+                    <div *ngIf="!sexo.valid && sexo.touched" class="alerta">
+                        Genero inválido! 
+                    </div>                
+                </div>
                 <div class="p-field tamanhoSecundario">
                     <label for="dataNascimento">Data de Nascimento*</label>
                     <input id="dataNascimento" type="date" pInputText
-                        name="dataNascimento" [(ngModel)]="funcionario.dataNascimento" required #data="ngModel">                         
-               
-                    
+                        name="dataNascimento" [(ngModel)]="funcionarioEnderecoDTO.dataNascimento" required #data="ngModel">                       
+                                   
                         <div *ngIf="!data.valid && data.touched" class="alerta">
                             Data de Nascimento inválida! 
                         </div>
                 </div>
                 <div class="p-field tamanhoSecundario" *ngIf="!funcionario.id">
                     <label for="cpf">CPF*</label>
-                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="funcionario.cpf" required #campocpf="ngModel"></p-inputMask>
+                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="funcionarioEnderecoDTO.cpf" required #campocpf="ngModel"></p-inputMask>
                 
                     <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
                         CPF inválido! 
@@ -44,7 +55,7 @@
                 </div>
                 <div class="p-field tamanhoSecundario" *ngIf="funcionario.id">
                     <label for="cpf">CPF*</label>
-                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="funcionario.cpf" required #campocpf="ngModel" disabled></p-inputMask>
+                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="funcionarioEnderecoDTO.cpf" required #campocpf="ngModel" disabled></p-inputMask>
                 
                     <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
                         CPF inválido! 
@@ -53,7 +64,7 @@
                 </div>
                 <div class="p-field tamanhoSecundario">
                     <label for="rg">RG*</label>
-                    <input id="rg" type="text" pInputText name="rg" [(ngModel)]="funcionario.rg" required #rg="ngModel"> 
+                    <input id="rg" type="text" pInputText name="rg" [(ngModel)]="funcionarioEnderecoDTO.rg" required #rg="ngModel"> 
                 
                     <div *ngIf="!rg.valid && rg.touched" class="alerta">
                         RG inválido! 
@@ -61,32 +72,33 @@
                 </div>
                 <div class="p-field tamanhoSecundario">
                     <label for="dataExpedicao">Data de Expedição*</label>
-                    <input id="dataExpedicao" type="date" pInputText name="rgDataEmissao" [(ngModel)]="funcionario.rgDataEmissao" required #emissao="ngModel"> 
+                    <input id="dataExpedicao" type="date" pInputText name="rgDataEmissao" [(ngModel)]="funcionarioEnderecoDTO.rgDataEmissao" required #emissao="ngModel"> 
                 
                     <div *ngIf="!emissao.valid && emissao.touched" class="alerta">
                         Data de Expedicao inválida! 
                     </div>
                 </div>
-             </td> 
-             <td> 
                 <div class="p-field tamanhoSecundario">
                     <label for="orgaoEmissor">Órgão Emissor*</label>
-                    <input id="orgaoEmissor" type="text" pInputText name="rgOrgaoEmissor" [(ngModel)]="funcionario.rgOrgaoEmissor" required #orgao="ngModel"> 
+                    <input id="orgaoEmissor" type="text" pInputText name="rgOrgaoEmissor" [(ngModel)]="funcionarioEnderecoDTO.rgOrgaoEmissor" required #orgao="ngModel"> 
                
                     <div *ngIf="!orgao.valid && orgao.touched" class="alerta">
                         Órgão Emissor inválido! 
                     </div>
                
                 </div>
+             </td> 
+             <td> 
+                
                 <div class="p-field tamanhoSecundario">
                     <label for="admin">Admin*</label>
                     
                    <div style="display: inline-flexbox;"> 
-                        <p-radioButton lable="Sim" value="true" name="valorSelecionadoAdmin" [(ngModel)]="funcionario.admin" inputId="adminSim" required #sim="ngModel"></p-radioButton>
+                        <p-radioButton lable="Sim" value="true" name="valorSelecionadoAdmin" [(ngModel)]="funcionarioEnderecoDTO.admin" inputId="adminSim" required #sim="ngModel"></p-radioButton>
                         <label for="adminSim">Sim</label>
                     </div> 
                     <div style="display: inline-flexbox;">
-                        <p-radioButton lable="Não" value="false" name="valorSelecionadoAdmin" [(ngModel)]="funcionario.admin" inputId="adminNao" required #nao="ngModel"></p-radioButton>
+                        <p-radioButton lable="Não" value="false" name="valorSelecionadoAdmin" [(ngModel)]="funcionarioEnderecoDTO.admin" inputId="adminNao" required #nao="ngModel"></p-radioButton>
                         <label for="adminNao">Não</label>
                     </div> 
 
@@ -110,17 +122,26 @@
                     </div>                
                 </div> 
                 <div class="p-field tamanhoSecundario">
+                    <label for="login">Email*</label>
+                    <input id="login" type="text"pInputText name="email" [(ngModel)]="funcionarioEnderecoDTO.email" class="form-control" required #email="ngModel"> 
+                    
+                    <div *ngIf="!email.valid && email.touched" class="alerta">
+                        Email inválido! 
+                    </div>
+                
+                </div>
+                <div class="p-field tamanhoSecundario">
                     <label for="login">Login*</label>
-                    <input id="login" type="text"pInputText name="login" [(ngModel)]="funcionario.login" class="form-control" required #login="ngModel"> 
+                    <input id="login" type="text"pInputText name="login" [(ngModel)]="funcionarioEnderecoDTO.login" class="form-control" required #login="ngModel"> 
                     
                     <div *ngIf="!login.valid && login.touched" class="alerta">
                         Login inválido! 
                     </div>
                 
                 </div>
-                <div class="p-field tamanhoSecundario" *ngIf="!funcionario.id">
+                <div class="p-field tamanhoSecundario" *ngIf="!funcionarioEnderecoDTO.id">
                     <label for="senha">Senha*</label>
-                    <input id="senha" type="password" pPassword name="senha" [(ngModel)]="funcionario.senha" required #senha="ngModel"> 
+                    <input id="senha" type="password" pPassword name="senha" [(ngModel)]="funcionarioEnderecoDTO.senha" required #senha="ngModel"> 
                 
                     <div *ngIf="!senha.valid && senha.touched" class="alerta">
                         Senha inválida! 
@@ -132,6 +153,20 @@
                     <input id="matriculaCFESS" type="text"pInputText name="matriculaCFESS" 
                     [(ngModel)]="funcionario.matriculaCFESS">                 
                 </div> 
+
+                <div class="p-field tamanhoSecundario">
+                    <label for="login">Telefone 1*</label>
+                    <input id="login" type="text"pInputText name="telefone1" [(ngModel)]="funcionarioEnderecoDTO.telefone1" class="form-control" required #telefone1="ngModel"> 
+                    
+                    <div *ngIf="!telefone1.valid && telefone1.touched" class="alerta">
+                        Telefone 1 inválido! 
+                    </div>
+                
+                </div>
+                <div class="p-field tamanhoSecundario">
+                    <label for="login">Telefone 2</label>
+                    <input id="login" type="text"pInputText name="telefone2" [(ngModel)]="funcionarioEnderecoDTO.telefone2" class="form-control"> 
+                </div>
             
              </td> 
         </table>
@@ -144,7 +179,48 @@
         
         </p-tabPanel>
         <p-tabPanel header="Endereço">
-            Content 2
+            <div class="p-fluid">
+                <table>
+                    <td>
+                        <div class="p-field tamanhoSecundario" *ngIf="!funcionarioEnderecoDTO.id">
+                            <label for="idEndereco">Id</label>
+                            <input id="idEndereco" pInputText type="text" name="idEndereco" [(ngModel)]="funcionarioEnderecoDTO.idEndereco" disabled="true">
+                        </div>
+                            <div class="p-field tamanhoSecundario">
+                                <label for="log">Logradouro*</label>
+                                <input id="log" pInputText type="text" name="logradouro" [(ngModel)]="funcionarioEnderecoDTO.logradouro">
+                            </div>
+                            <div class="p-field tamanhoSecundario">
+                                <label for="numero">Número*</label>
+                                <input id="numero" pInputText type="text" name="numero" [(ngModel)]="funcionarioEnderecoDTO.numero">
+                            </div>
+                            <div class="p-field tamanhoSecundario">
+                                <label for="bairro">Bairro*</label>
+                                <input id="bairro" pInputText type="text" name="bairro" [(ngModel)]="funcionarioEnderecoDTO.bairro">
+                            </div>
+                            <div class="p-field tamanhoSecundario">
+                                <label for="comp">Complemento</label>
+                                <input id="comp" pInputText type="text" name="complemento" [(ngModel)]="funcionarioEnderecoDTO.complemento">
+                            </div>
+                            <div class="p-field tamanhoSecundario">
+                                <label for="cep">CEP</label>
+                                <input id="cep" pInputText type="text" name="cep" [(ngModel)]="funcionarioEnderecoDTO.cep">
+                            </div>
+                            <div class="p-field tamanhoSecundario">
+                                <label for="cep">Cidade*</label>
+                                <input id="cep" pInputText type="text" name="cidade" [(ngModel)]="funcionarioEnderecoDTO.cidade" required class="form-control" #cidade="ngModel">
+                            
+                                <div *ngIf="!cidade.valid && cidade.touched" class="alerta">
+                                    Cidade inválida! 
+                                </div>
+                            </div>
+                            <div class="p-field tamanhoSecundario">
+                                <label for="ref">Ponto de Referência*</label>
+                                <input id="ref" pInputText type="text" name="pontoDeReferencia" [(ngModel)]="funcionarioEnderecoDTO.pontoDeReferencia">
+                            </div>
+                        </td>
+                    </table>
+                </div>
         </p-tabPanel>
         </p-tabView>
 
@@ -153,20 +229,28 @@
 
     
     <button pButton id="enviar" label="Salvar" type="submit" 
-    style="width: 100px; margin-left: 20px;" *ngIf="!funcionario.id" 
-    [disabled]="funcionario.nome == '' 
-    || funcionario.rg == '' 
-    || funcionario.rgOrgaoEmissor == ''
-    || funcionario.rgDataEmissao == ''
-    || funcionario.cpf == '' 
+    style="width: 100px; margin-left: 20px;" *ngIf="!funcionarioEnderecoDTO.id" 
+    [disabled]="funcionarioEnderecoDTO.nome == '' 
+    || funcionarioEnderecoDTO.rg == '' 
+    || funcionarioEnderecoDTO.rgOrgaoEmissor == ''
+    || funcionarioEnderecoDTO.rgDataEmissao == ''
+    || funcionarioEnderecoDTO.cpf == '' 
     || tipoSelecionado == ''
-    || funcionario.login == ''
-    || funcionario.senha == ''
+    || funcionarioEnderecoDTO.login == ''
+    || funcionarioEnderecoDTO.senha == ''
+    || funcionarioEnderecoDTO.telefone1 == ''
+    || funcionarioEnderecoDTO.email == ''
+    || funcionarioEnderecoDTO.logradouro == ''
+    || funcionarioEnderecoDTO.numero == ''
+    || funcionarioEnderecoDTO.bairro == ''
+    || funcionarioEnderecoDTO.cidade == ''
+    || funcionarioEnderecoDTO.cep == ''
+    || funcionarioEnderecoDTO.pontoDeReferencia == ''
     ">
     </button>
     
     
-    <button pButton id="enviar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="funcionario.id"></button>
+    <button pButton id="enviar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="funcionarioEnderecoDTO.id"></button>
     <button pButton id="cancelar" label="Voltar" (click)="navegate(['/funcionarios/'])" style="width: 100px; margin-left: 5px;"></button>
     
     

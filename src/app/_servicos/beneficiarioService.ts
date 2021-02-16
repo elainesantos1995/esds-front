@@ -1,9 +1,7 @@
 import { Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
-import { Beneficiario } from 'src/app/_modelos/beneficiario';
 import { catchError, tap, map, retry } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
-import { Endereco } from '../_modelos/endereco';
 import { BeneficiarioEnderecoDTO } from '../dto/beneficiarioEnderecoDTO';
 
 
@@ -30,15 +28,15 @@ salvar(beneficiario: BeneficiarioEnderecoDTO){
 )
 }
 
-editar(id: number, beneficiario): Observable<any> {
-    return this.http.put(this.url + `/${id}`, beneficiario);
+editar(id: number, beneficiarioEnderecoDTO): Observable<any> {
+    return this.http.put(this.url + `/${id}`, beneficiarioEnderecoDTO);
 }
 
-buscarPorId(id: number): Observable<Beneficiario>{
-  return this.http.get<Beneficiario>(`http://localhost:8090/api/beneficiarios/${id}`);
+buscarPorId(id: number): Observable<BeneficiarioEnderecoDTO>{
+  return this.http.get<BeneficiarioEnderecoDTO>(`http://localhost:8090/api/beneficiarios/${id}`);
 }
 
-buscarTodos(): Observable<Beneficiario[]>{
+buscarTodos(): Observable<BeneficiarioEnderecoDTO[]>{
   return this.http.get<any>(this.url)
   .pipe(
     retry(2),
@@ -56,7 +54,7 @@ handleError(error: HttpErrorResponse) {
       errorMessage = error.error.message;
     } else {
       // Erro ocorreu no lado do servidor
-      errorMessage = `Código do erro: ${error.status}, ` + `menssagem: ${error.message}`;
+      errorMessage = `Código do erro: ${error.status}, ` + `mensagem: ${error.message}`;
     }
     console.log(errorMessage);
     return throwError(errorMessage);

@@ -11,5 +11,4 @@ export class Beneficiario{
     beneficiarioTitular: boolean;
     estadoCivil: any;
     sexo: any;
-    endereco: Endereco;
 }

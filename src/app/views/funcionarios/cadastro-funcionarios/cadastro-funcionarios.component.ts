@@ -11,6 +11,7 @@ import { parseI18nMeta } from '@angular/compiler/src/render3/view/i18n/meta';
 import { first } from 'rxjs/operators';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {MenuItem} from 'primeng/api';
+import { FuncionarioEnderecoDTO } from 'src/app/dto/funcionarioEnderecoDTO';
 
 @Component({
   selector: 'app-cadastro-funcionarios',
@@ -28,6 +29,17 @@ export class CadastroFuncionariosComponent implements OnInit {
   items: MenuItem[];
   tiposDeFuncionarios: any[];
   display: boolean = false;
+  generos: any[];
+  genero: any = null;
+
+  funcionariosDTO: FuncionarioEnderecoDTO[];
+  funcionarioEnderecoDTO: FuncionarioEnderecoDTO = {
+    id: null, nome: '', matricula: '', rg: '', rgDataEmissao: '', rgOrgaoEmissor: '',
+    cpf: '', dataNascimento: null, login: '', senha: '', admin: this.valorSelecionadoAdmin, 
+    matriculaCFESS: '', sexo: this.genero ,tipo: '', logradouro: '', numero: '', 
+    complemento: '', bairro: '', cidade: '', cep: '', pontoDeReferencia: '', 
+    email: '', telefone1: '', telefone2: '', idEndereco: null
+  }
 
   constructor(
     private funcionarioService: ApiServiceFuncionarios,
@@ -43,27 +55,31 @@ export class CadastroFuncionariosComponent implements OnInit {
       this.funcionarioService.buscarPorId(this.id)
       .pipe(first())
       .subscribe(response => {
-        this.funcionario = response;
+        this.funcionarioEnderecoDTO = response;
         console.log(response);
       },
-        erroResponse => new Funcionario());
+        erroResponse => new FuncionarioEnderecoDTO());
       } 
     this.buscarTodos();
     this.carregarItensBreadCrumb();
     this.carregarTiposDeFuncionarios();
+    this.carregarGeneros();
   }
 
   onSubmit(): void{
     if(this.id){
-      this.funcionarioService.editar(this.id, this.funcionario).subscribe(resposta => {
+      this.funcionarioService.editar(this.id, this.funcionarioEnderecoDTO).subscribe(resposta => {
         this.navegate(['/funcionarios/']);
       });
     }else{
 
-        this.funcionario.tipo = this.tipoSelecionado;
-        this.funcionarioService.salvar(this.funcionario)
+        this.funcionarioEnderecoDTO.tipo = this.tipoSelecionado;
+    //  this.funcionarioEnderecoDTO.sexo = this.genero;
+        this.funcionarioService.salvar(this.funcionarioEnderecoDTO)
           .subscribe(resposta => {
           console.log(this.tipoSelecionado);
+          console.log(this.genero)
+          console.log(this.funcionarioEnderecoDTO.dataNascimento)
           console.log(resposta)
           alert("Salvo com sucesso!")
           this.navegate(['/funcionarios/']);
@@ -97,15 +113,26 @@ export class CadastroFuncionariosComponent implements OnInit {
   }
 
  buscarTodos(){
-   this.funcionarioService.buscarTodos().subscribe((funcionarios: Funcionario[]) => {
-    this.funcionarios = funcionarios;
-    console.log(funcionarios);
+   this.funcionarioService.buscarTodos().subscribe((funcionariosDTO: FuncionarioEnderecoDTO[]) => {
+    this.funcionariosDTO = funcionariosDTO;
+    console.log(funcionariosDTO);
   });
  }
 
  deletar(int: number){
-  this.funcionarioService.deletar(this.funcionario.id);
+  this.funcionarioService.deletar(this.funcionarioEnderecoDTO.id);
  }
+
+ carregarGeneros(){
+  this.generos = [
+    {name: 'Masculino', value: 'Masculino'},
+    {name: 'Feminino', value: 'Feminino'},
+    {name: 'Homossexual', value: 'Homossexual'},
+    {name: 'Transexual', value: 'Transexual'},
+    {name: 'Travesti', value: 'Travesti'},
+    {name: 'Outro', value: 'Outro'}
+];
+}
 
  // limpa o formulario
  cleanForm(form: NgForm) {

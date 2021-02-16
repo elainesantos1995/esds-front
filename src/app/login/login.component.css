@@ -16,3 +16,10 @@
     margin-bottom: -120px;
     padding-bottom: 10px;
 }
+
+.success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    display: none;
+}
