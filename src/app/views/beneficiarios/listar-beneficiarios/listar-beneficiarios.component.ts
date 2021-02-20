@@ -43,6 +43,7 @@ export class ListarBeneficiariosComponent implements OnInit {
   buscarTodos(){
     this.beneficiariosService.buscarTodos().subscribe((beneficiariosDTO: BeneficiarioEnderecoDTO[]) => {
      this.beneficiariosDTO = beneficiariosDTO;
+     console.log(beneficiariosDTO)
    });
   }
 

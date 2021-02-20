@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { Usuario } from '../_modelos';
 import { AuthenticationService } from '../_servicos';
 import {ConfirmationService, MessageService} from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private toastr: ToastrService
     ) {
 
       if(this.authenticationService.valorUsuarioAtual){
@@ -54,9 +56,9 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void{
     this.submissao = true;
-     if(this.formularioDeLogin.invalid){      
-      return;
-    }
+      if(this.formularioDeLogin.invalid){      
+        return;
+      }
     this.carregamento = true;
     this.authenticationService.login(this.f.login.value, this.f.senha.value)
     .pipe(first()).subscribe(qualquer => {
@@ -64,15 +66,17 @@ export class LoginComponent implements OnInit {
     }, 
     error => { 
   //  this.showDialog(); 
+    this.toastr.error("Login e/ou Senha inválido!" )
+    location.reload();
     this.erro = error.error.message;
-    this.carregamento = false;      
+    this.carregamento = false;   
     });
     
   }  
 
-  showDialog() {
-    this.display = true;    
-  }
+showDialog() {
+  this.display = true;    
+}
 
 showPositionDialog(){
   this.position = 'top-right';

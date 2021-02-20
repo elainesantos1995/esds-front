@@ -6,6 +6,7 @@ import { Funcionario } from 'src/app/_modelos/funcionario';
 import { ApiServiceFuncionarios} from 'src/app/_servicos/funcionarioService';
 import {MenuItem} from 'primeng/api';
 import { FuncionarioEnderecoDTO } from 'src/app/dto/funcionarioEnderecoDTO';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-listar-funcionarios',
@@ -30,7 +31,8 @@ export class ListarFuncionariosComponent implements OnInit {
 
   constructor(
     private funcionarioService: ApiServiceFuncionarios,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {

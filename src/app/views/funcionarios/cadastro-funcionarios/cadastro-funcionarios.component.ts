@@ -12,6 +12,8 @@ import { first } from 'rxjs/operators';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {MenuItem} from 'primeng/api';
 import { FuncionarioEnderecoDTO } from 'src/app/dto/funcionarioEnderecoDTO';
+import { ToastrService } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-cadastro-funcionarios',
@@ -45,7 +47,9 @@ export class CadastroFuncionariosComponent implements OnInit {
     private funcionarioService: ApiServiceFuncionarios,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private toastr: ToastrService,
+    private datePipe: DatePipe
     ) { }
 
   ngOnInit(): void {
@@ -56,6 +60,8 @@ export class CadastroFuncionariosComponent implements OnInit {
       .pipe(first())
       .subscribe(response => {
         this.funcionarioEnderecoDTO = response;
+        this.genero = response.sexo;
+        this.funcionarioEnderecoDTO.admin = response.admin;
         console.log(response);
       },
         erroResponse => new FuncionarioEnderecoDTO());
@@ -66,31 +72,41 @@ export class CadastroFuncionariosComponent implements OnInit {
     this.carregarGeneros();
   }
 
+  transformDate() {
+    this.datePipe.transform(this.funcionarioEnderecoDTO.dataNascimento, 'yyyy-MM-dd');
+  }
+
   onSubmit(): void{
     if(this.id){
+      this.funcionarioEnderecoDTO.sexo = this.genero;
       this.funcionarioService.editar(this.id, this.funcionarioEnderecoDTO).subscribe(resposta => {
+        this.toastr.success("Cadastro atualizado com sucesso!" )
+        console.log(resposta)
         this.navegate(['/funcionarios/']);
       });
     }else{
-
+      if(this.testaCPF(this.funcionarioEnderecoDTO.cpf) === false){
+        this.toastr.error("CPF Inválido!" )
+      }else if(this.checarEmail(this.funcionarioEnderecoDTO.email) === false){
+        this.toastr.error("Email Inválido!" )
+      }else{
         this.funcionarioEnderecoDTO.tipo = this.tipoSelecionado;
-    //  this.funcionarioEnderecoDTO.sexo = this.genero;
+        this.funcionarioEnderecoDTO.sexo = this.genero;
         this.funcionarioService.salvar(this.funcionarioEnderecoDTO)
           .subscribe(resposta => {
           console.log(this.tipoSelecionado);
           console.log(this.genero)
           console.log(this.funcionarioEnderecoDTO.dataNascimento)
           console.log(resposta)
-          alert("Salvo com sucesso!")
+          this.toastr.success("Cadastro criado com sucesso!" )
           this.navegate(['/funcionarios/']);
       });
-      
-  }
+    }
+    }
   }
 
- 
   showDialog() {  
-      this.display = true;
+    this.display = true;
   }
 
   carregarItensBreadCrumb(){
@@ -125,12 +141,11 @@ export class CadastroFuncionariosComponent implements OnInit {
 
  carregarGeneros(){
   this.generos = [
-    {name: 'Masculino', value: 'Masculino'},
-    {name: 'Feminino', value: 'Feminino'},
-    {name: 'Homossexual', value: 'Homossexual'},
-    {name: 'Transexual', value: 'Transexual'},
-    {name: 'Travesti', value: 'Travesti'},
-    {name: 'Outro', value: 'Outro'}
+    {name: 'Masculino', value: 'MASCULINO'},
+    {name: 'Feminino', value: 'FEMININO'},
+    {name: 'Transexual', value: 'TRANSEXUAL'},
+    {name: 'Travesti', value: 'TRAVESTI'},
+    {name: 'Outro', value: 'OUTRO'}
 ];
 }
 
@@ -139,6 +154,59 @@ export class CadastroFuncionariosComponent implements OnInit {
   this.buscarTodos();
   form.resetForm();
   this.funcionario = {} as Funcionario;
+}
+
+testaCPF(cpf: string): boolean {
+  var Soma = 0;
+  // Verifica se a variável cpf é igual a "undefined", exibindo uma msg de erro
+  if (cpf === undefined) {
+    return false;
+  }
+
+  // Esta função retira os caracteres . e - da string do cpf, deixando apenas os números 
+  var strCPF = cpf.replace('.', '').replace('.', '').replace('-', '');
+  // Testa as sequencias que possuem todos os dígitos iguais e, se o cpf não tem 11 dígitos, retorna falso e exibe uma msg de erro
+  if (strCPF === '00000000000' || strCPF === '11111111111' || strCPF === '22222222222' || strCPF === '33333333333' || 
+  strCPF === '44444444444' || strCPF === '55555555555' || strCPF === '66666666666' || strCPF === '77777777777' || strCPF === '88888888888' || 
+  strCPF === '99999999999' || strCPF.length !== 11) {
+    return false;
+  }
+
+  // Os seis blocos seguintes de funções vão realizar a validação do CPF propriamente dito, conferindo se o DV bate. Caso alguma das funções não consiga verificar
+  // o DV corretamente, mostrará uma mensagem de erro ao usuário e retornará falso, para que o usário posso digitar novamente um número para ser testado
+
+  //Multiplica cada digito por numeros de 1 a 9, soma-os e multiplica-os por 10. Depois, divide o resultado encontrado por 11 para encontrar o resto
+  for (let i = 1; i <= 9; i++) {
+    Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+  }
+
+  var Resto = (Soma * 10) % 11;
+  if ((Resto === 10) || (Resto === 11)) {
+    Resto = 0;
+  }
+
+  if (Resto !== parseInt(strCPF.substring(9, 10))) {
+    return false;
+  }
+
+  Soma = 0;
+  for (let k = 1; k <= 10; k++) {
+    Soma = Soma + parseInt(strCPF.substring(k - 1, k)) * (12 - k)
+  }
+
+  Resto = (Soma * 10) % 11;
+  if ((Resto === 10) || (Resto === 11)) {
+    Resto = 0;
+  }
+
+  if (Resto !== parseInt(strCPF.substring(10, 11))) {
+    return false;
+  }
+}
+
+checarEmail(email: string): boolean{
+  let regex_validation = /^([a-z]){1,}([a-z0-9._-]){1,}([@]){1}([a-z]){2,}([.]){1}([a-z]){2,}([.]?){1}([a-z]?){2,}$/i;
+  return regex_validation.test(email);
 }
 
 }

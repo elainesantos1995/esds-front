@@ -23,3 +23,8 @@
     border-color: #d6e9c6;
     display: none;
 }
+
+:host ::ng-deep .p-dialog{
+    height: 50px !important;
+    background-color: rgb(243, 105, 87) !important;
+}

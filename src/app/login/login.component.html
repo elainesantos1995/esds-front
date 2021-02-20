@@ -17,16 +17,20 @@
             </div>
         </div>
     
-        <button pButton id="enviar" (click)="showPositionDialog()"  [disabled]="carregamento" label="Enviar" style="width: 180px;"></button>
+        <button pButton id="enviar"  [disabled]="carregamento" label="Enviar" style="width: 180px;"></button>
 
     </p-fieldset>
 
     <p-dialog header="Erro!" [position]="position" [(visible)]="display" [position]="position" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="500"
     [draggable]="false" [resizable]="false">
-    <p>Login e/senha inválido!.</p>
-        <ng-template pTemplate="footer">
-            <p-button icon="pi pi-check" (click)="displayPosition=false" label="Ok" styleClass="p-button-text"></p-button>
-        </ng-template>
+    <ng-template pTemplate="header">
+    </ng-template>
+    <ng-template pTemplate="content">
+        Login e/ou Senha inválida!
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="recarregar()" (click)="display=false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
 </p-dialog>
 
 </div>

@@ -26,6 +26,9 @@ import { RelatoriosComponent } from './views/relatorios/relatorios.component';
 import { ApiServiceFuncionarios} from 'src/app/_servicos/funcionarioService';
 import {ApiServiceBeneficiarios } from 'src/app/_servicos/beneficiarioService';
 
+import { ToastrModule } from 'ngx-toastr';
+import {DatePipe} from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -49,9 +52,11 @@ import {ApiServiceBeneficiarios } from 'src/app/_servicos/beneficiarioService';
     NgIdleKeepaliveModule.forRoot(),
     BrowserAnimationsModule,
     PrimeNgModule,
-    ChartModule
+    ChartModule,
+    ToastrModule.forRoot({timeOut: 2000})
   ],
   providers: [ApiServiceFuncionarios, ApiServiceBeneficiarios,
+    [DatePipe],
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
   bootstrap: [AppComponent],

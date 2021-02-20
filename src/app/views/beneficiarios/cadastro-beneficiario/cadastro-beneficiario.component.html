@@ -23,7 +23,7 @@
                         Nome inválido! 
                     </div>
                 </div>
-                <div id="div-nascimento" class="p-field tamanhoSecundario">
+                <div id="div-nascimento" class="p-field tamanhoSecundario" *ngIf="!beneficiarioEnderecoDTO.id">
                     <label for="dataNascimento">Data de Nascimento*</label>
                     <input id="dataNascimento" type="date" pInputText
                         name="dataNascimento" [(ngModel)]="beneficiarioEnderecoDTO.dataNascimento" required #data="ngModel">                         
@@ -37,8 +37,9 @@
                     <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="beneficiarioEnderecoDTO.cpf" required #campocpf="ngModel"></p-inputMask>
                 
                     <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
-                        CPF inválido! 
-                    </div>              
+                        CPF em branco! 
+                    </div> 
+                                 
                 </div>
                 <div id="div-nome2" class="p-field tamanhoSecundario" *ngIf="beneficiarioEnderecoDTO.id">
                     <label for="cpf">CPF*</label>
@@ -127,17 +128,12 @@
    
         </div>
     </div>    
-
                
         </p-tabPanel>
             <p-tabPanel header="Endereço">
                 <div class="p-fluid">
                 <table>
                     <td>
-                        <div id="div-id" class="p-field tamanhoSecundario" *ngIf="beneficiarioEnderecoDTO.id">
-                            <label for="idEndereco">Id</label>
-                            <input id="idEndereco" pInputText type="text" name="idEndereco" [(ngModel)]="beneficiarioEnderecoDTO.idEndereco" disabled="true">
-                        </div>
                         <div id="div-logradouro" class="p-field tamanhoSecundario">
                             <label for="log">Logradouro*</label>
                             <input id="log" pInputText type="text" name="logradouro" [(ngModel)]="beneficiarioEnderecoDTO.logradouro" class="form-control" required #logradouro="ngModel">
@@ -219,8 +215,20 @@
     <button pButton id="enviar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="beneficiarioEnderecoDTO.id"></button>
     <button pButton id="cancelar" label="Voltar" (click)="navegate(['/beneficiarios/'])" style="width: 100px; margin-left: 5px;"></button>
     
+    <p-dialog header="Erro!" [(visible)]="display" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="500"
+    [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="header">
+    </ng-template>
+    <ng-template pTemplate="content">
+        Salvo com sucesso!
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="display=false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+    </p-dialog>
 
-    </form>
+
+</form>
 
 
 </div>
