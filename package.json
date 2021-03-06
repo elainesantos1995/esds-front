@@ -23,6 +23,7 @@
     "@ng-idle/core": "^10.0.0-beta.1",
     "@ng-idle/keepalive": "^10.0.0-beta.1",
     "chart.js": "^2.9.4",
+    "moment": "^2.29.1",
     "ngx-toastr": "^13.2.0",
     "pdfmake": "^0.1.70",
     "primeicons": "^4.1.0",

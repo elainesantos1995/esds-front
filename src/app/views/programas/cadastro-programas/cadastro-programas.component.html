@@ -1,0 +1,107 @@
+<div id="conteudo" class="conteudo">
+
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+    
+    <form id="formBeneficiario" #beneficiarioForm="ngForm" (ngSubmit)="onSubmit()">
+    <div>
+    
+        <p-tabView>
+        <p-tabPanel header="Dados do Programa">       
+        
+            <div>
+                <div class="p-fluid">
+                    
+                    <table>
+                        
+
+                 <td> 
+
+                <div id="div-nome" class="p-field tamanhoSecundario">
+                    <label for="nome">Nome do Programa*</label>
+                    <input id="nome" type="text" pInputText name="nome" 
+                    [(ngModel)]="programa.nome" required #nome="ngModel"> 
+
+                    <div *ngIf="!nome.valid && nome.touched" class="alerta">
+                        Nome inválido! 
+                    </div>
+                </div>
+                <div id="div-rg" class="p-field tamanhoSecundario">
+                    <label for="rg">Descrição*</label>
+                    <input id="rg" type="text" pInputText name="rg" [(ngModel)]="programa.descricao" required #rg="ngModel"> 
+                
+                    <div *ngIf="!rg.valid && rg.touched" class="alerta">
+                        Descrição inválido! 
+                    </div>
+                </div>
+                <div id="div-nascimento" class="p-field tamanhoSecundario">
+                    <label for="dataNascimento">Data de Início do Programa*</label>
+                    <input id="dataNascimento" type="date" pInputText
+                        name="dataNascimento" [(ngModel)]="dataInicioVigencia" required #data1="ngModel">                         
+                                   
+                        <div *ngIf="!data1.valid && data1.touched" class="alerta">
+                            Data de Início inválida! 
+                        </div>
+                </div>
+                <div id="div-nascimento2" class="p-field tamanhoSecundario">
+                    <label for="dataNascimento2">Data de Encerramento do Programa*</label>
+                    <input id="dataNascimento2" type="date" pInputText
+                        name="dataNascimento" [(ngModel)]="dataTerminoVigencia" required #data2="ngModel">                         
+                                   
+                        <div *ngIf="!data2.valid && data2.touched" class="alerta">
+                            Data de Encerramento inválida! 
+                        </div>
+                </div>
+                
+                
+                <div id="div-estado-civil" class="p-field p-col-12 p-md-4">
+                    <label for="dropdown">Periodicidade*</label>
+                    <span class="p-float-label">
+                        <p-dropdown [options]="periodicidade" [(ngModel)]="periodicidade" 
+                        placeholder="Selecione a periodicidade" optionLabel="name" 
+                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+                    </span>
+                
+                    <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+                        Estado Civil inválido! 
+                    </div>                
+                </div>
+                      
+            </td>            
+        </table>
+   
+    </div>
+    </div>    
+               
+    </p-tabPanel>
+        
+</p-tabView>
+    
+</div>
+
+    <button pButton id="enviar" label="Salvar" type="submit" 
+    style="width: 100px; margin-left: 20px;" *ngIf="!programa.id"
+    [disabled]="programa.nome == '' 
+    || programa.descricao == ''  
+    "></button>    
+    
+    <button pButton id="atualizar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="programa.id"></button>
+    <button pButton id="cancelar" label="Voltar" (click)="navegate(['/beneficiarios/'])" style="width: 100px; margin-left: 5px;"></button>
+    
+    <p-dialog header="Erro!" [(visible)]="display" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="500"
+    [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="header">
+    </ng-template>
+    <ng-template pTemplate="content">
+        Salvo com sucesso!
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="display=false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+    </p-dialog>
+
+
+</form>
+
+</div>
+
+

@@ -23,4 +23,6 @@ export class BeneficiarioEnderecoDTO{
 	cep: string;
 	pontoDeReferencia: string;
 	email: string;
+
+	imagem: any;
 }

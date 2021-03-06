@@ -16,7 +16,7 @@ export class NavComponent implements OnInit {
     ngOnInit() {
         this.items = [
             {label: 'Beneficiários', routerLink: ['/beneficiarios'], routerLinkActiveOptions: {exact: false}},
-            {label: 'Programas e Benefícios', url: ''},
+            {label: 'Programas e Benefícios', routerLink: ['/programas'], routerLinkActiveOptions: {exact: false}},
             {label: 'Modelos de Formulários', url: ''},
             {label: 'Inscrições e Seleção', url: ''},
             {label: 'Uso de Benefícios', url: ''},

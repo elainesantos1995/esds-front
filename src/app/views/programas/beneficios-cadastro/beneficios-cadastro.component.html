@@ -1,0 +1,107 @@
+<div id="cadastro-beneficiario" class="conteudo">
+   
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+    
+    <form id="formBeneficio" #beneficioForm="ngForm" (ngSubmit)="onSubmit()">
+    
+        <p-tabView>
+        <p-tabPanel header="Dados do Beneficio">       
+        
+                <div class="p-fluid">
+                    
+                <table>                       
+
+                 <td> 
+
+                <div id="div-nome" class="p-field tamanhoSecundario">
+                    <label for="nome">Nome do Beneficio*</label>
+                    <input id="nome" type="text" pInputText name="nome" 
+                    [(ngModel)]="beneficio.nome" required #nome="ngModel"> 
+
+                    <div *ngIf="!nome.valid && nome.touched" class="alerta">
+                        Nome inválido! 
+                    </div>
+                </div>
+                <div id="div-just" class="p-field tamanhoSecundario">
+                    <label for="justificativa">Justificativa*</label>
+                    <input id="justificativa" type="text" pInputText name="justificativa" [(ngModel)]="beneficio.justificativa" required #justificativa="ngModel"> 
+                
+                    <div *ngIf="!justificativa.valid && justificativa.touched" class="alerta">
+                        Justificativa inválida! 
+                    </div>
+                </div>
+                <div id="div-tt-re-aport" class="p-field tamanhoSecundario">
+                    <label for="aport">Total de Recursos Aportados*</label>
+                    <input id="aport" type="number" pInputText
+                        name="totalRecursosAportados" [(ngModel)]="beneficio.totalRecursosAportados" required #totalRecursosAportados="ngModel">                         
+                                   
+                        <div *ngIf="!totalRecursosAportados.valid && totalRecursosAportados.touched" class="alerta">
+                            Total de recursos inválido! 
+                        </div>
+                </div>
+                <div id="div-vagas" class="p-field tamanhoSecundario">
+                    <label for="vagas">Qtd. Vagas*</label>
+                    <input id="vagas" type="number" pInputText
+                        name="limiteVagas" [(ngModel)]="beneficio.limiteVagas" required #limiteVagas="ngModel">                         
+                                   
+                        <div *ngIf="!limiteVagas.valid && limiteVagas.touched" class="alerta">
+                            Quant inválida inválida! 
+                        </div>
+                </div>
+
+                <div id="div-contrl-biometria">
+                    <label for="ctrl-biometria"></label>
+                    <input id="ctrl-biometria" type="checkbox" [(ngModel)]="beneficio.controleBiometria">
+                </div>
+                <div id="div-contrl-documento">
+                    <label for="ctrl-biometria"></label>
+                    <input id="ctrl-biometria" type="checkbox" [(ngModel)]="beneficio.controleDocumento">
+                </div>
+                <div id="div-contrl-carteirinha">
+                    <label for="ctrl-biometria"></label>
+                    <input id="ctrl-biometria" type="checkbox" [(ngModel)]="beneficio.controleCarteirinha">
+                </div>                
+                
+                <div id="div-periodicidade" class="p-field p-col-12 p-md-4">
+                    <label for="dropdown">Periodicidade*</label>
+                    <span class="p-float-label">
+                    <p-dropdown [options]="periodicidades" [(ngModel)]="beneficio.periodicidade" 
+                        placeholder="Selecione a periodicidade" optionLabel="name" 
+                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #periodicidade="ngModel"></p-dropdown>
+                    </span>
+                
+                    <div *ngIf="!periodicidade.valid && periodicidade.touched" class="alerta">
+                        Valor inválido! 
+                    </div>                
+                </div>
+                <div id="div-inadim" class="p-field tamanhoSecundario">
+                    <label for="inadim">Tolerância para Inadimplência*</label>
+                    <input id="inadim" type="number" pInputText
+                        name="inadimplente" [(ngModel)]="beneficio.toleranciaUsosInadimplente" required #inadimplente="ngModel">                         
+                                   
+                        <div *ngIf="!inadimplente.valid && inadimplente.touched" class="alerta">
+                            Valor inválida! 
+                        </div>
+                </div>
+                <div id="div-cancelamento" class="p-field tamanhoSecundario">
+                    <label for="cancelamento">Tolerância para Cancelamento*</label>
+                    <input id="cancelamento" type="number" pInputText
+                        name="cancelamento" [(ngModel)]="beneficio.toleranciaUsosCancelado" required #cancelamento="ngModel">                         
+                                   
+                        <div *ngIf="!cancelamento.valid && cancelamento.touched" class="alerta">
+                            Valor inválido! 
+                        </div>
+                </div>
+                      
+            </td>            
+        </table>
+   
+    </div>
+       
+    </p-tabPanel>
+        
+</p-tabView>
+</form>
+
+</div>
+

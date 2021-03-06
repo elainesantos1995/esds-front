@@ -6,6 +6,9 @@ import { ApiServiceBeneficiarios } from 'src/app/_servicos/beneficiarioService';
 import {MenuItem} from 'primeng/api';
 import { BeneficiarioEnderecoDTO } from 'src/app/dto/beneficiarioEnderecoDTO';
 
+import {HttpClientModule} from '@angular/common/http';
+
+
 @Component({
   selector: 'app-listar-beneficiarios',
   templateUrl: './listar-beneficiarios.component.html',
@@ -28,11 +31,12 @@ export class ListarBeneficiariosComponent implements OnInit {
 	sobrenome: '', dataNascimento: null, cpf: '',	rg: '', rgDataEmissao: '',
 	rgOrgaoEmissor: '', sexo: this.genero, estadoCivil: this.estadoCivil, telefone1: '',
   telefone2: '', email: '', logradouro: '', numero: '', complemento: '', bairro: '', 
-  cidade: '', cep: '', pontoDeReferencia: '', beneficiarioTitular: null, idEndereco: null};
+  cidade: '', cep: '', pontoDeReferencia: '', beneficiarioTitular: null, idEndereco: null, imagem: null};
 
   constructor(
     private beneficiariosService: ApiServiceBeneficiarios,
-    private router: Router
+    private router: Router,
+    private httpClientModule: HttpClientModule
   ) { }
 
   ngOnInit(): void {
@@ -51,6 +55,7 @@ export class ListarBeneficiariosComponent implements OnInit {
     this.beneficiarioSelecionadoDTO = beneficiarioDTO;
   }
 
+  // Navegação entre views
   navegate(url: string[]): any{
     this.router.navigate(url);
   }
@@ -63,12 +68,14 @@ export class ListarBeneficiariosComponent implements OnInit {
       });
   }
 
+  // carregamento de valores de itens de breadcrump
   carregarItensBreadCrumb(){
     this.items = [
       {label:' Listagem', url: 'http://localhost:4200/beneficiarios', icon: 'pi pi-home'}
   ];
   }
 
+  // Exibe modal para deleção
 showModalDialog() {
     this.displayModal = true;
 }

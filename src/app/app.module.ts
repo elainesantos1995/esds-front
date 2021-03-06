@@ -29,6 +29,11 @@ import {ApiServiceBeneficiarios } from 'src/app/_servicos/beneficiarioService';
 import { ToastrModule } from 'ngx-toastr';
 import {DatePipe} from '@angular/common';
 
+import {FileUploadModule} from 'primeng/fileupload';
+import { ListagemProgramasComponent } from './views/programas/listagem-programas/listagem-programas.component';
+import { CadastroProgramasComponent } from './views/programas/cadastro-programas/cadastro-programas.component';
+import { BeneficiosComponent } from './views/programas/beneficios/beneficios.component';
+import { BeneficiosCadastroComponent } from './views/programas/beneficios-cadastro/beneficios-cadastro.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +46,11 @@ import {DatePipe} from '@angular/common';
     RelatoriosComponent,
     ListarFuncionariosComponent,
     CadastroBeneficiarioComponent,
-    ListarBeneficiariosComponent
+    ListarBeneficiariosComponent, 
+    CadastroProgramasComponent,
+    ListagemProgramasComponent,
+    BeneficiosComponent,
+    BeneficiosCadastroComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +62,8 @@ import {DatePipe} from '@angular/common';
     BrowserAnimationsModule,
     PrimeNgModule,
     ChartModule,
-    ToastrModule.forRoot({timeOut: 2000})
+    ToastrModule.forRoot({timeOut: 2000}),
+    FileUploadModule
   ],
   providers: [ApiServiceFuncionarios, ApiServiceBeneficiarios,
     [DatePipe],

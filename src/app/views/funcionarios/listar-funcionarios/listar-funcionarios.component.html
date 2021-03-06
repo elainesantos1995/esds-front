@@ -25,10 +25,11 @@
         
         <ng-template pTemplate="caption" style="height: min-content;">
 
-            <div class="p-d-flex p-ai-center p-jc-between" style="display: inline-block;">
-               <h3 class="p-m-0" style="margin-right: 700px;">Funcionários</h3>
+            <div style="display: inline-block;">
+               <h3 class="p-m-0">Funcionários</h3>
             </div>
-            <div >                
+
+            <div style="display: inline-block; margin-left: 1%;">                
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." />

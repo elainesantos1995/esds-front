@@ -51,6 +51,7 @@ export class ListarFuncionariosComponent implements OnInit {
     this.funcionarioSelecionadoDTO = funcionarioEnderecoDTO;
   }
 
+  // Navegação entre views
   navegate(url: string[]): any{
     this.router.navigate(url);
   }
@@ -58,6 +59,7 @@ export class ListarFuncionariosComponent implements OnInit {
   deletar(){
     this.funcionarioService.deletar(this.funcionarioSelecionadoDTO.id)
       .subscribe(response => {  
+        console.log(response)
         location.reload();
         return false;      
       });
@@ -69,6 +71,7 @@ export class ListarFuncionariosComponent implements OnInit {
   ];
   }
 
+  // Exibe modal de deleção
 showModalDialog() {
     this.displayModal = true;
 }

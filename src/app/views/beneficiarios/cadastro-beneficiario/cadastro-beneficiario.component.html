@@ -12,8 +12,10 @@
                 <div class="p-fluid">
                     
                     <table>
+                        
 
                  <td> 
+
                 <div id="div-nome" class="p-field tamanhoSecundario">
                     <label for="nome">Nome*</label>
                     <input id="nome" type="text" pInputText name="nome" 
@@ -26,7 +28,16 @@
                 <div id="div-nascimento" class="p-field tamanhoSecundario" *ngIf="!beneficiarioEnderecoDTO.id">
                     <label for="dataNascimento">Data de Nascimento*</label>
                     <input id="dataNascimento" type="date" pInputText
-                        name="dataNascimento" [(ngModel)]="beneficiarioEnderecoDTO.dataNascimento" required #data="ngModel">                         
+                        name="dataNascimento" [(ngModel)]="dataNascimento" required #data="ngModel">                         
+                                   
+                        <div *ngIf="!data.valid && data.touched" class="alerta">
+                            Data de Nascimento inválida! 
+                        </div>
+                </div>
+                <div id="div-nascimento2" class="p-field tamanhoSecundario" *ngIf="beneficiarioEnderecoDTO.id">
+                    <label for="dataNascimento2">Data de Nascimento*</label>
+                    <input id="dataNascimento2" type="date" pInputText
+                        name="dataNascimento" [(ngModel)]="dataNascimento" required #data="ngModel">                         
                                    
                         <div *ngIf="!data.valid && data.touched" class="alerta">
                             Data de Nascimento inválida! 
@@ -41,7 +52,7 @@
                     </div> 
                                  
                 </div>
-                <div id="div-nome2" class="p-field tamanhoSecundario" *ngIf="beneficiarioEnderecoDTO.id">
+                <div id="div-cpf2" class="p-field tamanhoSecundario" *ngIf="beneficiarioEnderecoDTO.id">
                     <label for="cpf">CPF*</label>
                     <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="beneficiarioEnderecoDTO.cpf" required #campocpf="ngModel" disabled></p-inputMask>
                 
@@ -103,25 +114,25 @@
                     </div>               
                 </div> 
                 <div id="email"  class="p-field tamanhoSecundario">
-                    <label for="login">Email*</label>
-                    <input id="login" type="text"pInputText name="email" [(ngModel)]="beneficiarioEnderecoDTO.email" class="form-control" required #email="ngModel"> 
+                    <label for="email">Email*</label>
+                    <input id="email" type="text"pInputText name="email" [(ngModel)]="beneficiarioEnderecoDTO.email" class="form-control" required #email="ngModel"> 
                     
                     <div *ngIf="!email.valid && email.touched" class="alerta">
                         Email inválido! 
                     </div>                
                 </div> 
                 <div id="div-telefone-1" class="p-field tamanhoSecundario">
-                    <label for="login">Telefone 1*</label>
-                    <input id="login" type="text"pInputText name="telefone1" [(ngModel)]="beneficiarioEnderecoDTO.telefone1" class="form-control" required #telefone1="ngModel"> 
-                    
+                    <label for="telefone1">Telefone 1*</label>
+                    <p-inputMask id="telefone1" type="text" mask="(99)99999-9999" maxlength="15" pattern="\(\d{2}\)\s*\d{5}-\d{4}" name="telefone1" [(ngModel)]="beneficiarioEnderecoDTO.telefone1" class="form-control" required #telefone1="ngModel"></p-inputMask> 
+                   
                     <div *ngIf="!telefone1.valid && telefone1.touched" class="alerta">
                         Telefone 1 inválido! 
                     </div>
                 
                 </div>
                 <div id="div-telefone-2" class="p-field tamanhoSecundario">
-                    <label for="login">Telefone 2</label>
-                    <input id="login" type="text"pInputText name="telefone2" [(ngModel)]="beneficiarioEnderecoDTO.telefone2" class="form-control"> 
+                    <label for="telefone2">Telefone 2</label>
+                    <p-inputMask id="telefone2" type="text" mask="(99)9.9999-9999" maxlength="15" pattern="\(\d{2}\)\s*\d{5}-\d{4}" name="telefone2" [(ngModel)]="beneficiarioEnderecoDTO.telefone2" class="form-control"></p-inputMask>
                 </div>        
             </td>            
         </table>
@@ -165,7 +176,7 @@
                         </div>
                         <div id="div-cep" class="p-field tamanhoSecundario">
                             <label for="cep">CEP*</label>
-                            <input id="cep" pInputText type="text" name="cep" [(ngModel)]="beneficiarioEnderecoDTO.cep" required class="form-control" #cep="ngModel">
+                            <input id="cep" pInputText type="text" mask="99999-99" name="cep" [(ngModel)]="beneficiarioEnderecoDTO.cep" required class="form-control" #cep="ngModel">
                         
                             <div *ngIf="!cep.valid && cep.touched" class="alerta">
                                 CEP inválido! 
@@ -192,7 +203,20 @@
                 </table>
             </div>
         </p-tabPanel>
-        </p-tabView>        
+        <!-- </p-tabView>     -->
+        
+    
+    <p-tabPanel header="Foto de Cadastro">
+        <table>
+            <td>
+        <div class="p-fluid" >
+           <input type="file" (change)="onFileSelected($event)">
+           <button type="button" (click)="onUpload()">Upload</button>      
+        </div>             
+            </td>
+        </table>            
+    </p-tabPanel>
+</p-tabView>
     </div>
 
     <button pButton id="enviar" label="Salvar" type="submit" 
@@ -212,7 +236,7 @@
     || beneficiarioEnderecoDTO.pontoDeReferencia == ''
     "></button>    
     
-    <button pButton id="enviar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="beneficiarioEnderecoDTO.id"></button>
+    <button pButton id="atualizar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="beneficiarioEnderecoDTO.id"></button>
     <button pButton id="cancelar" label="Voltar" (click)="navegate(['/beneficiarios/'])" style="width: 100px; margin-left: 5px;"></button>
     
     <p-dialog header="Erro!" [(visible)]="display" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="500"

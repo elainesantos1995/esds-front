@@ -11,6 +11,7 @@ export class AuthGuard implements CanActivate{
 
     }
 
+    // Redireciona sempre para a página de login caso haja um usuário autenticado
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
         const usuarioAtual = this.authenticationService.valorUsuarioAtual;
         if(usuarioAtual){

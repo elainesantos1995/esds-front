@@ -8,8 +8,8 @@
         
         <div class="p-fluid">
             <div class="p-field">
-                <label for="nome">Login</label>
-                <input pInputText id="nome" type="text" pInputText formControlName="login" required>
+                <label for="login">Login</label>
+                <input id="login" type="text" pInputText formControlName="login" required>
             </div>
             <div class="p-field">
                 <label for="senha">Senha</label>
@@ -29,7 +29,7 @@
         Login e/ou Senha inválida!
     </ng-template>
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-check" (click)="recarregar()" (click)="display=false" label="Ok" styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-check" (click)="display=false" label="Ok" styleClass="p-button-text"></p-button>
     </ng-template>
 </p-dialog>
 

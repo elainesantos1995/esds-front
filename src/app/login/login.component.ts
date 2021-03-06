@@ -65,7 +65,9 @@ export class LoginComponent implements OnInit {
       this.router.navigate([this.urlRetorno]);
     }, 
     error => { 
-  //  this.showDialog(); 
+  //  this.showDialog();
+  
+  //Renderiza uma mensagem de erro caso o usuário informe dados de login inválidos
     this.toastr.error("Login e/ou Senha inválido!" )
     location.reload();
     this.erro = error.error.message;

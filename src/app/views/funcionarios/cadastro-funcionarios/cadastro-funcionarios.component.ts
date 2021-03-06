@@ -14,6 +14,7 @@ import {MenuItem} from 'primeng/api';
 import { FuncionarioEnderecoDTO } from 'src/app/dto/funcionarioEnderecoDTO';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-cadastro-funcionarios',
@@ -33,6 +34,8 @@ export class CadastroFuncionariosComponent implements OnInit {
   display: boolean = false;
   generos: any[];
   genero: any = null;
+  selecaoAdmin: string = null;
+  dataNascimento: string = null;
 
   funcionariosDTO: FuncionarioEnderecoDTO[];
   funcionarioEnderecoDTO: FuncionarioEnderecoDTO = {
@@ -53,13 +56,29 @@ export class CadastroFuncionariosComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-
+    
+     // Atribui o id do funcionário recebido através da url na variável da classe, caso haja
     this.id = this.activatedRoute.snapshot.params['id'];    
     if(this.id){
+      // Busca o funcionário de acordo com o id recebido via url setando o funcionário
+      // retornado no objeto da classe
       this.funcionarioService.buscarPorId(this.id)
       .pipe(first())
       .subscribe(response => {
         this.funcionarioEnderecoDTO = response;
+
+        // Verifica se o usuário está sendo editado
+        if(this.id){
+          // Atribui o id do usuário passado via url na id do objeto a ser atualizado
+          this.funcionarioEnderecoDTO.id = this.id;
+          // Verifica qual se o funcionário é admin ou não e atribui esse valor à variável de controle
+          this.selecaoAdmin = this.funcionarioEnderecoDTO.admin ? "sim": "nao";
+          let funcDataNascimento: Date = new Date(this.funcionarioEnderecoDTO.dataNascimento);
+          // atribui um valor formatado à data de nascimento do funcionário
+          this.dataNascimento = moment(funcDataNascimento).format('yyyy-MM-DD');
+        }else{
+          this.selecaoAdmin = "nao";
+        }
         this.genero = response.sexo;
         this.funcionarioEnderecoDTO.admin = response.admin;
         console.log(response);
@@ -72,21 +91,24 @@ export class CadastroFuncionariosComponent implements OnInit {
     this.carregarGeneros();
   }
 
-  transformDate() {
-    this.datePipe.transform(this.funcionarioEnderecoDTO.dataNascimento, 'yyyy-MM-dd');
-  }
-
   onSubmit(): void{
+    // Atualiza um funcionário
     if(this.id){
+      this.funcionarioEnderecoDTO.admin = this.selecaoAdmin === "sim";
+      this.funcionarioEnderecoDTO.dataNascimento = this.converterDataNascimento(this.dataNascimento);
       this.funcionarioEnderecoDTO.sexo = this.genero;
       this.funcionarioService.editar(this.id, this.funcionarioEnderecoDTO).subscribe(resposta => {
         this.toastr.success("Cadastro atualizado com sucesso!" )
         console.log(resposta)
         this.navegate(['/funcionarios/']);
       });
-    }else{
+    }
+    // Salva um funcionário
+    else{
+      this.funcionarioEnderecoDTO.admin = this.selecaoAdmin === "sim";
+      this.funcionarioEnderecoDTO.dataNascimento = this.converterDataNascimento(this.dataNascimento);
       if(this.testaCPF(this.funcionarioEnderecoDTO.cpf) === false){
-        this.toastr.error("CPF Inválido!" )
+        this.toastr.error("CPF Inválido!")
       }else if(this.checarEmail(this.funcionarioEnderecoDTO.email) === false){
         this.toastr.error("Email Inválido!" )
       }else{
@@ -103,6 +125,13 @@ export class CadastroFuncionariosComponent implements OnInit {
       });
     }
     }
+  }
+
+  // Converte a data de nascimento do funcionário
+  private converterDataNascimento(data: any){
+    let dataAuxiliar = new Date(data);
+    dataAuxiliar.setDate(dataAuxiliar.getDate() + 1);
+    return dataAuxiliar;
   }
 
   showDialog() {  
@@ -124,6 +153,17 @@ export class CadastroFuncionariosComponent implements OnInit {
   ];
   }
 
+  //Iniciais do nome + um número aleatório, talvez
+  criarMatricula(): string {
+    let matricula = '';
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for ( var i = 0; i < 5; i++ ) {
+        matricula += 'MAT'+ chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return matricula;
+}
+
+  // Faz a navegação
   navegate(url: string[]): any{
     this.router.navigate(url);
   }
@@ -156,6 +196,7 @@ export class CadastroFuncionariosComponent implements OnInit {
   this.funcionario = {} as Funcionario;
 }
 
+// Valida um CPF informado
 testaCPF(cpf: string): boolean {
   var Soma = 0;
   // Verifica se a variável cpf é igual a "undefined", exibindo uma msg de erro
@@ -204,6 +245,7 @@ testaCPF(cpf: string): boolean {
   }
 }
 
+// Valida um endereço de e-mail informado
 checarEmail(email: string): boolean{
   let regex_validation = /^([a-z]){1,}([a-z0-9._-]){1,}([@]){1}([a-z]){2,}([.]){1}([a-z]){2,}([.]?){1}([a-z]?){2,}$/i;
   return regex_validation.test(email);
