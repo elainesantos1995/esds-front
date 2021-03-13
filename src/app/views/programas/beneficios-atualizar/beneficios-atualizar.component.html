@@ -2,7 +2,7 @@
    
     <p-breadcrumb [model]="items"></p-breadcrumb>
     
-    <form #beneForm="ngForm" (ngSubmit)="onSubmit()">
+    <form #beneFormUpdate="ngForm" (ngSubmit)="onSubmit()">
     
         <p-tabView>
         <p-tabPanel header="Dados do Beneficio">       
@@ -41,12 +41,13 @@
             
                 <div class="p-formgroup-inline" style="padding-top: 2%;">
                     <label for="ctrl-biometria">Biometria* </label>
+
                     <div class="p-field-checkbox" style="display: inline-block;">
-                    <p-radioButton name="city7" value="true" [(ngModel)]="beneficio.controleBiometria" inputId="city7"></p-radioButton>
-                    <label for="city7">Sim </label>
+                        <p-radioButton name="valorSelecionadoBiometria" value="sim" [(ngModel)]="selecaoBiometria" inputId="city7"></p-radioButton>
+                        <label for="city7">Sim </label>
                     </div>
                     <div class="p-field-checkbox" style="display: inline-block;">
-                        <p-radioButton name="city8" value="false" [(ngModel)]="beneficio.controleBiometria" inputId="city8"></p-radioButton>
+                        <p-radioButton name="valorSelecionadoBiometria" value="nao" [(ngModel)]="selecaoBiometria" inputId="city8"></p-radioButton>
                         <label for="city8">Não </label>
                     </div>
                 </div>    
@@ -54,11 +55,11 @@
                 <div class="p-formgroup-inline" style="padding-top: 2%;">
                     <label for="ctrl-biometria">Documento* </label>
                     <div class="p-field-checkbox" style="display: inline-block;">
-                    <p-radioButton name="city7" value="true" [(ngModel)]="beneficio.controleDocumento" inputId="city7"></p-radioButton>
+                    <p-radioButton name="valorSelecionadoDocumento" value="sim" [(ngModel)]="selecaoDocumento" inputId="city7"></p-radioButton>
                     <label for="city7">Sim</label>
                     </div>
                     <div class="p-field-checkbox" style="display: inline-block;">
-                        <p-radioButton name="city8" value="false" [(ngModel)]="beneficio.controleDocumento" inputId="city8"></p-radioButton>
+                        <p-radioButton name="valorSelecionadoDocumento" value="nao" [(ngModel)]="selecaoDocumento" inputId="city8"></p-radioButton>
                         <label for="city8">Não</label>
                     </div>
                 </div>
@@ -66,11 +67,11 @@
                 <div class="p-formgroup-inline" style="padding-top: 2%;">
                     <label for="ctrl-biometria">Carteirinha* </label>
                     <div class="p-field-checkbox" style="display: inline-block;">
-                    <p-radioButton name="city7" value="true" [(ngModel)]="beneficio.controleCarteirinha" inputId="city7"></p-radioButton>
+                    <p-radioButton name="valorSelecionadoCarteira" value="sim" [(ngModel)]="selecaoCarteirinha" inputId="city7"></p-radioButton>
                     <label for="city7">Sim</label>
                     </div>
                     <div class="p-field-checkbox" style="display: inline-block;">
-                        <p-radioButton name="city8" value="false" [(ngModel)]="beneficio.controleCarteirinha" inputId="city8"></p-radioButton>
+                        <p-radioButton name="valorSelecionadoCarteira" value="nao" [(ngModel)]="selecaoCarteirinha" inputId="city8"></p-radioButton>
                         <label for="city8">Não</label>
                     </div>
                 </div>
@@ -81,13 +82,14 @@
                 <div id="div-periodicidade" class="p-field p-col-12 p-md-4">
                     <label for="dropdown">Periodicidade*</label>
                     <span class="p-float-label">
-                        
+                    
                     <p-dropdown [options]="periodicidades" [(ngModel)]="periodicidade"
                         placeholder="Selecione a periodicidade" optionLabel="name" 
                         [showClear]="true" [ngModelOptions]="{standalone: true}" required ></p-dropdown>
                     </span>                
-                                     
+                                 
                 </div>
+
                 <div id="div-inadim" class="p-field tamanhoSecundario">
                     <label for="inadim">Tolerância para Inadimplência*</label>
                     <input id="inadim" [(ngModel)]="beneficio.toleranciaUsosInadimplente" type="number" pInputText
@@ -111,16 +113,13 @@
     </p-tabPanel>
         
 </p-tabView>
-
-    <button pButton id="enviar" label="Salvar" type="submit" 
-        style="width: 100px; margin-left: 20px;" *ngIf="!beneficio.id">
-    </button>    
     
     <button pButton id="atualizar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="beneficio.id"></button>
-    <button pButton id="cancelar" label="Voltar" (click)="navegate(['/programas/beneficios/'])" style="width: 100px; margin-left: 5px;"></button>
+    <button pButton id="cancelar" label="Voltar" (click)="navegate(['/programas/beneficios/'+programa.id])" style="width: 100px; margin-left: 5px;"></button>
         
 
 </form>
 
 </div>
+
 

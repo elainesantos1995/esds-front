@@ -150,8 +150,12 @@
                     <div *ngIf="!login.valid && login.touched" class="alerta">
                         Login inválido! 
                     </div>
-                
+
+                    <!-- <div *ngIf="checarDisponibilidadeLogin() == false" class="alerta">
+                        Login indisponível!
+                    </div>                 -->
                 </div>
+
                 <div id="div-senha" class="p-field tamanhoSecundario" *ngIf="!funcionarioEnderecoDTO.id">
                     <label for="senha">Senha*</label>
                     <input id="senha" type="password" pPassword name="senha" [(ngModel)]="funcionarioEnderecoDTO.senha" required #senha="ngModel"> 
@@ -275,6 +279,7 @@
     || funcionarioEnderecoDTO.cidade == ''
     || funcionarioEnderecoDTO.cep == ''
     || funcionarioEnderecoDTO.pontoDeReferencia == ''
+    
     ">
     </button>    
     

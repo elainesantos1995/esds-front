@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ProgramaService } from 'src/app/_servicos/programaService';
-import { FormsModule, FormBuilder, FormGroup, Validators, NgForm, FormControl} from '@angular/forms';
-import { Route, ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
-import { first } from 'rxjs/operators';
+import { FormGroup, NgForm, FormControl} from '@angular/forms';
+import { Router } from '@angular/router';
 import {MenuItem} from 'primeng/api';
-import { Observable } from 'rxjs';
 import { BeneficioDTO } from 'src/app/dto/beneficioDTO';
-import { ToastrService } from 'ngx-toastr';
-import * as moment from 'moment';
 import {HttpClientModule} from '@angular/common/http';
 import { ProgramaDTO } from 'src/app/dto/programaDTO';
 
@@ -25,7 +20,7 @@ export class ListagemProgramasComponent implements OnInit {
   beneficio: BeneficioDTO = { id: null,	nome: '',	justificativa: '', 
   totalRecursosAportados: null,	limiteVagas: null, controleBiometria: null,	
   controleDocumento: null,	controleCarteirinha: null,	periodicidade: '',	
-  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, programa: null
+  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, programa: null, idPrograma: null
   }
 
   programa: ProgramaDTO = {id: null,
@@ -45,8 +40,7 @@ export class ListagemProgramasComponent implements OnInit {
 
   constructor(
     private programaService: ProgramaService,
-    private router: Router,
-    private httpClientModule: HttpClientModule
+    private router: Router
   ) { }
 
   ngOnInit(): void {

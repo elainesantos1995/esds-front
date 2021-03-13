@@ -25,4 +25,5 @@ export class BeneficiarioEnderecoDTO{
 	email: string;
 
 	imagem: any;
+	idImagem: number;
 }

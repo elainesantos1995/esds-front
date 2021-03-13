@@ -12,8 +12,7 @@ import { CPFValidator } from 'src/app/_validators/cpfValidator';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import {HttpClientModule} from '@angular/common/http';
-
-
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cadastro-beneficiario',
@@ -34,13 +33,22 @@ export class CadastroBeneficiarioComponent implements OnInit {
   display: boolean = false;  
   dataNascimento: string = null;
   uploadedFiles: any[] = [];
-  selectedFile = null;
+ 
+//Foto
+selectedFile: File;
+retrievedImage: any;
+base64Data: any;
+retrieveResonse: any;
+message: string;
+imageName: any;
+displayModalAddImagem: boolean;
 
   beneficiarioEnderecoDTO: BeneficiarioEnderecoDTO =  {id: null, nome: '',
 	sobrenome: '', dataNascimento: null, cpf: '',	rg: '', rgDataEmissao: '',
 	rgOrgaoEmissor: '', sexo: this.genero, estadoCivil: this.estadoCivil, telefone1: '',
   telefone2: '', email: '', logradouro: '', numero: '', complemento: '', bairro: '', 
-  cidade: '', cep: '', pontoDeReferencia: '', beneficiarioTitular: null, idEndereco: null, imagem: this.uploadedFiles};
+  cidade: '', cep: '', pontoDeReferencia: '', beneficiarioTitular: null, idEndereco: 
+  null, imagem: null, idImagem: null};
 
   constructor(
     private beneficiariosService: ApiServiceBeneficiarios,
@@ -49,7 +57,8 @@ export class CadastroBeneficiarioComponent implements OnInit {
     private location: Location,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private httpClientModule: HttpClientModule
+    private httpClientModule: HttpClientModule,
+    private httpClient: HttpClient
     ) { }
 
   ngOnInit(): void {
@@ -77,8 +86,7 @@ export class CadastroBeneficiarioComponent implements OnInit {
          
           let funcDataNascimento: Date = new Date(this.beneficiarioEnderecoDTO.dataNascimento);
           // atribui um valor formatado à data de nascimento do funcionário
-          this.dataNascimento = moment(funcDataNascimento).format('yyyy-MM-DD');
-      
+          this.dataNascimento = moment(funcDataNascimento).format('yyyy-MM-DD');      
           
         }
         this.beneficiarioEnderecoDTO.dataNascimento = response.dataNascimento;
@@ -93,7 +101,7 @@ export class CadastroBeneficiarioComponent implements OnInit {
   onSubmit(): void{
     // Atualiza um beneficiário
     if(this.id){
-      this.beneficiarioEnderecoDTO.imagem = this.uploadedFiles;
+    //  this.beneficiarioEnderecoDTO.imagem = this.uploadedFiles;
       this.beneficiarioEnderecoDTO.dataNascimento = this.converterDataNascimento(this.dataNascimento);
       this.beneficiariosService.editar(this.id, this.beneficiarioEnderecoDTO).subscribe(resposta => {
         this.toastr.success("Cadastro atualizado com sucesso!" )
@@ -111,6 +119,9 @@ export class CadastroBeneficiarioComponent implements OnInit {
     //  this.beneficiarioEnderecoDTO.imagem = this.uploadedFiles;
       this.beneficiarioEnderecoDTO.sexo = this.genero;
       this.beneficiarioEnderecoDTO.estadoCivil = this.estadoCivil;
+      const uploadImageData = new FormData();
+      uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);
+ 
       this.beneficiariosService.salvar(this.beneficiarioEnderecoDTO)
       .subscribe(resposta => {       
         this.toastr.success("Cadastro criado com sucesso!" )
@@ -120,14 +131,14 @@ export class CadastroBeneficiarioComponent implements OnInit {
     }
   }
 
-  onFileSelected(event){
-    this.selectedFile = event.target.files[0];
-  }
+  // onFileSelected(event){
+  //   this.selectedFile = event.target.files[0];
+  // }
 
-  onUpload() {    
-    this.beneficiarioEnderecoDTO.imagem = this.uploadedFiles;
-    this.toastr.success("Imagem caregada com sucesso!")
-  }
+  // onUpload() {    
+  //   this.beneficiarioEnderecoDTO.imagem = this.uploadedFiles;
+  //   this.toastr.success("Imagem caregada com sucesso!")
+  // }
 
   // Exibe uma mensagem toast 
 showToaster(){
@@ -238,5 +249,26 @@ ValidaTelefone(telefone: string): any{
   return exp.test(telefone);
 }
 
+
+// Exibe modal para deleção
+showModalDialogAddImagem() {
+  this.displayModalAddImagem = true;
+  location.reload();  
+ }
+ 
+   // Método chamado quando o usuário seleciona uma imagem
+   public onFileChanged(event) {
+     //Seleção do arquivo
+     this.selectedFile = event.target.files[0];
+   }
+ 
+  //Método chamado quando o usuário clica em submeter a imagem
+  onUpload() {
+   //A API FormData provê métodos e propriedades que permitem preparar facilmente os dados do formulário a serem enviados na requisição http POST
+   const uploadImageData = new FormData();
+   uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name); 
+   this.beneficiariosService.salvarImagemSemBeneficiario(uploadImageData);
+ }
+ 
 
 }

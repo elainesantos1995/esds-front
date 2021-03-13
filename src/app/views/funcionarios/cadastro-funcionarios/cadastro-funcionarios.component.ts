@@ -111,7 +111,11 @@ export class CadastroFuncionariosComponent implements OnInit {
         this.toastr.error("CPF Inválido!")
       }else if(this.checarEmail(this.funcionarioEnderecoDTO.email) === false){
         this.toastr.error("Email Inválido!" )
-      }else{
+      }
+      // else if(this.checarDisponibilidadeLogin() === false){
+      //   this.toastr.error("Login indisponível!")
+      // }
+      else{
         this.funcionarioEnderecoDTO.tipo = this.tipoSelecionado;
         this.funcionarioEnderecoDTO.sexo = this.genero;
         this.funcionarioService.salvar(this.funcionarioEnderecoDTO)
@@ -249,6 +253,12 @@ testaCPF(cpf: string): boolean {
 checarEmail(email: string): boolean{
   let regex_validation = /^([a-z]){1,}([a-z0-9._-]){1,}([@]){1}([a-z]){2,}([.]){1}([a-z]){2,}([.]?){1}([a-z]?){2,}$/i;
   return regex_validation.test(email);
+}
+
+checarDisponibilidadeLogin(): any{
+  var disponivel: boolean;
+  disponivel = this.funcionarioService.verificarDisponibilidadeLogin(this.funcionarioEnderecoDTO.login);
+  return disponivel;
 }
 
 }

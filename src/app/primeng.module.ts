@@ -18,6 +18,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {CalendarModule} from 'primeng/calendar';
 import {DropdownModule} from 'primeng/dropdown';
+import {SelectButtonModule} from 'primeng/selectbutton';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import {DropdownModule} from 'primeng/dropdown';
     ConfirmDialogModule,
     BreadcrumbModule,
     CalendarModule,
-    DropdownModule  
+    DropdownModule,
+    SelectButtonModule  
    
   ]
 })

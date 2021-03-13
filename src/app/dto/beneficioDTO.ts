@@ -13,4 +13,5 @@ export class BeneficioDTO{
 	toleranciaUsosInadimplente: number;
 	toleranciaUsosCancelado: number;
 	programa: ProgramaDTO;
+	idPrograma: number;
 }

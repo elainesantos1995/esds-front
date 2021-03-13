@@ -6,10 +6,8 @@ import { Route, ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { first } from 'rxjs/operators';
 import {MenuItem} from 'primeng/api';
-import { Observable } from 'rxjs';
 import { BeneficioDTO } from 'src/app/dto/beneficioDTO';
 import * as moment from 'moment';
-import {HttpClientModule} from '@angular/common/http';
 import { ProgramaDTO } from 'src/app/dto/programaDTO';
 
 @Component({
@@ -28,7 +26,7 @@ export class BeneficiosComponent implements OnInit {
   beneficio: BeneficioDTO = { id: null,	nome: '',	justificativa: '', 
   totalRecursosAportados: null,	limiteVagas: null, controleBiometria: null,	
   controleDocumento: null,	controleCarteirinha: null,	periodicidade: '',	
-  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, programa: null
+  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, programa: null, idPrograma: null
   }
 
   programa: ProgramaDTO = {id: null,
@@ -51,15 +49,12 @@ export class BeneficiosComponent implements OnInit {
   constructor(
     private programaService: ProgramaService,
     private router: Router,
-    private httpClientModule: HttpClientModule,
     private beneficioService: BeneficioService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private location: Location
   ) { }
 
-  ngOnInit(): void {
-    this.carregarItensBreadCrumb();    
-    this.buscarBeneficios();
-   // this.buscarBeneficiosDoPrograma();
+  ngOnInit(): void {   
 
     this.id = this.activatedRoute.snapshot.params['id'];    
     if(this.id){
@@ -68,7 +63,7 @@ export class BeneficiosComponent implements OnInit {
       .pipe(first())
       .subscribe(response => {
         this.programa = response;
-        
+  
         let funcDataInicioVigencia: Date = new Date(this.programa.vigenciaInicio);
         this.dataInicioVigencia = moment(funcDataInicioVigencia).format('yyyy-MM-DD');
           
@@ -78,29 +73,33 @@ export class BeneficiosComponent implements OnInit {
       },
         erroResponse => new ProgramaDTO());
       } 
+
+    this.carregarItensBreadCrumb();    
+    this.buscarBeneficios();
+    this.buscarBeneficiosDoPrograma();
   }
 
   buscarBeneficios(): void{
   this.beneficioService.buscarTodos().subscribe((beneficiosDTO: BeneficioDTO[]) => {
     this.beneficiosDTO = beneficiosDTO;
+  //  console.log(this.beneficiosDTO.length)
   });
   }
 
-  buscarBeneficiosDoPrograma(){
-    this.beneficioService.buscarTodos().subscribe((beneficiosDTO: BeneficioDTO[]) => {
-      this.beneficiosDoPrograma = beneficiosDTO;    
-  });
-  for(let i = 0; i < this.beneficiosDTO.length; i++){
-    if(this.beneficiosDTO[i].programa.id === this.programa.id){
-      console.log(this.beneficiosDTO[i])
-      this.beneficiosDoPrograma.push(this.beneficiosDoPrograma[i]);
-      
-    }
-  }
+  buscarBeneficiosDoPrograma(): void{
+    this.beneficioService.listarBeneficiosDeUmPrograma(this.id)
+    .subscribe((beneficiosDTO: BeneficioDTO[]) => {
+      this.beneficiosDoPrograma = beneficiosDTO;
+    //  console.log(this.beneficiosDoPrograma.length)
+    });
   }
 
   setarProgramaDTO(programaDTO: ProgramaDTO): void{
     this.programaSelecionadoDTO = programaDTO;
+  }
+
+  setarBeneficioDTO(beneficioDTO: BeneficioDTO){
+    this.beneficioSelecionadoDTO = beneficioDTO;
   }
 
   // Navegação entre views
@@ -109,7 +108,7 @@ export class BeneficiosComponent implements OnInit {
   }
 
   deletar(){
-    this.programaService.deletar(this.programaSelecionadoDTO.id)
+    this.beneficioService.deletar(this.beneficioSelecionadoDTO.id)
       .subscribe(response => {  
         location.reload();
         return false;      
@@ -125,7 +124,7 @@ export class BeneficiosComponent implements OnInit {
 
   // Exibe modal para deleção
 showModalDialog() {
-    this.displayModal = true;
+  this.displayModal = true;
 }
 
 

@@ -139,8 +139,8 @@
    
         </div>
     </div>    
-               
-        </p-tabPanel>
+ </p-tabPanel>
+
             <p-tabPanel header="Endereço">
                 <div class="p-fluid">
                 <table>
@@ -176,8 +176,8 @@
                         </div>
                         <div id="div-cep" class="p-field tamanhoSecundario">
                             <label for="cep">CEP*</label>
-                            <input id="cep" pInputText type="text" mask="99999-99" name="cep" [(ngModel)]="beneficiarioEnderecoDTO.cep" required class="form-control" #cep="ngModel">
-                        
+                            <p-inputMask id="cep" type="text" mask="99999-999" name="cep" [(ngModel)]="beneficiarioEnderecoDTO.cep" required #cep="ngModel"></p-inputMask>
+
                             <div *ngIf="!cep.valid && cep.touched" class="alerta">
                                 CEP inválido! 
                             </div>
@@ -203,19 +203,29 @@
                 </table>
             </div>
         </p-tabPanel>
-        <!-- </p-tabView>     -->
-        
-    
-    <p-tabPanel header="Foto de Cadastro">
-        <table>
-            <td>
-        <div class="p-fluid" >
-           <input type="file" (change)="onFileSelected($event)">
-           <button type="button" (click)="onUpload()">Upload</button>      
-        </div>             
-            </td>
-        </table>            
+
+        <p-tabPanel header="Foto">
+            <div class="p-fluid">
+            <table>
+                <td>
+                    <div>
+                        <h5>Obrigatório*</h5>
+                    </div>
+                    <div class="container row">            
+                        <div class="col-md-6">            
+                            <input type="file" (change)="onFileChanged($event)">            
+                        </div>
+                        
+                        <div class="col-md-6">            
+                            <input type="button" (click)="onUpload()" value="upload">            
+                        </div>                                                 
+                    </div>
+                        
+                </td>
+            </table>
+        </div>
     </p-tabPanel>
+
 </p-tabView>
     </div>
 

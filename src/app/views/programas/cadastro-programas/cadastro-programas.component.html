@@ -2,7 +2,7 @@
 
     <p-breadcrumb [model]="items"></p-breadcrumb>
     
-    <form id="formBeneficiario" #beneficiarioForm="ngForm" (ngSubmit)="onSubmit()">
+    <form id="formPrograma" #programaForm="ngForm" (ngSubmit)="onSubmit()">
     <div>
     
         <p-tabView>
@@ -33,37 +33,23 @@
                         Descrição inválido! 
                     </div>
                 </div>
-                <div id="div-nascimento" class="p-field tamanhoSecundario">
-                    <label for="dataNascimento">Data de Início do Programa*</label>
-                    <input id="dataNascimento" type="date" pInputText
-                        name="dataNascimento" [(ngModel)]="dataInicioVigencia" required #data1="ngModel">                         
+                <div id="div-inicio" class="p-field tamanhoSecundario">
+                    <label for="dataInicio">Data de Início do Programa*</label>
+                    <input id="dataInicio" type="date" pInputText
+                        name="dataInicio" [(ngModel)]="dataInicioVigencia" required #data1="ngModel">                         
                                    
                         <div *ngIf="!data1.valid && data1.touched" class="alerta">
                             Data de Início inválida! 
                         </div>
                 </div>
-                <div id="div-nascimento2" class="p-field tamanhoSecundario">
-                    <label for="dataNascimento2">Data de Encerramento do Programa*</label>
-                    <input id="dataNascimento2" type="date" pInputText
-                        name="dataNascimento" [(ngModel)]="dataTerminoVigencia" required #data2="ngModel">                         
+                <div id="div-termino" class="p-field tamanhoSecundario">
+                    <label for="dataTermino">Data de Encerramento do Programa*</label>
+                    <input id="dataTermino" type="date" pInputText
+                        name="dataTermino" [(ngModel)]="dataTerminoVigencia" required #data2="ngModel">                         
                                    
                         <div *ngIf="!data2.valid && data2.touched" class="alerta">
                             Data de Encerramento inválida! 
                         </div>
-                </div>
-                
-                
-                <div id="div-estado-civil" class="p-field p-col-12 p-md-4">
-                    <label for="dropdown">Periodicidade*</label>
-                    <span class="p-float-label">
-                        <p-dropdown [options]="periodicidade" [(ngModel)]="periodicidade" 
-                        placeholder="Selecione a periodicidade" optionLabel="name" 
-                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
-                    </span>
-                
-                    <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
-                        Estado Civil inválido! 
-                    </div>                
                 </div>
                       
             </td>            
@@ -85,7 +71,7 @@
     "></button>    
     
     <button pButton id="atualizar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="programa.id"></button>
-    <button pButton id="cancelar" label="Voltar" (click)="navegate(['/beneficiarios/'])" style="width: 100px; margin-left: 5px;"></button>
+    <button pButton id="cancelar" label="Voltar" (click)="navegate(['/programas/'])" style="width: 100px; margin-left: 5px;"></button>
     
     <p-dialog header="Erro!" [(visible)]="display" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="500"
     [draggable]="false" [resizable]="false">

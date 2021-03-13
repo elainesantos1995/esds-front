@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ProgramaService } from 'src/app/_servicos/programaService';
-import { FormsModule, FormBuilder, FormGroup, Validators, NgForm, FormControl} from '@angular/forms';
-import { Route, ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { FormsModule, FormGroup, NgForm} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { first } from 'rxjs/operators';
 import {MenuItem} from 'primeng/api';
-import { Observable } from 'rxjs';
 import { BeneficioDTO } from 'src/app/dto/beneficioDTO';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
-import {HttpClientModule} from '@angular/common/http';
 import { ProgramaDTO } from 'src/app/dto/programaDTO';
 
 @Component({
@@ -22,7 +20,7 @@ export class CadastroProgramasComponent implements OnInit {
   beneficio: BeneficioDTO = { id: null,	nome: '',	justificativa: '', 
   totalRecursosAportados: null,	limiteVagas: null, controleBiometria: null,	
   controleDocumento: null,	controleCarteirinha: null,	periodicidade: '',	
-  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, programa: null
+  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, programa: null, idPrograma: null
   }
 
   programa: ProgramaDTO = {id: null,
@@ -45,10 +43,7 @@ export class CadastroProgramasComponent implements OnInit {
     private programaService: ProgramaService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private location: Location,
-    private formBuilder: FormBuilder,
-    private toastr: ToastrService,
-    private httpClientModule: HttpClientModule
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -81,7 +76,8 @@ export class CadastroProgramasComponent implements OnInit {
   onSubmit(): void{
     // Atualiza um programa sem benefícios
     if(this.id){
-      
+      this.programa.vigenciaInicio = this.converterData(this.dataInicioVigencia);
+      this.programa.vigenciaTermino = this.converterData(this.dataTerminoVigencia);
       this.programaService.editar(this.id, this.programa).subscribe(resposta => {
         this.toastr.success("Programa atualizado com sucesso!" )
         this.navegate(['/programas/']);
@@ -89,6 +85,8 @@ export class CadastroProgramasComponent implements OnInit {
     }    
     // Salva um programa 
     else{ 
+      this.programa.vigenciaInicio = this.converterData(this.dataInicioVigencia);
+      this.programa.vigenciaTermino = this.converterData(this.dataTerminoVigencia);
       this.programaService.salvar(this.programa).subscribe(resposta => {       
         this.toastr.success("Programa cadastro com sucesso!" )
         this.navegate(['/programas/']);
@@ -108,6 +106,12 @@ carregarPeriodicidade(){
   ];
   }
 
+  private converterData(data: any){
+    let dataAuxiliar = new Date(data);
+    dataAuxiliar.setDate(dataAuxiliar.getDate() + 1);
+    return dataAuxiliar;
+  }
+
   // Faz  navegação entre views
   navegate(url: string[]): any{
   this.router.navigate(url);
@@ -117,7 +121,7 @@ carregarPeriodicidade(){
 carregarItensBreadCrumb(){
   this.items = [
     {label:' Listagem', url: 'http://localhost:4200/programas', icon: 'pi pi-home'},
-    {label:' Cadastro'}
+    {label:' Cadastro/Atualização de programa'}
 ];
 }
 

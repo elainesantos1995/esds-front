@@ -19,13 +19,20 @@ constructor(private http: HttpClient){ }
         headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
-salvar(beneficiario: BeneficiarioEnderecoDTO){
+// salvar(beneficiario: BeneficiarioEnderecoDTO){
+//     return this.http.post(this.url, JSON.stringify(beneficiario), this.httpOptions)
+//     .pipe(
+//         retry(2),
+//         catchError(this.handleError)
+//     )
+// }
 
-    return this.http.post(this.url, JSON.stringify(beneficiario), this.httpOptions)
-    .pipe(
-        retry(2),
-        catchError(this.handleError)
-)
+salvar(beneficiario: BeneficiarioEnderecoDTO){
+  return this.http.post(this.url, JSON.stringify(beneficiario), this.httpOptions)
+  .pipe(
+      retry(2),
+      catchError(this.handleError)
+  )
 }
 
 editar(id: number, beneficiarioEnderecoDTO): Observable<any> {
@@ -46,6 +53,31 @@ buscarTodos(): Observable<BeneficiarioEnderecoDTO[]>{
 deletar(id : number): Observable<any>{
   return this.http.delete<any>(this.url+`/${id}`);
 }
+
+//Salva a imagem associando ao benefciário
+salvarImagem(uploadImageData: FormData, idBenficiario: number){
+  this.http.post('http://localhost:8090/api/image/upload/'+idBenficiario, uploadImageData, { observe: 'response' })
+    .subscribe((response) => {
+    }
+  );    
+}
+
+//Salva apenas a imagem associando ao benefciário
+salvarImagemSemBeneficiario(uploadImageData: FormData){
+  this.http.post('http://localhost:8090/api/image/upload/', uploadImageData, { observe: 'response' })
+    .subscribe((response) => {
+    }
+  );    
+}
+
+recuperarImagemPorId(id: any){
+  return this.http.get('http://localhost:8090/api/image/get/id/'+id);
+}       
+
+removerFoto(id: any){
+  return this.http.get('http://localhost:8090/api/image/delete/image/'+id);
+}
+
 
 handleError(error: HttpErrorResponse) {
     let errorMessage = '';

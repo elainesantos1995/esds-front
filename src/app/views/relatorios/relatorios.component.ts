@@ -4,6 +4,9 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { ApiServiceFuncionarios} from 'src/app/_servicos/funcionarioService';
 import { Funcionario } from 'src/app/_modelos/funcionario';
+import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { FuncionarioEnderecoDTO } from 'src/app/dto/funcionarioEnderecoDTO';
 
 @Component({
   selector: 'app-relatorios',
@@ -16,19 +19,40 @@ export class RelatoriosComponent implements OnInit {
   assiduidade: any;
   getDocumentDefinition: any = this.getDocumentDefinitionValue();
   funcionarios: Funcionario[];
+  
   nome: string = 'Programa';
   numero: number = 20;
+  generos: any[];
+  genero: any = null;
+  valorSelecionadoAdmin: boolean = false;
+  funcionarioEnderecoDTO: FuncionarioEnderecoDTO = {
+    id: null, nome: '', matricula: '', rg: '', rgDataEmissao: '', rgOrgaoEmissor: '',
+    cpf: '', dataNascimento: null, login: '', senha: '', admin: this.valorSelecionadoAdmin, 
+    matriculaCFESS: '', sexo: this.genero ,tipo: '', logradouro: '', numero: '', 
+    complemento: '', bairro: '', cidade: '', cep: '', pontoDeReferencia: '', 
+    email: '', telefone1: '', telefone2: '', idEndereco: null
+  }
 
   
-  constructor(private funcionarioService: ApiServiceFuncionarios) {   
-    this.gerarGraficoUm();
-    this.gerarGraficoDois();
-      
-   }
+  constructor(
+    private funcionarioService: ApiServiceFuncionarios    
+    ) { }
 
   ngOnInit(): void {
-    
+    this.gerarGraficoUm();
+    this.gerarGraficoDois();
+    this.buscarPorId(1);
   } 
+
+  buscarPorId(id: number): void{
+      this.funcionarioService.buscarPorId(id)
+      .pipe(first())
+      .subscribe(response => {
+        this.funcionarioEnderecoDTO = response;
+        console.log(this.funcionarioEnderecoDTO);
+      },
+        erroResponse => new FuncionarioEnderecoDTO());     
+  }
 
   gerarGraficoUm(): void{
     this.data = {
@@ -67,6 +91,8 @@ export class RelatoriosComponent implements OnInit {
           }]    
         }
   }
+
+
   
 
   generatePdf() {   
@@ -92,7 +118,7 @@ export class RelatoriosComponent implements OnInit {
       return {
         content: [
         {
-          text: 'PROGRAMA SOCIAL' + this.nome,
+          text: 'PROGRAMA SOCIAL' + this.funcionarioEnderecoDTO,
           bold: true,
           fontSize: 20,
           alignment: 'center',
@@ -101,7 +127,15 @@ export class RelatoriosComponent implements OnInit {
         {
         columns: [
           [{
-            text: 'Programa : ' 
+            text: 'Programa : '
+
+
+
+
+
+
+
+            
           },
           {
             text: 'Edição : '  

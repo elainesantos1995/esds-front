@@ -1,16 +1,16 @@
 <div class="conteudo">
 
     <p-breadcrumb [model]="items"></p-breadcrumb>
-   
+
     <div style="width: 100%; ">  
-        <button id="btnNovoPrograma" pButton type="button" label="Novo" icon="pi pi-plus"
+        <button id="btnNovoBeneficio" pButton type="button" label="Novo" icon="pi pi-plus"
             class="p-button-success btnNovo"
             style="display: inline-block; margin-top: 0%; margin-left: 90%;"
-            (click)="navegate(['/programas/beneficios-cadastro'])">
+            (click)="navegate(['/programas/beneficios-cadastro/'+programa.id])">
         </button>
     </div>
     
-    <p-fieldset legend="Header" toggleable="true">
+    <p-fieldset legend="Programa" toggleable="true">
         <div id="div-nome" class="p-field tamanhoSecundario">
             <label>Id do Programa: </label>
             <label>{{programa.id}}</label>            
@@ -36,7 +36,7 @@
     <br>
 
     <div>
-        <p-table #dt [value]="beneficiosDTO" [globalFilterFields]="['nome','descricao']"
+        <p-table #dt [value]="beneficiosDoPrograma" [globalFilterFields]="['nome','descricao']"
             [paginator]="true" [rows]="5" styleClass="p-datatable-sm">
             
             <ng-template pTemplate="caption" style="height: min-content;">    
@@ -51,14 +51,7 @@
                         <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." />
                     </span>
                 </div>  
-                <!-- <div style="display: inline-block; margin-left: 40%;">  
-                    <button id="btnNovoPrograma" pButton type="button" label="Novo" icon="pi pi-plus"
-                        class="p-button-success btnNovo"
-                        style="display: inline-block; width: 100%; margin-top: 0%; margin-left: 90%;"
-                        (click)="navegate(['/programas/beneficios-cadastro'])">
-                    </button>
-                </div>               -->
-           
+
             </ng-template>
     
             <ng-template pTemplate="header" >
@@ -66,9 +59,12 @@
                 <tr>                   
                     <th>ID</th>
                     <th>Nome</th>
-                    <th>Programa ID</th>
-                    <th></th>
-                    <th></th>
+                    <th>Justificativa</th>
+                    <th>Vagas</th>
+                    <th>Recursos</th>
+                    <th>Qtd inadimplente</th>
+                    <th>Qtd Cancelamento</th>
+                    <th>Programa ID</th>                    
                     <th></th>
                 </tr>
             </ng-template>
@@ -78,18 +74,22 @@
                    
                     <td>{{beneficio.id}}</td>
                     <td>{{beneficio.nome}}</td>
+                    <td>{{beneficio.justificativa}}</td>
+                    <td>{{beneficio.limiteVagas}}</td>
+                    <td>{{beneficio.totalRecursosAportados}}</td>
+                    <td>{{beneficio.toleranciaUsosInadimplente}}</td>
+                    <td>{{beneficio.toleranciaUsosCancelado}}</td>
                     <td>{{beneficio.programa.id}}</td>
-                    <td></td>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary p-button-text" (click)="navegate(['/programas/programas-cadastro/'+ beneficio.id])" ></button>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary p-button-text" (click)="navegate(['/programas/beneficios-atualizar/'+beneficio.id])" ></button>
                     
                        <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" 
-                       (click)="showModalDialog()" (click)="setarProgramaDTO(beneficio)"></button>
+                       (click)="showModalDialog()" (click)="setarBeneficioDTO(beneficio)"></button>
                         <p-dialog header="Deleção" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
                             [draggable]="false" [resizable]="false">
                             
                             <div *ngIf="beneficioSelecionadoDTO">
-                            <p class="p-m-0">Deseja realmente deletar o beneficio{{ beneficioSelecionadoDTO.nome }} ?</p>
+                            <p class="p-m-0">Deseja realmente deletar o beneficio {{ beneficioSelecionadoDTO.nome }} ?</p>
                         </div>
                             
                             <ng-template pTemplate="footer">
@@ -99,7 +99,7 @@
                         
                         </p-dialog>
                     </td>
-                    <td></td>
+                    
     
                 </tr>
             </ng-template>

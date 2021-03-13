@@ -34,6 +34,9 @@ import { ListagemProgramasComponent } from './views/programas/listagem-programas
 import { CadastroProgramasComponent } from './views/programas/cadastro-programas/cadastro-programas.component';
 import { BeneficiosComponent } from './views/programas/beneficios/beneficios.component';
 import { BeneficiosCadastroComponent } from './views/programas/beneficios-cadastro/beneficios-cadastro.component';
+import { ProgramaService } from './_servicos/programaService';
+import { BeneficioService } from './_servicos/beneficioService';
+import { BeneficiosAtualizarComponent } from './views/programas/beneficios-atualizar/beneficios-atualizar.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +53,8 @@ import { BeneficiosCadastroComponent } from './views/programas/beneficios-cadast
     CadastroProgramasComponent,
     ListagemProgramasComponent,
     BeneficiosComponent,
-    BeneficiosCadastroComponent
+    BeneficiosCadastroComponent,
+    BeneficiosAtualizarComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +69,7 @@ import { BeneficiosCadastroComponent } from './views/programas/beneficios-cadast
     ToastrModule.forRoot({timeOut: 2000}),
     FileUploadModule
   ],
-  providers: [ApiServiceFuncionarios, ApiServiceBeneficiarios,
+  providers: [ApiServiceFuncionarios, ApiServiceBeneficiarios, ProgramaService, BeneficioService,
     [DatePipe],
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],

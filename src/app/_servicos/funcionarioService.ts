@@ -2,7 +2,6 @@ import { Injectable} from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http';
 import { catchError, tap, map, retry } from 'rxjs/operators';
-import { Funcionario } from 'src/app/_modelos/funcionario';
 import { FuncionarioEnderecoDTO } from '../dto/funcionarioEnderecoDTO';
 
 
@@ -58,6 +57,11 @@ export class ApiServiceFuncionarios{
 
   deletar(id : number): Observable<any>{
     return this.http.delete<any>(`http://localhost:8090/api/funcionarios/${id}`);
+  }
+
+  verificarDisponibilidadeLogin(login: string): any{
+    return this.http.get<any>(`http://localhost:8090/api/funcionarios/verificar/${login}`);
+  
   }
 
     handleError(error: HttpErrorResponse) {

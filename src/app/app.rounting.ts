@@ -5,6 +5,7 @@ import { CadastroBeneficiarioComponent } from "./views/beneficiarios/cadastro-be
 import { ListarBeneficiariosComponent } from "./views/beneficiarios/listar-beneficiarios/listar-beneficiarios.component";
 import { CadastroFuncionariosComponent } from './views/funcionarios/cadastro-funcionarios/cadastro-funcionarios.component';
 import { ListarFuncionariosComponent } from './views/funcionarios/listar-funcionarios/listar-funcionarios.component';
+import { BeneficiosAtualizarComponent } from "./views/programas/beneficios-atualizar/beneficios-atualizar.component";
 import { BeneficiosCadastroComponent } from "./views/programas/beneficios-cadastro/beneficios-cadastro.component";
 import { BeneficiosComponent } from "./views/programas/beneficios/beneficios.component";
 import { CadastroProgramasComponent } from "./views/programas/cadastro-programas/cadastro-programas.component";
@@ -29,8 +30,8 @@ const routes: Routes = [
         {path: 'programas-cadastro', component: CadastroProgramasComponent},
         {path: 'programas-cadastro/:id', component: CadastroProgramasComponent},
         {path: 'beneficios/:id', component: BeneficiosComponent},
-        {path: 'beneficios-cadastro', component: BeneficiosCadastroComponent},
-        {path: 'beneficios-cadastro/:id', component: BeneficiosCadastroComponent}]},
+        {path: 'beneficios-cadastro/:id', component: BeneficiosCadastroComponent},
+        {path: 'beneficios-atualizar/:id', component: BeneficiosAtualizarComponent}]},
     {path: '**', redirectTo: ''}
 ]
 
