@@ -1,0 +1,119 @@
+<div class="conteudo">
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+
+    <div style="width: 100%; ">  
+        <button pButton type="button" label="Seleção" 
+            class="p-button-success btnNovo"
+            style="display: inline-block; margin-top: 0%; margin-left: 90%;"
+            (click)="navegate(['/inscricoes'])">
+        </button>
+    </div>
+    
+    <p-panel header="Incrição">
+
+    <div id="div-expedicao" class="p-field tamanhoSecundario">
+        <label for="cpf">CPF do Beneficiário*</label>
+        <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" 
+        [(ngModel)]="inscricaoDTO.cpfBeneficiario" required
+        #campocpf="ngModel" class="p-float-label"></p-inputMask>
+
+        <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
+            CPF do Beneficiário inválido! 
+        </div>
+    </div>
+
+    <div id="div-estado-civil" class="p-field p-col-12 p-md-4">
+        <label for="dropdown">Benefícios*</label>
+        <span class="p-float-label">
+            <p-dropdown [options]="beneficiosDTO" [(ngModel)]="beneficioDTO"
+            placeholder="Selecione um benefício" optionLabel="nome" 
+            [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+        </span>
+    
+        <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+           Benefício inválido! 
+        </div>                
+    </div>
+    <br>
+
+    <!-- <p-multiSelect [options]="beneficiosDTO" [(ngModel)]="beneficiosSelecionados" optionLabel="nome"></p-multiSelect> -->
+
+    <button pButton label="Salvar" (click)="onSubmit()"></button>
+    
+</p-panel>
+
+<div>
+    <p-table #dt [value]="inscricoesDTO" [globalFilterFields]="['id','data','parecer']"
+        [paginator]="true" [rows]="5" styleClass="p-datatable-sm">
+        
+        <ng-template pTemplate="caption" style="height: min-content;">    
+            
+            <div style="display: inline-block;" >
+                <h3 class="p-m-0" >Inscrições</h3>
+            </div>    
+        
+            <div style="display: inline-block; margin-left: 1%;" >     
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." />
+                </span>
+            </div>  
+
+        </ng-template>
+
+        <ng-template pTemplate="header" >
+
+            <tr>                   
+                <th>ID</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Parecer</th>
+                <th>Recursos Total</th>
+                <th>Recursos Retirados</th>
+                <th>Benefício</th>
+                <th>Beneficiario</th>
+                <th></th>                  
+                <th></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-inscricao>
+            <tr>
+               
+                <td>{{inscricao.id}}</td>
+                <td>{{inscricao.dataInscricao | date: 'dd/MM/yyyy'}}</td>
+                <td>{{inscricao.status}}</td>
+                <td>{{inscricao.parecer}}</td>
+                <td>{{inscricao.quantBeneficiosASeremRetiradados}}</td>
+                <td>{{inscricao.quantBeneficiosRetirados}}</td>
+                <td>{{inscricao.beneficio.nome}}</td>
+                <td>{{inscricao.beneficiario.nome}}</td>
+                <td>
+                     <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary p-button-text" (click)="navegate(['/inscricoes/atualizacao/'+inscricao.id])" ></button>
+                
+                   <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" 
+                   (click)="showModalDialog()" (click)="setarInscricaoDTO(inscricao)"></button>
+                    <p-dialog header="Deleção" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+                        [draggable]="false" [resizable]="false">
+                        
+                        <div *ngIf="inscricaoSelecionadaDTO">
+                        <p class="p-m-0">Deseja realmente deletar a inscricao nº {{ inscricaoSelecionadaDTO.id }} ?</p>
+                    </div>
+                        
+                        <ng-template pTemplate="footer">
+                            <p-button icon="pi pi-check" (click)="displayModal=false" label="Cancelar" styleClass="p-button-text" ></p-button>
+                            <p-button icon="pi pi-check" (click)="deletar()" (click)="displayModal=false" label="Ok" styleClass="p-button-text"></p-button>
+                        </ng-template>
+                    
+                    </p-dialog> 
+                </td>
+                
+
+            </tr>
+        </ng-template>
+        
+    </p-table>
+</div>
+
+
+</div>

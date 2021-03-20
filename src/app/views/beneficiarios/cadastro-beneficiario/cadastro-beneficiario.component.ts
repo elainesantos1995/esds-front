@@ -103,18 +103,33 @@ displayModalAddImagem: boolean;
     if(this.id){
     //  this.beneficiarioEnderecoDTO.imagem = this.uploadedFiles;
       this.beneficiarioEnderecoDTO.dataNascimento = this.converterDataNascimento(this.dataNascimento);
+
+      //Adicionado para tentar validar a data aqui e no salvar
+     
+      if(this.compararDataInformadaComDataAtual(this.beneficiarioEnderecoDTO.dataNascimento)){
+        this.toastr.error("Data de Nascimento não deve ser maior que a data atual!" )
+      }else if(this.compararDataInicialComDataFinal(this.beneficiarioEnderecoDTO.dataNascimento, this.beneficiarioEnderecoDTO.rgDataEmissao)){
+        this.toastr.error("Data de Emissão do RG não deve ser maior que a Data de Nascimento!" )
+      }else{
       this.beneficiariosService.editar(this.id, this.beneficiarioEnderecoDTO).subscribe(resposta => {
         this.toastr.success("Cadastro atualizado com sucesso!" )
         this.navegate(['/beneficiarios/']);
       });
-    }    
+     }
+  }    
     // Salva um beneficiário 
+
     else{ 
+       
       this.beneficiarioEnderecoDTO.dataNascimento = this.converterDataNascimento(this.dataNascimento);
       if(this.testaCPF(this.beneficiarioEnderecoDTO.cpf) === false){
         this.toastr.error("CPF Inválido!" )
       }else if(this.checarEmail(this.beneficiarioEnderecoDTO.email) === false){
         this.toastr.error("Email Inválido!" )
+      }else if(this.compararDataInformadaComDataAtual(this.beneficiarioEnderecoDTO.dataNascimento)){
+        this.toastr.error("Data de Nascimento não deve ser maior que a data atual!" )
+      }else if(this.compararDataInicialComDataFinal(this.beneficiarioEnderecoDTO.dataNascimento, this.beneficiarioEnderecoDTO.rgDataEmissao)){
+        this.toastr.error("Data de Emissão do RG não deve ser maior que a Data de Nascimento!" )
       }else{
     //  this.beneficiarioEnderecoDTO.imagem = this.uploadedFiles;
       this.beneficiarioEnderecoDTO.sexo = this.genero;
@@ -130,6 +145,16 @@ displayModalAddImagem: boolean;
       }
     }
   }
+
+compararDataInicialComDataFinal(data2: Date, data1: string) {   
+  let data = new Date(data1);     
+    return data <= data2 ? true : false;
+}
+
+compararDataInformadaComDataAtual(dataInformada: Date) {            
+    let dataAtual = new Date();
+    return dataInformada >= dataAtual ? true : false;
+}
 
   // onFileSelected(event){
   //   this.selectedFile = event.target.files[0];

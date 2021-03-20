@@ -127,6 +127,4 @@ showModalDialog() {
   this.displayModal = true;
 }
 
-
-
 }

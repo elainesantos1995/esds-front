@@ -1,0 +1,89 @@
+<div class="conteudo">
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+
+    <form #inscFormUpdate="ngForm" (ngSubmit)="onSubmit()">
+
+    <p-panel header="Incrição">
+        
+        <div id="div-expedicao" class="p-field tamanhoSecundario">
+            <label for="cpf">CPF do Beneficiário*</label>
+            <p-inputMask id="cpf" type="text" disabled class="p-float-label" mask="999.999.999-99" name="cpf" [(ngModel)]="inscricaoDTO.cpfBeneficiario" required #campocpf="ngModel"></p-inputMask>
+    
+            <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
+                CPF do Beneficiário inválido! 
+            </div>
+        </div>
+    
+        <div id="div-bene" class="p-field p-col-12 p-md-4">
+            <label for="dropdown">Benefícios*</label>
+            <span class="p-float-label">
+                <p-dropdown [options]="beneficiosDTO" [(ngModel)]="beneficioDTO"
+                placeholder="Selecione um benefício" optionLabel="nome" 
+                [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+            </span>
+        
+            <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+               Benefício inválido! 
+            </div>                
+        </div>
+    
+        <div id="div-data" class="p-field tamanhoSecundario" *ngIf="inscricaoDTO.id">
+            <label for="data">Data de Inscrição*</label>
+            <input id="data" type="date" pInputText disabled class="p-float-label" class="p-float-label"
+                name="data" [(ngModel)]="dataInscricao" required #data="ngModel">                         
+                       
+            <div *ngIf="!data.valid && data.touched" class="alerta">
+                Data de Inscrição inválida! 
+            </div>
+        </div>
+
+    <div id="div-parecer" class="p-field tamanhoSecundario" *ngIf="inscricaoDTO.id">
+        <label for="parecer">Parecer*</label>
+        <input id="parecer" type="text" class="p-float-label" pInputText name="parecer" class="p-float-label" [(ngModel)]="inscricaoDTO.parecer" required #parecer="ngModel"> 
+    
+        <div *ngIf="!parecer.valid && parecer.touched" class="alerta">
+            Parecer inválido! 
+        </div>
+    </div>
+
+    <div id="div-status" class="p-field tamanhoSecundario" *ngIf="inscricaoDTO.id">
+        <label for="status">Status*</label>
+        <span class="p-float-label">
+            <p-dropdown [options]="status" [(ngModel)]="selecaoStatus"
+            placeholder="Selecione um" optionLabel="name" 
+            [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+        </span>
+    
+        <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+           Status inválido! 
+        </div>  
+        
+    </div>
+
+    <div id="div-qtd-total" class="p-field tamanhoSecundario" *ngIf="inscricaoDTO.id">
+        <label for="qtd-total">Qtd benefícios Total*</label>
+        <input id="qtd-total" type="number" class="p-float-label" pInputText name="qtd-total" 
+        [(ngModel)]="inscricaoDTO.quantBeneficiosASeremRetiradados" 
+        required #total="ngModel"> 
+    
+        <div *ngIf="!total.valid && total.touched" class="alerta">
+            Qtd benefícios Total inválida! 
+        </div>
+    </div>
+
+    <div id="div-qtd-restante" class="p-field tamanhoSecundario" *ngIf="inscricaoDTO.id">
+        <label for="restante">Qtd Benefícios Retirados*</label>
+        <input id="restante" type="number" class="p-float-label" pInputText name="restante" [(ngModel)]="inscricaoDTO.quantBeneficiosRetirados" required #restante="ngModel"> 
+    
+        <div *ngIf="!restante.valid && restante.touched" class="alerta">
+            Qtd benefícios retirados inválido! 
+        </div>
+    </div>   
+
+    <button pButton label="Atualizar" type="submit"></button>
+
+</p-panel>
+
+</form>
+
+</div>

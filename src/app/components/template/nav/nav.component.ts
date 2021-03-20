@@ -17,9 +17,9 @@ export class NavComponent implements OnInit {
         this.items = [
             {label: 'Beneficiários', routerLink: ['/beneficiarios'], routerLinkActiveOptions: {exact: false}},
             {label: 'Programas e Benefícios', routerLink: ['/programas'], routerLinkActiveOptions: {exact: false}},
-            {label: 'Modelos de Formulários', url: ''},
-            {label: 'Inscrições e Seleção', url: ''},
-            {label: 'Uso de Benefícios', url: ''},
+            {label: 'Formulário Socioeconômico', routerLink: ['/dados'], routerLinkActiveOptions: {exact: false}},
+            {label: 'Inscrições e Seleção', routerLink: ['/inscricoes'], routerLinkActiveOptions: {exact: false}},
+            {label: 'Uso de Benefícios', routerLink: ['usos'], routerLinkActiveOptions: {exact: true}},
             {label: 'Relatórios', routerLink: ['/relatorios'], routerLinkActiveOptions: {exact: true}},
             {label: 'Funcionários', routerLink: ['/funcionarios'], routerLinkActiveOptions: {exact: false}},
             {label: 'Comunicação', url: ''}

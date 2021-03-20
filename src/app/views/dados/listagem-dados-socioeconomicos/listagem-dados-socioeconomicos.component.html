@@ -1,0 +1,87 @@
+<div class="conteudo">
+
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+
+    <br>
+
+    <!-- <div class="p-grid p-fluid" style="width: 100%; ">
+        <div class="p-col-12 p-md-4">
+            <div class="p-inputgroup">
+                <input type="text" pInputText placeholder="Digite um CPF" [(ngModel)]="cpfBeneficiario">         
+                <button type="button" pButton pRipple label="Buscar" (click)="buscarBeneficiarioCPF()"></button>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Usar ngIf para renderizar apenas caso o beneficiário exista -->
+    <p-table #dt [value]="dadosSocioeconomicos" [paginator]="true" 
+    [rows]="5" [globalFilterFields]="['id', 'beneficiarioTitular.nome',
+    'beneficiarioTitular.cpf',
+    'dataPreenchimento', 'dataUltimaAtualizacao']">
+        
+    <ng-template pTemplate="caption" style="height: min-content;">
+
+        <div style="display: inline-block;">
+           <h4 class="p-m-0">Dados</h4>
+        </div>
+
+        <div style="display: inline-block; margin-left: 1%;">                
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." />
+            </span>
+        </div>           
+   
+    </ng-template>
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Número</th>
+                <th>Beneficiário Insc</th>
+                <th>Nome</th>
+                <th>CPF</th>            
+                <th>Pontuação</th>
+                <th>Data Preenchimento</th>
+                <th>Última Atualização</th>
+                <th>
+                    <button pButton type="button" label="Novo" icon="pi pi-plus"
+                        class="p-button-success btnNovo" 
+                        (click)="navegate(['/dados/cadastro-dados/'])">
+                    </button>
+                </th>
+                
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dado>
+            <tr>
+                <td>{{dado.id}}</td>
+                <td>{{dado.beneficiarioTitular.id }}</td>
+                <td>{{dado.beneficiarioTitular.nome }}</td>
+                <td>{{dado.beneficiarioTitular.cpf }}</td>
+                <td>{{dado.pontuacao}}</td>
+                <td>{{dado.dataPreenchimento | date: 'dd/MM/yyyy'}}</td>
+                <td>{{dado.dataUltimaAtualizacao | date: 'dd/MM/yyyy'}}</td>                
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary p-button-text" (click)="navegate(['/dados/cadastro-dados/'+dado.id])" ></button>
+                    
+                       <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text" 
+                       (click)="showModalDialog()" (click)="setarDadosDTO(dado)"></button>
+                        
+                       <p-dialog id="dialogo-del-beneficiario" header="Deleção" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+                            [draggable]="false" [resizable]="false">
+                            
+                            <div *ngIf="dadosSelecionado">
+                                <p class="p-m-0">Deseja realmente deletar os dados {{ dadosSelecionado.id }} ?</p>
+                            </div>
+                            
+                            <ng-template pTemplate="footer">
+                                <p-button icon="pi pi-check" (click)="displayModal=false" label="Cancelar" styleClass="p-button-text" ></p-button>
+                                <p-button icon="pi pi-check" (click)="deletar()" (click)="displayModal=false" label="Ok" styleClass="p-button-text"></p-button>
+                            </ng-template>                        
+                        </p-dialog>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table> 
+
+</div>

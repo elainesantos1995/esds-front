@@ -1,0 +1,358 @@
+<div class="conteudo">
+    
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+       
+    <form id="formInscricao" #inscricaoForm="ngForm" (ngSubmit)="onSubmit()">
+
+        <p-tabView id="table-view-funcionarios">
+            <p-tabPanel id="table-panel-funcionarios" header="Condições de Moradia">       
+            
+                <div>
+                    <div class="p-fluid">
+                        
+                        <table id="tabela-cadastro">
+    
+                            <td>
+
+                                <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" *ngIf="!dados.id">
+                                    <label for="dropdown">Composição do Domicílio*</label>
+                                    <span class="p-float-label">
+                                        <p-dropdown [options]="composicaoDeDomicilio" [(ngModel)]="composicaoDomicilioSelecionado" 
+                                        placeholder="Selecione" optionLabel="name" 
+                                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+                                    </span>
+                                
+                                    <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+                                        Domicílio inválido!
+                                    </div>                
+                                </div>
+
+                                <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" *ngIf="!dados.id">
+                                    <label for="dropdown">Condições da Residência*</label>
+                                    <span class="p-float-label">
+                                        <p-dropdown [options]="condicoesMoradia" [(ngModel)]="condicoesMoradiaSelecionada" 
+                                        placeholder="Selecione" optionLabel="name" 
+                                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+                                    </span>
+                                
+                                    <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+                                        Localidade inválida! 
+                                    </div>                
+                                </div>
+
+                                <div id="div-admin" class="p-field tamanhoSecundario">
+                                    <label for="admin">Sanitário*</label>
+                                    
+                                   <div style="display: inline-flexbox;"> 
+                                        <p-radioButton lable="Sim" value="sim" name="valorSanitarioSelecionado" [(ngModel)]="temBanheiro" inputId="banheiroSim" required #sim="ngModel"></p-radioButton>
+                                        <label for="sanitarioSim">Sim</label>
+                                    </div> 
+                                    <div style="display: inline-flexbox;">
+                                        <p-radioButton lable="Não" value="nao" name="valorSanitarioSelecionado" [(ngModel)]="temBanheiro" inputId="banheiroNao" required #nao="ngModel"></p-radioButton>
+                                        <label for="sanitarioNao">Não</label>
+                                    </div>                             
+                                </div>
+
+                                <div id="div-admin" class="p-field tamanhoSecundario">
+                                    <label for="admin">Energia Elétrica*</label>
+                                    
+                                   <div style="display: inline-flexbox;"> 
+                                        <p-radioButton lable="Sim" value="sim" name="valorEnergiaSelecionado" [(ngModel)]="energiaEletrica" inputId="banheiroSim" required #sim="ngModel"></p-radioButton>
+                                        <label for="energiaSim">Sim</label>
+                                    </div> 
+                                    <div style="display: inline-flexbox;">
+                                        <p-radioButton lable="Não" value="nao" name="valorEnergiaSelecionado" [(ngModel)]="energiaEletrica" inputId="banheiroNao" required #nao="ngModel"></p-radioButton>
+                                        <label for="energiasNao">Não</label>
+                                    </div>                             
+                                </div>
+                                
+                            </td>
+
+                            <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" *ngIf="!dados.id">
+                                <label for="dropdown">Localidade do Domicílio*</label>
+                                <span class="p-float-label">
+                                    <p-dropdown [options]="localidadesDomicilio" [(ngModel)]="localidadeDomicilioSelecionado" 
+                                    placeholder="Selecione" optionLabel="name" 
+                                    [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+                                </span>
+                            
+                                <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+                                    Localidade inválida! 
+                                </div>                
+                            </div>
+
+                            <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" *ngIf="!dados.id">
+                                <label for="dropdown">Quantidade de Cômodos*</label>
+                                <span class="p-float-label">
+                                    <p-dropdown [options]="quantComodos" [(ngModel)]="quantComodosSelecionado" 
+                                    placeholder="Selecione" optionLabel="name" 
+                                    [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+                                </span>
+                            
+                                <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+                                    Quantidade de Cômodos Selecionado inválido! 
+                                </div>                
+                            </div>                    
+
+                            <div id="div-admin" class="p-field tamanhoSecundario">
+                                <label for="admin">Água Encanada*</label>
+                                    
+                                <div style="display: inline-flexbox;"> 
+                                    <p-radioButton lable="Sim" value="sim" name="valorAguaSelecionado" [(ngModel)]="aguaEncanada" inputId="banheiroSim" required #sim="ngModel"></p-radioButton>
+                                    <label for="aguaSim">Sim</label>
+                                </div> 
+                                <div style="display: inline-flexbox;">
+                                    <p-radioButton lable="Não" value="nao" name="valorAguaSelecionado" [(ngModel)]="aguaEncanada" inputId="banheiroNao" required #nao="ngModel"></p-radioButton>
+                                    <label for="aguaNao">Não</label>
+                                </div>                             
+                            </div>
+
+                            <div id="div-admin" class="p-field tamanhoSecundario">
+                                <label for="admin">Coleta de Esgoto*</label>
+                                    
+                                <div style="display: inline-flexbox;"> 
+                                    <p-radioButton lable="Sim" value="sim" name="valorColetaSelecionado" [(ngModel)]="coletaEsgoto" inputId="banheiroSim" required #sim="ngModel"></p-radioButton>
+                                    <label for="coletaSim">Sim</label>
+                                </div> 
+                                <div style="display: inline-flexbox;">
+                                    <p-radioButton lable="Não" value="nao" name="valorColetaSelecionado" [(ngModel)]="coletaEsgoto" inputId="banheiroNao" required #nao="ngModel"></p-radioButton>
+                                    <label for="coletaNao">Não</label>
+                                </div>                             
+                            </div>                   
+                                                                             
+                        </table>
+                    </div>
+                </div>
+            </p-tabPanel>
+
+            <p-tabPanel id="table-panel-funcionarios" header="Condições Sociais">       
+            
+                <div>
+                    <div class="p-fluid">
+                        
+                        <table id="tabela-cadastro">
+    
+                            <td>
+
+                                <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" >
+                                    <label for="dropdown">Quantidade de Membros da Família*</label>
+                                    <span class="p-float-label">
+                                        <p-dropdown [options]="quantMembrosFamilia" [(ngModel)]="quantMembrosFamiliaSelecionado" 
+                                        placeholder="Selecione" optionLabel="name" 
+                                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+                                    </span>
+                                
+                                    <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+                                        Quantidade de Membros Selecionado inválido! 
+                                    </div>                
+                                </div>
+
+                                <div id="div-admin" class="p-field tamanhoSecundario">
+                                    <label for="admin">Família Indígena*</label>
+                                    
+                                   <div style="display: inline-flexbox;"> 
+                                        <p-radioButton lable="Sim" value="sim" name="valorIndigenaSelecionado" [(ngModel)]="familiaIndigena" inputId="banheiroSim" required #sim="ngModel"></p-radioButton>
+                                        <label for="IndigenaSim">Sim</label>
+                                    </div> 
+                                    <div style="display: inline-flexbox;">
+                                        <p-radioButton lable="Não" value="nao" name="valorIndigenaSelecionado" [(ngModel)]="familiaIndigena" inputId="banheiroNao" required #nao="ngModel"></p-radioButton>
+                                        <label for="IndigenaNao">Não</label>
+                                    </div>                             
+                                </div>
+
+                                <div id="div-admin" class="p-field tamanhoSecundario">
+                                    <label for="admin">Membro da Família Empregado*</label>
+                                    
+                                   <div style="display: inline-flexbox;"> 
+                                        <p-radioButton lable="Sim" value="sim" name="valorFamiliaSelecionado" [(ngModel)]="membroEmpregado" inputId="banheiroSim" required #sim="ngModel"></p-radioButton>
+                                        <label for="familiaSim">Sim</label>
+                                    </div> 
+                                    <div style="display: inline-flexbox;">
+                                        <p-radioButton lable="Não" value="nao" name="valorFamiliaSelecionado" [(ngModel)]="membroEmpregado" inputId="banheiroNao" required #nao="ngModel"></p-radioButton>
+                                        <label for="familiaNao">Não</label>
+                                    </div>                             
+                                </div>
+
+                                <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" >
+                                    <label for="dropdown">Tipo de Trabalho*</label>
+                                    <span class="p-float-label">
+                                        <p-dropdown [options]="tiposDeTrabalho" [(ngModel)]="tiposDeTrabalhoSelecionado" 
+                                        placeholder="Selecione" optionLabel="name" 
+                                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+                                    </span>
+                                
+                                    <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+                                        Quantidade de Membros Selecionado inválido! 
+                                    </div>                
+                                </div>
+
+                                <div id="div-qtd-crianca" class="p-field p-col-12 p-md-4" >
+                                    <label for="dropdown">Qtd de Crianças na família*</label>
+                                    <span class="p-float-label">
+                                        <p-dropdown [options]="quantMembrosCriancas" [(ngModel)]="quantMembrosCriancaSelecionada" 
+                                        placeholder="Selecione" optionLabel="name" 
+                                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #crianca="ngModel"></p-dropdown>
+                                    </span>
+                                
+                                    <div *ngIf="!crianca.valid && crianca.touched" class="alerta">
+                                        Quantidade de Criancas Selecionado inválido! 
+                                    </div>                
+                                </div>
+                                
+                            </td>
+
+                            <td>
+
+                                <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" >
+                                    <label for="dropdown">Quantidade de Idosos*</label>
+                                    <span class="p-float-label">
+                                        <p-dropdown [options]="quantMembrosIdosos" [(ngModel)]="quantMembrosIdososSelecionado" 
+                                        placeholder="Selecione" optionLabel="name" 
+                                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+                                    </span>
+                                
+                                    <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+                                        Quantidade de Cômodos Selecionado inválido! 
+                                    </div>                
+                                </div>
+
+                                <div id="div-admin" class="p-field tamanhoSecundario">
+                                    <label for="admin">Família Quilombola*</label>
+                                    
+                                   <div style="display: inline-flexbox;"> 
+                                        <p-radioButton lable="Sim" value="sim" name="valorQuilombolaSelecionado" [(ngModel)]="familiaQuilombola" inputId="banheiroSim" required #sim="ngModel"></p-radioButton>
+                                        <label for="quilombolaSim">Sim</label>
+                                    </div> 
+                                    <div style="display: inline-flexbox;">
+                                        <p-radioButton lable="Não" value="nao" name="valorQuilombolaSelecionado" [(ngModel)]="familiaQuilombola" inputId="banheiroNao" required #nao="ngModel"></p-radioButton>
+                                        <label for="quilombolaNao">Não</label>
+                                    </div>                             
+                                </div>
+
+                                <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" >
+                                    <label for="dropdown">Renda Per Capita*</label>
+                                    <span class="p-float-label">
+                                        <p-dropdown [options]="faixasDeRenda" [(ngModel)]="faixasDeRendaSelecionada" 
+                                        placeholder="Selecione" optionLabel="name" 
+                                        [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+                                    </span>
+                                
+                                    <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+                                        Faixa de renda per capita selecionada inválida! 
+                                    </div>                
+                                </div>
+
+                                <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" >
+                                    <label for="renda">Renda Familiar*</label>
+                                    <input id="renda" type="number" pInputText [(ngModel)]="dados.rendaFamiliar" required #renda="ngModel">
+                                
+                                    <div *ngIf="!renda.valid && renda.touched" class="alerta">
+                                        Renda Familiar inválida! 
+                                    </div>                
+                                </div>                                
+                            </td>
+                        
+                        </table>
+                    </div>
+                </div>
+            </p-tabPanel>
+
+            <p-tabPanel id="table-panel-funcionarios" header="Condições de Saúde da família">       
+            
+                <div>
+                    <div class="p-fluid">
+                        
+                        <table id="tabela-cadastro">
+    
+                            <td>
+
+                                <div id="div-admin" class="p-field tamanhoSecundario">
+                                    <label for="admin">Doença Crônica*</label>
+                                    
+                                   <div style="display: inline-flexbox;"> 
+                                        <p-radioButton lable="Sim" value="sim" name="valorDoencaSelecionado" [(ngModel)]="doencaCronica" inputId="banheiroSim" required #sim="ngModel"></p-radioButton>
+                                        <label for="doencaSim">Sim</label>
+                                    </div> 
+                                    <div style="display: inline-flexbox;">
+                                        <p-radioButton lable="Não" value="nao" name="valorDoencaSelecionado" [(ngModel)]="doencaCronica" inputId="banheiroNao" required #nao="ngModel"></p-radioButton>
+                                        <label for="doencaNao">Não</label>
+                                    </div>                             
+                                </div>
+
+                                <div id="div-admin" class="p-field tamanhoSecundario">
+                                    <label for="admin">Membro Deficiente*</label>
+                                    
+                                   <div style="display: inline-flexbox;"> 
+                                        <p-radioButton lable="Sim" value="sim" name="valorDefSelecionado" [(ngModel)]="membroDeficiente" inputId="banheiroSim" required #sim="ngModel"></p-radioButton>
+                                        <label for="defSim">Sim</label>
+                                    </div> 
+                                    <div style="display: inline-flexbox;">
+                                        <p-radioButton lable="Não" value="nao" name="valorDefSelecionado" [(ngModel)]="membroDeficiente" inputId="banheiroNao" required #nao="ngModel"></p-radioButton>
+                                        <label for="defNao">Não</label>
+                                    </div>                             
+                                </div>
+                     
+                            <!-- </td>
+
+                            <td> -->
+                                <div id="div-qtd-def" class="p-field p-col-12 p-md-4">
+                                    <label for="qtd-def">Quant. Deficientes*</label>
+                                    <input id="qtd-def" type="number" pInputText name="qtdDef" [(ngModel)]="dados.quantMembroDeficiente" required #qtdDef="ngModel">
+                                               
+                                </div>
+
+                                <div id="div-nome" class="p-field">
+                                    <label for="nome">Descreva o tipo*</label>
+                                    <input id="nome" type="text" pInputText name="nome" 
+                                    [(ngModel)]="dados.tipoDeficiencia" required #nome="ngModel"> 
+                
+                                    <div *ngIf="!nome.valid && nome.touched" class="alerta">
+                                        Nome inválido! 
+                                    </div>
+                                </div>
+
+                                
+                                
+                            </td>
+                        
+                        </table>
+                    </div>
+                </div>
+            </p-tabPanel>
+
+            <p-tabPanel id="table-panel-funcionarios" header="Membros da família">       
+            
+                <div>
+                    <div class="p-fluid">                        
+                        <table id="tabela-cadastro">    
+                            <td>
+                               
+                                <div id="div-cpf" class="p-field tamanhoSecundario">
+                                    <label for="cpf">Beneficiário Títular*</label>
+                                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="cpfBeneficiario" [disabled]="dados.id"
+                                         required #campocpf="ngModel" placeholder="Digite o CPF do Beneficiário Títular"></p-inputMask>
+                                
+                                    <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
+                                        CPF inválido! 
+                                    </div>                                
+                                </div>
+
+                            </td>
+                        </table>
+                    </div>
+                </div>
+            </p-tabPanel>
+
+
+        </p-tabView>
+
+        <button pButton id="enviar" label="Salvar" type="submit" 
+    style="width: 100px; margin-left: 20px;" *ngIf="!dados.id">
+    </button>    
+    
+    <button pButton id="atualizar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="dados.id"></button>
+    <button pButton id="cancelar" label="Voltar" (click)="navegate(['/dados/'])" style="width: 100px; margin-left: 5px;"></button>
+
+</form>
+
+</div>

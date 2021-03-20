@@ -19,7 +19,8 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {CalendarModule} from 'primeng/calendar';
 import {DropdownModule} from 'primeng/dropdown';
 import {SelectButtonModule} from 'primeng/selectbutton';
-
+import {MultiSelectModule} from 'primeng/multiselect';
+import {PanelModule} from 'primeng/panel';
 
 @NgModule({
   exports: [
@@ -41,7 +42,9 @@ import {SelectButtonModule} from 'primeng/selectbutton';
     BreadcrumbModule,
     CalendarModule,
     DropdownModule,
-    SelectButtonModule  
+    SelectButtonModule,
+    MultiSelectModule,
+    PanelModule  
    
   ]
 })

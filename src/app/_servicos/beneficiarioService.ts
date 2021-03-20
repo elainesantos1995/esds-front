@@ -19,14 +19,6 @@ constructor(private http: HttpClient){ }
         headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
-// salvar(beneficiario: BeneficiarioEnderecoDTO){
-//     return this.http.post(this.url, JSON.stringify(beneficiario), this.httpOptions)
-//     .pipe(
-//         retry(2),
-//         catchError(this.handleError)
-//     )
-// }
-
 salvar(beneficiario: BeneficiarioEnderecoDTO){
   return this.http.post(this.url, JSON.stringify(beneficiario), this.httpOptions)
   .pipe(
@@ -41,6 +33,10 @@ editar(id: number, beneficiarioEnderecoDTO): Observable<any> {
 
 buscarPorId(id: number): Observable<BeneficiarioEnderecoDTO>{
   return this.http.get<BeneficiarioEnderecoDTO>(`http://localhost:8090/api/beneficiarios/${id}`);
+}
+
+buscarPorCPF(cpf: string): Observable<BeneficiarioEnderecoDTO>{
+  return this.http.get<BeneficiarioEnderecoDTO>(`http://localhost:8090/api/beneficiarios/cpf/${cpf}`);
 }
 
 buscarTodos(): Observable<BeneficiarioEnderecoDTO[]>{

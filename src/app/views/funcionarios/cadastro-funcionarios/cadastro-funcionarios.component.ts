@@ -97,11 +97,19 @@ export class CadastroFuncionariosComponent implements OnInit {
       this.funcionarioEnderecoDTO.admin = this.selecaoAdmin === "sim";
       this.funcionarioEnderecoDTO.dataNascimento = this.converterDataNascimento(this.dataNascimento);
       this.funcionarioEnderecoDTO.sexo = this.genero;
+
+      if(this.compararDataInformadaComDataAtual(this.funcionarioEnderecoDTO.dataNascimento)){
+        this.toastr.error("Data de Nascimento não deve ser maior que a data atual!" )
+      }else if(this.compararDataInicialComDataFinal(this.funcionarioEnderecoDTO.dataNascimento, this.funcionarioEnderecoDTO.rgDataEmissao)){
+        this.toastr.error("Data de Emissão do RG não deve ser maior que a Data de Nascimento!" )
+      }else{
+
       this.funcionarioService.editar(this.id, this.funcionarioEnderecoDTO).subscribe(resposta => {
         this.toastr.success("Cadastro atualizado com sucesso!" )
         console.log(resposta)
         this.navegate(['/funcionarios/']);
       });
+    }
     }
     // Salva um funcionário
     else{
@@ -111,6 +119,10 @@ export class CadastroFuncionariosComponent implements OnInit {
         this.toastr.error("CPF Inválido!")
       }else if(this.checarEmail(this.funcionarioEnderecoDTO.email) === false){
         this.toastr.error("Email Inválido!" )
+      }if(this.compararDataInformadaComDataAtual(this.funcionarioEnderecoDTO.dataNascimento)){
+        this.toastr.error("Data de Nascimento não deve ser maior que a data atual!" )
+      }else if(this.compararDataInicialComDataFinal(this.funcionarioEnderecoDTO.dataNascimento, this.funcionarioEnderecoDTO.rgDataEmissao)){
+        this.toastr.error("Data de Emissão do RG não deve ser maior que a Data de Nascimento!" )
       }
       // else if(this.checarDisponibilidadeLogin() === false){
       //   this.toastr.error("Login indisponível!")
@@ -136,6 +148,16 @@ export class CadastroFuncionariosComponent implements OnInit {
     let dataAuxiliar = new Date(data);
     dataAuxiliar.setDate(dataAuxiliar.getDate() + 1);
     return dataAuxiliar;
+  } 
+
+  compararDataInicialComDataFinal(data2: Date, data1: string) {   
+    let data = new Date(data1);     
+      return data <= data2 ? true : false;
+  }
+  
+  compararDataInformadaComDataAtual(dataInformada: Date) {            
+      let dataAtual = new Date();
+      return dataInformada >= dataAtual ? true : false;
   }
 
   showDialog() {  

@@ -37,6 +37,11 @@ import { BeneficiosCadastroComponent } from './views/programas/beneficios-cadast
 import { ProgramaService } from './_servicos/programaService';
 import { BeneficioService } from './_servicos/beneficioService';
 import { BeneficiosAtualizarComponent } from './views/programas/beneficios-atualizar/beneficios-atualizar.component';
+import { CadastroDadosSocioeconomicosComponent } from './views/dados/cadastro-dados-socioeconomicos/cadastro-dados-socioeconomicos.component';
+import { CadastroInscricaoComponent } from './views/inscricoes/cadastro-inscricao/cadastro-inscricao.component';
+import { UsosDeBeneficioComponent } from './views/registroDeUsos/usos-de-beneficio/usos-de-beneficio.component';
+import { ListagemDadosSocioeconomicosComponent } from './views/dados/listagem-dados-socioeconomicos/listagem-dados-socioeconomicos.component';
+import { AtualizacaoInscricaoComponent } from './views/inscricoes/atualizacao-inscricao/atualizacao-inscricao.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +59,12 @@ import { BeneficiosAtualizarComponent } from './views/programas/beneficios-atual
     ListagemProgramasComponent,
     BeneficiosComponent,
     BeneficiosCadastroComponent,
-    BeneficiosAtualizarComponent
+    BeneficiosAtualizarComponent, 
+    CadastroDadosSocioeconomicosComponent,
+    ListagemDadosSocioeconomicosComponent,
+    CadastroInscricaoComponent,
+    UsosDeBeneficioComponent,
+    AtualizacaoInscricaoComponent
   ],
   imports: [
     BrowserModule,
