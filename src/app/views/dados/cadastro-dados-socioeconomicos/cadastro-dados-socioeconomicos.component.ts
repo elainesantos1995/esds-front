@@ -224,7 +224,7 @@ export class CadastroDadosSocioeconomicosComponent implements OnInit {
       this.dados.rendaPerCapita = this.faixasDeRendaSelecionada;
       this.dados.quantMembrosCriancas = this.quantMembrosCriancaSelecionada;
       this.dados.localidade = this.localidadeDomicilioSelecionado;
-      //Alterado aqui
+    
       this.dados.idBeneficiario = this.cpfBeneficiario;
       this.dadosSocioeconomicoService.salvar(this.dados, this.dados.idBeneficiario)
           .subscribe(resposta => {
@@ -291,6 +291,7 @@ export class CadastroDadosSocioeconomicosComponent implements OnInit {
 
   carregarQuantIdosos(){
     this.quantMembrosIdosos= [
+      {name: '0', value: 'ZERO'},
       {name: '1', value: 'UM'},
       {name: '2', value: 'DOIS'},      
       {name: '3', value: 'TRES'},
@@ -324,6 +325,7 @@ export class CadastroDadosSocioeconomicosComponent implements OnInit {
 
   carregarQuantCriancas(){
     this.quantMembrosCriancas= [
+      {name: '0', value: 'ZERO'},
       {name: '1', value: 'UM'},
       {name: '2', value: 'DOIS'},      
       {name: '3', value: 'TRES'},

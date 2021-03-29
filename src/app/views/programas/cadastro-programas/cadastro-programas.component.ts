@@ -20,7 +20,8 @@ export class CadastroProgramasComponent implements OnInit {
   beneficio: BeneficioDTO = { id: null,	nome: '',	justificativa: '', 
   totalRecursosAportados: null,	limiteVagas: null, controleBiometria: null,	
   controleDocumento: null,	controleCarteirinha: null,	periodicidade: '',	
-  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, programa: null, idPrograma: null
+  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, 
+  programa: null, idPrograma: null, totalBeneficios: null
   }
 
   programa: ProgramaDTO = {id: null,
@@ -36,6 +37,7 @@ export class CadastroProgramasComponent implements OnInit {
   id: number;
   periodicidade: any = null;
   items: MenuItem[];   
+  itemsEdit: MenuItem[]; 
   dataInicioVigencia: string = null;   
   dataTerminoVigencia: string = null;
 
@@ -50,6 +52,7 @@ export class CadastroProgramasComponent implements OnInit {
 
     this.carregarPeriodicidade();
     this.carregarItensBreadCrumb();
+    this.carregarItensEditBreadCrumb();
 
     this.id = this.activatedRoute.snapshot.params['id'];    
     if(this.id){
@@ -121,9 +124,15 @@ carregarPeriodicidade(){
 carregarItensBreadCrumb(){
   this.items = [
     {label:' Listagem', url: 'http://localhost:4200/programas', icon: 'pi pi-home'},
-    {label:' Cadastro/Atualização de programa'}
+    {label:' Cadastro de programa'}
 ];
 }
 
+carregarItensEditBreadCrumb(){
+  this.itemsEdit = [
+    {label:' Listagem', url: 'http://localhost:4200/programas', icon: 'pi pi-home'},
+    {label:' Atualização de programa'}
+];
+}
 
 }

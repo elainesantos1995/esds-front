@@ -1,3 +1,179 @@
 <div class="conteudo">
-    <p>usos-de-beneficio works!</p>
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+
+    <p-panel header="Seleção">
+
+        <div style="width: 100%;">
+    
+        <div  style="width: 50%;">
+            <div id="div-cpf2" class="p-field tamanhoSecundario" style="display: inline-block;">
+                <label for="cpf">CPF*</label>
+                <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="cpf" required #campocpf="ngModel"></p-inputMask>
+            
+            </div>
+
+        <div style="display: inline-block;">           
+            <button pButton pRipple type="button" icon="pi pi-search" 
+                class="p-button-rounded p-button-success p-button-text"
+                (click)="buscarBeneficiarioPeloCPF()">
+            </button>
+        </div>
+
+    </div>
+
+
+        <div> 
+            <div *ngIf="beneficiario" style="display: inline-block;">
+                <div>
+                    <label>Nome: </label>
+                    <label>{{beneficiario.nome}}</label>
+                </div>
+                <div>
+                    <label>CPF: </label>
+                    <label >{{beneficiario.cpf}}</label>
+                </div>
+            </div>
+
+            <div style="display: inline-block; margin-left: 4%;" *ngIf="beneficiario">
+                <button pButton type="button" icon="pi pi-search"
+                    class="p-button-rounded p-button-success p-button-text"
+                    (click)="buscarInscricoesDeUmBeneficiario()">
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    </p-panel>
+
+    <br>
+
+    <!-- <div style="width: 100%;" *ngIf="beneficiario">
+        <button pButton type="button" label="Detalhes"
+            (click)="navegate(['usos/beneficiarios-usos/'+inscricao.id])">
+        </button>
+    </div> -->
+
+    <br>
+
+    <div id="htmlData">
+
+    <p-table #dt [value]="inscricoes" [globalFilterFields]="['id','data','parecer']"
+        [paginator]="true" [rows]="5" styleClass="p-datatable-sm" 
+        styleClass="p-datatable-gridlines-sm"
+        dataKey="id">
+        
+        <ng-template pTemplate="caption" style="height: min-content;">    
+            
+            <div style="display: inline-block;" >
+                <h3 class="p-m-0" >Inscrições</h3>
+            </div>    
+        
+            <div style="display: inline-block; margin-left: 1%;" >     
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." />
+                </span>
+            </div>  
+
+        </ng-template>
+
+        <ng-template pTemplate="header" >
+
+            <tr>           
+                <th>ID</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Parecer</th>
+                <th>Recursos Total</th>
+                <th>Recursos Retirados</th>
+                <th>Benefício</th>
+                <th>Beneficiario</th> 
+                <th></th> 
+                <th></th>               
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-inscricao>
+            <tr>
+                
+                <td>{{inscricao.id}}</td>
+                <td>{{inscricao.dataInscricao | date: 'dd/MM/yyyy'}}</td>
+                <td>{{inscricao.status}}</td>
+                <td>{{inscricao.parecer}}</td>
+                <td>{{inscricao.quantBeneficiosASeremRetiradados}}</td>
+                <td>{{inscricao.quantBeneficiosRetirados}}</td>
+                <td>{{inscricao.beneficio.nome}}</td>
+                <td>{{inscricao.beneficiario.nome}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-text" (click)="showModalDialog()" (click)="setarInscricao(inscricao)"></button>
+                    <p-dialog header="Registrar Uso" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+                        [draggable]="false" [resizable]="false">
+                        
+                        <div *ngIf="inscricao">
+                            <!-- <p class="p-m-0">Confirmar registro de uso do benefício?</p> -->
+                            
+                            <div id="div-admin" class="p-field tamanhoSecundario">
+                                <label for="admin">Registro Por Documento</label>
+                                
+                               <div style="display: inline-flexbox;"> 
+                                    <p-radioButton lable="Sim" value="sim" name="valorDocumentoSelecionado" [(ngModel)]="documento" inputId="documentoSim" required #sim="ngModel"></p-radioButton>
+                                    <label for="documentoSim">Sim</label>
+                                </div> 
+                                <div style="display: inline-flexbox;">
+                                    <p-radioButton lable="Não" value="nao" name="valorDocumentoSelecionado" [(ngModel)]="documento" inputId="documentoNao" required #nao="ngModel"></p-radioButton>
+                                    <label for="documentoNao">Não</label>
+                                </div>                             
+                            </div>
+
+                            <div id="div-admin" class="p-field tamanhoSecundario">
+                                <label for="admin">Registro por Carteirinha</label>
+                                
+                               <div style="display: inline-flexbox;"> 
+                                    <p-radioButton lable="Sim" value="sim" name="valorCarteirinhaSelecionado" [(ngModel)]="carteirinha" inputId="carteirinhaSim" required #sim="ngModel"></p-radioButton>
+                                    <label for="carteirinhaSim">Sim</label>
+                                </div> 
+                                <div style="display: inline-flexbox;">
+                                    <p-radioButton lable="Não" value="nao" name="valorCarteirinhaSelecionado" [(ngModel)]="carteirinha" inputId="carteirinhaNao" required #nao="ngModel"></p-radioButton>
+                                    <label for="carteirinhaNao">Não</label>
+                                </div>                             
+                            </div>
+
+                            <div id="div-admin" class="p-field tamanhoSecundario">
+                                <label for="admin">Registro por Biometria</label>
+                                
+                               <div style="display: inline-flexbox;"> 
+                                    <p-radioButton lable="Sim" value="sim" name="valorBiometriaSelecionado" [(ngModel)]="biometria" inputId="biometriaSim" required #sim="ngModel"></p-radioButton>
+                                    <label for="biometriaSim">Sim</label>
+                                </div> 
+                                <div style="display: inline-flexbox;">
+                                    <p-radioButton lable="Não" value="nao" name="valorBiometriaSelecionado" [(ngModel)]="biometria" inputId="biometriaNao" required #nao="ngModel"></p-radioButton>
+                                    <label for="biometriaNao">Não</label>
+                                </div>                             
+                            </div>
+                        
+                        </div>
+                        
+                        <ng-template pTemplate="footer">
+                            <p-button icon="pi pi-check" (click)="displayModal=false" label="Cancelar" styleClass="p-button-text" ></p-button>
+                            <p-button icon="pi pi-check" (click)="salvar()" (click)="displayModal=false" label="Ok" styleClass="p-button-text"></p-button>
+                        </ng-template>
+                    
+                    </p-dialog>
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" 
+                        class="p-button-secondary p-button-text" 
+                        (click)="navegate(['usos/beneficiarios-usos/'+inscricao.id])" >
+                    </button>                   
+                </td>
+                
+            </tr>
+        </ng-template>
+        
+    </p-table>
+
+</div>
+
 </div>

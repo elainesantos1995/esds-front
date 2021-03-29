@@ -9,11 +9,13 @@ import { CadastroFuncionariosComponent } from './views/funcionarios/cadastro-fun
 import { ListarFuncionariosComponent } from './views/funcionarios/listar-funcionarios/listar-funcionarios.component';
 import { AtualizacaoInscricaoComponent } from "./views/inscricoes/atualizacao-inscricao/atualizacao-inscricao.component";
 import { CadastroInscricaoComponent } from "./views/inscricoes/cadastro-inscricao/cadastro-inscricao.component";
+import { SelecaoComponent } from "./views/inscricoes/selecao/selecao.component";
 import { BeneficiosAtualizarComponent } from "./views/programas/beneficios-atualizar/beneficios-atualizar.component";
 import { BeneficiosCadastroComponent } from "./views/programas/beneficios-cadastro/beneficios-cadastro.component";
 import { BeneficiosComponent } from "./views/programas/beneficios/beneficios.component";
 import { CadastroProgramasComponent } from "./views/programas/cadastro-programas/cadastro-programas.component";
 import { ListagemProgramasComponent } from "./views/programas/listagem-programas/listagem-programas.component";
+import { BeneficiariosUsosListComponent } from "./views/registroDeUsos/beneficiarios-usos-list/beneficiarios-usos-list.component";
 import { UsosDeBeneficioComponent } from "./views/registroDeUsos/usos-de-beneficio/usos-de-beneficio.component";
 import { RelatoriosComponent } from './views/relatorios/relatorios.component';
 import { AuthGuard } from './_helpers';
@@ -39,9 +41,13 @@ const routes: Routes = [
         {path: 'beneficios-atualizar/:id', component: BeneficiosAtualizarComponent}]},
     {path: 'inscricoes', children: [
         {path: '', component: CadastroInscricaoComponent},
-        {path: 'atualizacao/:id', component: AtualizacaoInscricaoComponent}
+        {path: 'atualizacao/:id', component: AtualizacaoInscricaoComponent},
+        {path: 'selecao', component: SelecaoComponent}
     ]},
-    {path: 'usos', component: UsosDeBeneficioComponent},
+    {path: 'usos', children: [
+        {path: '', component: UsosDeBeneficioComponent},
+        {path: 'beneficiarios-usos/:id', component: BeneficiariosUsosListComponent}
+    ]},
     {path: 'dados', children: [
         {path: '', component: ListagemDadosSocioeconomicosComponent},
         {path: 'cadastro-dados', component: CadastroDadosSocioeconomicosComponent},

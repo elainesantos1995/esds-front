@@ -7,6 +7,7 @@ import { DadosSocioeconomicosService } from 'src/app/_servicos/dadosSocioeconomi
 import { Observable } from 'rxjs';
 import { BeneficiarioEnderecoDTO } from 'src/app/dto/beneficiarioEnderecoDTO';
 import { ApiServiceBeneficiarios } from 'src/app/_servicos/beneficiarioService';
+import { ToastrService } from 'ngx-toastr';
 
 import { first } from 'rxjs/operators';
 
@@ -43,7 +44,8 @@ export class ListagemDadosSocioeconomicosComponent implements OnInit {
   constructor(
     private router: Router,
     private dadosSocioeconomicoService: DadosSocioeconomicosService,
-    private beneficiariosService: ApiServiceBeneficiarios
+    private beneficiariosService: ApiServiceBeneficiarios,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -80,7 +82,8 @@ export class ListagemDadosSocioeconomicosComponent implements OnInit {
 
   deletar(){
     this.dadosSocioeconomicoService.deletar(this.dadosSelecionado.id)
-      .subscribe(response => {  
+      .subscribe(response => { 
+        this.toastr.success("Dados deletados com sucesso!" ) 
         location.reload();
         return false;      
       });

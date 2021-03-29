@@ -19,7 +19,7 @@ export class NavComponent implements OnInit {
             {label: 'Programas e Benefícios', routerLink: ['/programas'], routerLinkActiveOptions: {exact: false}},
             {label: 'Formulário Socioeconômico', routerLink: ['/dados'], routerLinkActiveOptions: {exact: false}},
             {label: 'Inscrições e Seleção', routerLink: ['/inscricoes'], routerLinkActiveOptions: {exact: false}},
-            {label: 'Uso de Benefícios', routerLink: ['usos'], routerLinkActiveOptions: {exact: true}},
+            {label: 'Uso de Benefícios', routerLink: ['usos'], routerLinkActiveOptions: {exact: false}},
             {label: 'Relatórios', routerLink: ['/relatorios'], routerLinkActiveOptions: {exact: true}},
             {label: 'Funcionários', routerLink: ['/funcionarios'], routerLinkActiveOptions: {exact: false}},
             {label: 'Comunicação', url: ''}

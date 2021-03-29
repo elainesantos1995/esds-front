@@ -14,4 +14,7 @@ export class BeneficioDTO{
 	toleranciaUsosCancelado: number;
 	programa: ProgramaDTO;
 	idPrograma: number;
+	totalBeneficios: number;
+
+	
 }

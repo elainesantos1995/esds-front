@@ -9,6 +9,7 @@ import { BeneficiarioEnderecoDTO } from 'src/app/dto/beneficiarioEnderecoDTO';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
  
 @Component({
   selector: 'app-listar-beneficiarios',
@@ -49,7 +50,8 @@ imageName: any;
     private httpClientModule: HttpClientModule,
     private browserModule: BrowserModule, 
     private sanitizer: DomSanitizer,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -108,7 +110,7 @@ showModalDialogBeneficiario() {
 // Exibe modal para deleção
 showModalDialogAddImagem() {
  this.displayModalAddImagem = true;
- location.reload();  
+// location.reload();  
 }
 
   // Método chamado quando o usuário seleciona uma imagem
@@ -124,6 +126,7 @@ showModalDialogAddImagem() {
   uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);
 
   this.beneficiariosService.salvarImagem(uploadImageData, this.beneficiarioSelecionadoDTO.id);
+  this.toastr.success("Cadastro atualizado com sucesso!" )
 }
 
 //Recupera e renderiza a imagem do beneficiário para que possa ser renderizada na tabela

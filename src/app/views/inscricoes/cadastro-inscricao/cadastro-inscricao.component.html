@@ -5,7 +5,7 @@
         <button pButton type="button" label="Seleção" 
             class="p-button-success btnNovo"
             style="display: inline-block; margin-top: 0%; margin-left: 90%;"
-            (click)="navegate(['/inscricoes'])">
+            (click)="navegate(['/inscricoes/selecao/'])">
         </button>
     </div>
     
@@ -36,15 +36,14 @@
     </div>
     <br>
 
-    <!-- <p-multiSelect [options]="beneficiosDTO" [(ngModel)]="beneficiosSelecionados" optionLabel="nome"></p-multiSelect> -->
-
     <button pButton label="Salvar" (click)="onSubmit()"></button>
     
 </p-panel>
 
 <div>
+    
     <p-table #dt [value]="inscricoesDTO" [globalFilterFields]="['id','data','parecer']"
-        [paginator]="true" [rows]="5" styleClass="p-datatable-sm">
+        [paginator]="true" [rows]="5" styleClass="p-datatable-sm" styleClass="p-datatable-gridlines">
         
         <ng-template pTemplate="caption" style="height: min-content;">    
             

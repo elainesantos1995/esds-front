@@ -1,6 +1,7 @@
 <div id="conteudo" class="conteudo">
 
-    <p-breadcrumb [model]="items"></p-breadcrumb>
+    <p-breadcrumb [model]="items" *ngIf="!programa.id"></p-breadcrumb>
+    <p-breadcrumb [model]="itemsEdit" *ngIf="programa.id"></p-breadcrumb>
     
     <form id="formPrograma" #programaForm="ngForm" (ngSubmit)="onSubmit()">
     <div>

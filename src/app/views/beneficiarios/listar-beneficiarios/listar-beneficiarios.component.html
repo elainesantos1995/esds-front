@@ -20,7 +20,7 @@
 
     <div>
         <p-table #dt [value]="beneficiariosDTO" [globalFilterFields]="['nome','cpf', 'rg']"
-            [paginator]="true" [rows]="5">
+            [paginator]="true" [rows]="5" styleClass="p-datatable-gridlines">
             
             <ng-template pTemplate="caption" style="height: min-content;">    
                 
@@ -109,10 +109,7 @@
                         </p-dialog> -->
 
                     </td>
-
-
-
-
+                    
 
                     <td>
                     

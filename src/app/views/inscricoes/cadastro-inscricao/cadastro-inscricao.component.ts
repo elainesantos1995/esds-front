@@ -54,7 +54,7 @@ export class CadastroInscricaoComponent implements OnInit {
       this.inscricaoDTO.status = this.selecaoStatus;
       this.inscricaoDTO.idBeneficio = this.beneficioDTO.id;
       this.inscricaoService.salvar(this.inscricaoDTO).subscribe(resposta => {
-        this.toastr.success("Benefício salvo com sucesso!" )
+        this.toastr.success("Incrição realizada com sucesso!" )
         location.reload();
       });
   }

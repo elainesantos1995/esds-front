@@ -21,7 +21,7 @@
 
 <div>
         <p-table #dt [value]="funcionariosDTO" [globalFilterFields]="['nome','cpf']"
-        [paginator]="true" [rows]="5">
+        [paginator]="true" [rows]="5" styleClass="p-datatable-gridlines">
         
         <ng-template pTemplate="caption" style="height: min-content;">
 
@@ -40,8 +40,7 @@
 
         <ng-template pTemplate="header" >
 
-            <tr>
-               
+            <tr>               
                 <th>ID</th>
                 <th>Nome</th>
                 <th>Data de Nascimento</th>

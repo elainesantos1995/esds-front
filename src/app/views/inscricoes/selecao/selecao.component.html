@@ -1,1 +1,125 @@
-<p>selecao works!</p>
+<div class="conteudo">
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+
+    <p-panel header="Seleção">
+
+        <div style="width: 100%;">
+        <div  style="width: 50%;">
+        <div id="div-prog" style="display: inline-block;">
+            <label for="dropdown">Programas*</label>
+            <span >
+                <p-dropdown [options]="programas" [(ngModel)]="programaSelecionadoDTO"
+                placeholder="Selecione um Programa" optionLabel="nome" 
+                [showClear]="true" [ngModelOptions]="{standalone: true}" required #programa="ngModel"></p-dropdown>
+            </span>
+        </div>
+
+        <div style="display: inline-block;">
+           
+            <button pButton pRipple type="button" icon="pi pi-search" 
+                class="p-button-rounded p-button-success p-button-text"
+                (click)="buscarBeneficiosDeUmPrograma()">
+            </button>
+        </div>
+    </div>
+        
+        <div style="width: 50%;" *ngIf="programaSelecionadoDTO">
+        <div id="div-bene" style="display: inline-block;">
+            <label for="dropdown">Benefícios*</label>
+            <span >
+                <p-dropdown [options]="beneficiosDoPrograma" [(ngModel)]="beneficioSelecionado"
+                placeholder="Selecione um benefício" optionLabel="nome"
+                [showClear]="true" [ngModelOptions]="{standalone: true}" required #beneficio="ngModel"></p-dropdown>
+            </span>
+        </div>  
+
+        <div style="display: inline-block;">
+            <button pButton pRipple type="button" icon="pi pi-search" 
+                class="p-button-rounded p-button-success p-button-text"
+                (click)="buscarInscricoesDeUmBeneficio()" (click)="buscarInscricoesSelecionadas()">
+            </button>
+        </div>
+    </div>
+    </div>
+    </p-panel>
+
+    <div style="width: 100%; margin-left: 0%;">
+
+        <div style="width: 80%; display: inline;">
+            <button type="button" pButton pRipple icon="pi pi-file-pdf" 
+            (click)="createPdf()"  
+            pTooltip="PDF" tooltipPosition="bottom"
+            style="margin-left: 84%;"></button>
+        </div>
+        <div style="width: 20%; display: inline;">
+            <button label="Selecionar" pButton (click)="salvarSelecao()"
+            style="margin-left: 1%;"></button>
+        </div>                                                                  
+     
+    </div>
+
+    <div id="htmlData">
+
+    <!-- Tabela com listagem de inscrições para o benefício selecionado -->
+    <p-table #dt [value]="inscricoes" [globalFilterFields]="['id','data','parecer']"
+        [paginator]="true" [rows]="5" styleClass="p-datatable-sm" 
+        styleClass="p-datatable-gridlines-sm"  [(selection)]="inscricoesselecionadas" 
+        dataKey="id">
+        
+        <ng-template pTemplate="caption" style="height: min-content;">    
+            
+            <div style="display: inline-block;" >
+                <h3 class="p-m-0" >Inscrições</h3>
+            </div>    
+        
+            <div style="display: inline-block; margin-left: 1%;" >     
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." />
+                </span>
+            </div>  
+
+        </ng-template>
+
+        <ng-template pTemplate="header" >
+
+            <tr>     
+                            
+                <th>ID</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Parecer</th>
+                <th>Recursos Total</th>
+                <th>Recursos Retirados</th>
+                <th>Benefício</th>
+                <th>Beneficiario</th> 
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox ></p-tableHeaderCheckbox>
+                </th>                
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-inscricao>
+            <tr>
+                
+                <td>{{inscricao.id}}</td>
+                <td>{{inscricao.dataInscricao | date: 'dd/MM/yyyy'}}</td>
+                <td>{{inscricao.status}}</td>
+                <td>{{inscricao.parecer}}</td>
+                <td>{{inscricao.quantBeneficiosASeremRetiradados}}</td>
+                <td>{{inscricao.quantBeneficiosRetirados}}</td>
+                <td>{{inscricao.beneficio.nome}}</td>
+                <td>{{inscricao.beneficiario.nome}}</td>
+                <td>
+                    <p-tableCheckbox [value]="inscricao" (onClick)="limitarSelecao($event)" 
+                    ></p-tableCheckbox>
+                </td>
+                
+            </tr>
+        </ng-template>
+        
+    </p-table>
+
+</div>
+
+</div>

@@ -6,6 +6,7 @@ import {MenuItem} from 'primeng/api';
 import { BeneficioDTO } from 'src/app/dto/beneficioDTO';
 import {HttpClientModule} from '@angular/common/http';
 import { ProgramaDTO } from 'src/app/dto/programaDTO';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-listagem-programas',
@@ -20,7 +21,8 @@ export class ListagemProgramasComponent implements OnInit {
   beneficio: BeneficioDTO = { id: null,	nome: '',	justificativa: '', 
   totalRecursosAportados: null,	limiteVagas: null, controleBiometria: null,	
   controleDocumento: null,	controleCarteirinha: null,	periodicidade: '',	
-  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, programa: null, idPrograma: null
+  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, programa: null,
+  idPrograma: null, totalBeneficios: null
   }
 
   programa: ProgramaDTO = {id: null,
@@ -40,7 +42,8 @@ export class ListagemProgramasComponent implements OnInit {
 
   constructor(
     private programaService: ProgramaService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -67,6 +70,7 @@ export class ListagemProgramasComponent implements OnInit {
   deletar(){
     this.programaService.deletar(this.programaSelecionadoDTO.id)
       .subscribe(response => {  
+        this.toastr.success("Programa deletado com sucesso!" )
         location.reload();
         return false;      
       });

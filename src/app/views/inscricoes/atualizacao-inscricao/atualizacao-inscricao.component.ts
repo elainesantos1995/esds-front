@@ -27,7 +27,8 @@ export class AtualizacaoInscricaoComponent implements OnInit {
   beneficioDTO: BeneficioDTO = { id: null,	nome: '',	justificativa: '', 
   totalRecursosAportados: null,	limiteVagas: null, controleBiometria: null,	
   controleDocumento: null,	controleCarteirinha: null,	periodicidade: '',	
-  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, programa: null, idPrograma: null
+  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, 
+  programa: null, idPrograma: null, totalBeneficios: null
   }
 
   idBeneficio: number;
@@ -65,7 +66,6 @@ export class AtualizacaoInscricaoComponent implements OnInit {
         this.selecaoStatus = response.status;
         this.id = response.id;
         this.idBeneficio = response.idBeneficio;
-
         console.log(response)
                 
         let funcData: Date = new Date(this.inscricaoDTO.dataInscricao);

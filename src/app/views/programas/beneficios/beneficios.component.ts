@@ -9,6 +9,7 @@ import {MenuItem} from 'primeng/api';
 import { BeneficioDTO } from 'src/app/dto/beneficioDTO';
 import * as moment from 'moment';
 import { ProgramaDTO } from 'src/app/dto/programaDTO';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-beneficios',
@@ -26,7 +27,8 @@ export class BeneficiosComponent implements OnInit {
   beneficio: BeneficioDTO = { id: null,	nome: '',	justificativa: '', 
   totalRecursosAportados: null,	limiteVagas: null, controleBiometria: null,	
   controleDocumento: null,	controleCarteirinha: null,	periodicidade: '',	
-  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, programa: null, idPrograma: null
+  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, 
+  programa: null, idPrograma: null, totalBeneficios: null
   }
 
   programa: ProgramaDTO = {id: null,
@@ -51,7 +53,8 @@ export class BeneficiosComponent implements OnInit {
     private router: Router,
     private beneficioService: BeneficioService,
     private activatedRoute: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {   
@@ -110,6 +113,7 @@ export class BeneficiosComponent implements OnInit {
   deletar(){
     this.beneficioService.deletar(this.beneficioSelecionadoDTO.id)
       .subscribe(response => {  
+        this.toastr.success("Benefício deletado com sucesso!" )
         location.reload();
         return false;      
       });

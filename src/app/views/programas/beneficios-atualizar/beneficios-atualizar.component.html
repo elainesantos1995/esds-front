@@ -101,8 +101,12 @@
                     <label for="cancelamento">Tolerância para Cancelamento*</label>
                     <input id="cancelamento" [(ngModel)]="beneficio.toleranciaUsosCancelado" type="number" pInputText
                         name="cancelamento" required >                         
-                                   
-                       
+                </div>
+
+                <div id="div-ttl-bene" class="p-field tamanhoSecundario">
+                    <label for="ttl-bene">Qtd Benefícios Disponibilizados*</label>
+                    <input id="ttl-bene" [(ngModel)]="beneficio.totalBeneficios" type="number" pInputText
+                    name="ttl" required > 
                 </div>
                       
             </td>            

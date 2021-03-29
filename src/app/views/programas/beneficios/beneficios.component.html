@@ -64,7 +64,8 @@
                     <th>Recursos</th>
                     <th>Qtd inadimplente</th>
                     <th>Qtd Cancelamento</th>
-                    <th>Programa ID</th>                    
+                    <th>Programa ID</th>  
+                    <th>Qtd. Benefícios Disponibilizados.</th>                   
                     <th></th>
                 </tr>
             </ng-template>
@@ -80,6 +81,7 @@
                     <td>{{beneficio.toleranciaUsosInadimplente}}</td>
                     <td>{{beneficio.toleranciaUsosCancelado}}</td>
                     <td>{{beneficio.programa.id}}</td>
+                    <td>{{beneficio.totalBeneficios}}</td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary p-button-text" (click)="navegate(['/programas/beneficios-atualizar/'+beneficio.id])" ></button>
                     

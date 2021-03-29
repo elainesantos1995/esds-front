@@ -27,7 +27,8 @@ export class BeneficiosCadastroComponent implements OnInit {
   beneficio: BeneficioDTO = { id: null,	nome: '',	justificativa: '', 
   totalRecursosAportados: null,	limiteVagas: null, controleBiometria: null,	
   controleDocumento: null,	controleCarteirinha: null,	periodicidade: '',	
-  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, programa: null, idPrograma: null
+  toleranciaUsosInadimplente: null,	toleranciaUsosCancelado: null, 
+  programa: null, idPrograma: null, totalBeneficios: null
   }
 
   programa: ProgramaDTO = {id: null,

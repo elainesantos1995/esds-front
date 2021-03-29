@@ -1,0 +1,56 @@
+<div class="conteudo">
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+
+    <br>
+    <br>
+
+    <p-table #dt [value]="usosDoBeneficiario" [globalFilterFields]="['id','data','parecer']"
+        [paginator]="true" [rows]="5" styleClass="p-datatable-sm" 
+        styleClass="p-datatable-gridlines-sm"
+        dataKey="id">
+        
+        <ng-template pTemplate="caption" style="height: min-content;">    
+            
+            <div style="display: inline-block;" >
+                <h3 class="p-m-0" >Históricos de Usos de Benefícios</h3>
+            </div>    
+        
+            <div style="display: inline-block; margin-left: 1%;" >     
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." />
+                </span>
+            </div>  
+        </ng-template>
+
+        <ng-template pTemplate="header" >
+
+            <tr>           
+                <th>ID</th>
+                <th>Data</th>
+                <th>Carteira</th>
+                <th>Documento</th>
+                <th>Biometria</th>
+                <th>Benefício</th>
+                <th></th>                
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-uso>
+            <tr>
+                
+                <td>{{uso.id}}</td>
+                <td>{{uso.dataDoUso | date: 'dd/MM/yyyy'}}</td>
+                <td>{{uso.controleCarteirinha ?'sim': 'nao' }}</td>
+                <td>{{uso.controleDocumento ?'sim': 'nao'}}</td>
+                <td>{{uso.controleBiometria ?'sim': 'nao'}}</td>
+                <td>{{uso.beneficio.nome}}</td>
+                <td>
+                   
+                </td>
+                
+            </tr>
+        </ng-template>
+        
+    </p-table>
+</div>
