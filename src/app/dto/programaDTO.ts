@@ -8,4 +8,5 @@ export class ProgramaDTO{
     vigenciaInicio: Date;
     vigenciaTermino: Date;
     beneficiosDTO: BeneficioDTO[];
+    ano: number;
 }

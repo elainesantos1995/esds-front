@@ -22,7 +22,7 @@ import { CadastroFuncionariosComponent } from './views/funcionarios/cadastro-fun
 import { ListarFuncionariosComponent } from './views/funcionarios/listar-funcionarios/listar-funcionarios.component';
 
 import {ChartModule} from 'primeng/chart';
-import { RelatoriosComponent } from './views/relatorios/relatorios.component';
+import { RelatoriosComponent } from './views/relatorios/relatorios/relatorios.component';
 import { ApiServiceFuncionarios} from 'src/app/_servicos/funcionarioService';
 import {ApiServiceBeneficiarios } from 'src/app/_servicos/beneficiarioService';
 
@@ -44,6 +44,7 @@ import { ListagemDadosSocioeconomicosComponent } from './views/dados/listagem-da
 import { AtualizacaoInscricaoComponent } from './views/inscricoes/atualizacao-inscricao/atualizacao-inscricao.component';
 import { SelecaoComponent } from './views/inscricoes/selecao/selecao.component';
 import { BeneficiariosUsosListComponent } from './views/registroDeUsos/beneficiarios-usos-list/beneficiarios-usos-list.component';
+import { GraficosComponent } from './views/relatorios/graficos/graficos.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { BeneficiariosUsosListComponent } from './views/registroDeUsos/beneficia
     UsosDeBeneficioComponent,
     AtualizacaoInscricaoComponent,
     SelecaoComponent,
-    BeneficiariosUsosListComponent
+    BeneficiariosUsosListComponent,
+    GraficosComponent
   ],
   imports: [
     BrowserModule,

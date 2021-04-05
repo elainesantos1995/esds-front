@@ -34,6 +34,15 @@
                         Descrição inválido! 
                     </div>
                 </div>
+                <div id="div-ano" class="p-field tamanhoSecundario" *ngIf="programa.id">
+                    <label for="ano">Edição</label>
+                    <input id="ano" type="date" pInputText
+                        name="ano" [(ngModel)]="programa.ano" required #ano="ngModel" disabled>                         
+                                   
+                        <div *ngIf="!ano.valid && ano.touched" class="alerta">
+                            Ano inválido! 
+                        </div>
+                </div>
                 <div id="div-inicio" class="p-field tamanhoSecundario">
                     <label for="dataInicio">Data de Início do Programa*</label>
                     <input id="dataInicio" type="date" pInputText

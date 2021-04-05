@@ -31,7 +31,7 @@ export class CadastroInscricaoComponent implements OnInit {
     id: null, dataInscricao: null, parecer: '', status: '',
     quantBeneficiosASeremRetiradados: null,
     quantBeneficiosRetirados: null, cpfBeneficiario: '',
-    idBeneficio: null, beneficiosDTO: null, beneficiarioDTO: null
+    idBeneficio: null, beneficiosDTO: null, beneficiario: null
   }
 
   constructor(

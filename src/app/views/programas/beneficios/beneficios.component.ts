@@ -36,7 +36,8 @@ export class BeneficiosComponent implements OnInit {
     descricao: '',
     vigenciaInicio: null,
     vigenciaTermino: null,
-    beneficiosDTO: this.beneficiosDTO
+    beneficiosDTO: this.beneficiosDTO,
+    ano: null
   };
 
   items: MenuItem[];

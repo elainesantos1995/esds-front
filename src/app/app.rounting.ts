@@ -17,7 +17,8 @@ import { CadastroProgramasComponent } from "./views/programas/cadastro-programas
 import { ListagemProgramasComponent } from "./views/programas/listagem-programas/listagem-programas.component";
 import { BeneficiariosUsosListComponent } from "./views/registroDeUsos/beneficiarios-usos-list/beneficiarios-usos-list.component";
 import { UsosDeBeneficioComponent } from "./views/registroDeUsos/usos-de-beneficio/usos-de-beneficio.component";
-import { RelatoriosComponent } from './views/relatorios/relatorios.component';
+import { RelatoriosComponent } from './views/relatorios/relatorios/relatorios.component';
+import { GraficosComponent } from 'src/app/views/relatorios/graficos/graficos.component';
 import { AuthGuard } from './_helpers';
 
 const routes: Routes = [
@@ -27,7 +28,10 @@ const routes: Routes = [
         {path: '', component: ListarFuncionariosComponent},
         {path: 'funcionarios-cadastro', component: CadastroFuncionariosComponent},
         {path: 'funcionarios-cadastro/:id', component: CadastroFuncionariosComponent}]},
-    {path: 'relatorios', component: RelatoriosComponent},
+    {path: 'relatorios', children: [
+        {path:'', component: RelatoriosComponent},
+        {path: 'graficos', component: GraficosComponent}
+    ]},
     {path: 'beneficiarios', children: [
         {path: '', component: ListarBeneficiariosComponent},
         {path: 'beneficiarios-cadastro', component: CadastroBeneficiarioComponent},

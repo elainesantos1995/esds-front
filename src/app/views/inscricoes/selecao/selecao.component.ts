@@ -13,6 +13,10 @@ import { InscricaoSelecionadaDTO } from 'src/app/dto/InscricaoSelecionadaDTO';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs
+
 @Component({
   selector: 'app-selecao',
   templateUrl: './selecao.component.html',
@@ -22,8 +26,8 @@ export class SelecaoComponent implements OnInit {
 
   items: MenuItem[];
   programas: ProgramaDTO[];
-  programaSelecionadoDTO: ProgramaDTO;
-  beneficioSelecionado: BeneficioDTO;
+  programaSelecionadoDTO: ProgramaDTO = null;
+  beneficioSelecionado: BeneficioDTO = null;
   beneficios: BeneficioDTO[] = null;
   beneficiosDoPrograma: BeneficioDTO[] = null;
 
@@ -42,6 +46,8 @@ export class SelecaoComponent implements OnInit {
 }
 
   exportColumns: any[];
+
+  quantidade: number = null;
 
   constructor(
     private toastr: ToastrService,
@@ -63,34 +69,6 @@ export class SelecaoComponent implements OnInit {
     this.router.navigate(url);
   }
 
-createPdf() {
-  const doc = new jsPDF.default();
-  const columns = [['Id', 'Benefício', 'Status', 'Nome', 'CPF']];
-  const data = this.inscricoesSelecionadasRetornadas;
-
-  doc.setFontSize(18);
-  doc.text('Inscrições Selecionadas', 11, 8);
-  doc.setFontSize(11);
-  doc.setTextColor(100);
-  doc.getHorizontalCoordinateString(0);
-
-  (doc as any).autoTable({
-    //head: [['Id', 'Benefício', 'Status', 'Nome', 'CPF']],
-    body: this.inscricoesSelecionadasRetornadas,
-    theme: 'plain',
-    didDrawCell: (data) => {
-      console.log(data.column.index)
-    }
-  });
-
-  // Open PDF document in new tab
-//  doc.output('dataurlnewwindow')
-
-  // Download PDF document  
-  doc.save('table.pdf');
-  location.reload();
-}
-
   carregarItensBreadCrumb(){
     this.items = [
       {label:' Listagem', url: 'http://localhost:4200/inscricoes', icon: 'pi pi-home'},
@@ -105,69 +83,210 @@ createPdf() {
     });
   }
   
-buscarBeneficios(): void{
-  this.beneficioService.buscarTodos().subscribe((beneficiosDTO: BeneficioDTO[]) => {
-    this.beneficios = beneficiosDTO;
-    console.log(this.beneficiosDoPrograma)
-  });
-}
+  // buscarBeneficios(): void{
+  //   this.beneficioService.buscarTodos().subscribe((beneficiosDTO: BeneficioDTO[]) => {
+  //     this.beneficios = beneficiosDTO;
+  //     console.log(this.beneficiosDoPrograma)
+  //   });
+  // }
 
-buscarBeneficiosDeUmPrograma(){
-  this.beneficioService.listarBeneficiosDeUmPrograma(this.programaSelecionadoDTO.id)
-    .subscribe((beneficios: BeneficioDTO[]) => {
-      this.beneficiosDoPrograma = beneficios;
-      console.log(this.beneficiosDoPrograma)
-    })
-}
-
-// Recupera as inscrições realizadas para um benefício 
-// através do id do benefício selecionado
-buscarInscricoesDeUmBeneficio(){
-  console.log(this.beneficioSelecionado.id)
-  this.inscricaoService.buscarBeneficioDeUmPrograma(this.beneficioSelecionado.id)
-  .subscribe((inscricoes: InscricaoDTO[]) => {
-    this.inscricoes = inscricoes;
-    console.log(this.inscricoes)
-  })
-}
-
-buscarInscricoesSelecionadas(){
-  this.inscricaoService.buscarInscricoesSelecionadas(this.beneficioSelecionado.id)
-  .subscribe((inscricoes: InscricaoSelecionadaDTO[]) => {
-    this.inscricoesSelecionadasRetornadas = inscricoes;
-    console.log(this.inscricoesSelecionadasRetornadas)
-  })
-}
-
-salvarSelecao(){
-
-  if(this.inscricoesselecionadas === null){
-    this.toastr.error("Não é possível salvar lista vazia!" )
-  }else{
-
-  this.inscricaoService
-  .salvarInscricoesSelecionadas(this.beneficioSelecionado.id, this.inscricoesselecionadas
-    ).subscribe(response => {
-    //  console.log(response)
-    });
-    this.toastr.success("Benefícios gerados com Sucesso!" )
+  //Lista os benefícios de um programa para listagem 
+  buscarBeneficiosDeUmPrograma(){
+    this.beneficioService.listarBeneficiosDeUmPrograma(this.programaSelecionadoDTO.id)
+      .subscribe((beneficios: BeneficioDTO[]) => {
+        this.beneficiosDoPrograma = beneficios;
+        console.log(this.beneficiosDoPrograma)
+      })
   }
-}
 
-limitarSelecao(e) { 
-  //quantidade de vagas do benefício selecionado 
-  const LIMIT_NUMBER = 2; 
-  if (e.value.length > LIMIT_NUMBER) { 
-    e.value.pop(); 
-  } 
-}
+  // Recupera as inscrições realizadas para um benefício 
+  // através do id do benefício selecionado
+  buscarInscricoesDeUmBeneficio(){
+    console.log(this.beneficioSelecionado.id)
+    this.inscricaoService.buscarBeneficioDeUmPrograma(this.beneficioSelecionado.id)
+    .subscribe((inscricoes: InscricaoDTO[]) => {
+      this.inscricoes = inscricoes;
+      console.log(this.inscricoes)
+    })
+  }
 
-// onRowSelect(event){
-//   this.inscricaoSelecionada.status = ''
-// }
+  //Recupera as inscrições para serem listadas para seleção
+  buscarInscricoesSelecionadas(){
+    this.inscricaoService.buscarInscricoesSelecionadas(this.beneficioSelecionado.id)
+    .subscribe((inscricoes: InscricaoSelecionadaDTO[]) => {
+      this.inscricoesSelecionadasRetornadas = inscricoes;
+      console.log(this.inscricoesSelecionadasRetornadas)
+    })
+  }
 
-// onRowUnselect(event){
-    
-// }
+  //Gera uma lista de selecionados para o programa
+  salvarSelecao(){
+
+    if(this.inscricoesselecionadas === null){
+      this.toastr.error("Não é possível salvar lista vazia!" )
+    }else if(this.programaSelecionadoDTO === null){
+      this.toastr.error("Programa vazio!" )
+    }
+    else if(this.beneficiosDoPrograma === null){
+      this.toastr.error("Selecione os benefícios do programa!" )
+    }
+    else if(this.beneficioSelecionado === null){
+      this.toastr.error("Selecione um benefício!" )
+    }
+    else{
+
+      if(this.quantidade > this.beneficioSelecionado.limiteVagas){
+        this.toastr.error("Lista selecionada ultrapassa limite de vagas!")
+      }else{
+
+      this.inscricaoService
+      .salvarInscricoesSelecionadas(this.beneficioSelecionado.id, this.inscricoesselecionadas
+        ).subscribe(response => {
+        //  console.log(response)
+        });
+        this.toastr.success("Benefícios gerados com Sucesso!" )
+      }
+    }
+  }
+
+  //Gera PDF de lista de selecionados
+  beneficiosSelecionadosPDF(){
+
+    if(this.programaSelecionadoDTO === null){
+      this.toastr.error("Selecione um programa!")
+    }else if(this.beneficiosDoPrograma === null){
+      this.toastr.error("Selecione os benefícios  do programa!")
+    }else if(this.beneficioSelecionado === null){
+      this.toastr.error("Selecione um benefício!")
+    }else{
+
+    let docDefinition2 = {
+      header: 'e-SDS',
+          Headers: '',
+          content: [
+            {
+              text: 'Secretaria de Desenvolvimento Social',
+              fontSize: 16,
+              alignment: 'center',
+              color: '#047886'
+            },
+            {
+              text: 'BENEFICIÁRIOS SELECIONADOS',
+              fontSize: 20,
+              bold: true,
+              alignment: 'center',
+              decoration: 'underline',
+              color: 'skyblue'
+            },
+            {
+              text: 'Detalhes',
+              style: 'sectionHeader',
+              alignment: 'left'
+            },                   
+
+            {
+              columns: [
+                [
+                  {
+                    text: 'Programa: '+ this.programaSelecionadoDTO.nome,
+                    bold:false
+                  },{ text: 'Edição: ' + this.programaSelecionadoDTO.ano 
+                  },
+                  {
+                    text: 'Benefício: '+this.beneficioSelecionado.nome,
+                    bold: false
+                  },
+                  {
+                    text: 'Limite de Vagas: '+ this.beneficioSelecionado.limiteVagas,
+                    bold:false
+                  },
+                  {
+                    text: 'Total de Recursos Aportados: '+ this.beneficioSelecionado.totalRecursosAportados,
+                    bold:false,
+                    margin: [0, 0, 0, 10]
+                  },
+                ],
+                [
+                  {
+                    text: `Data: ${new Date().toLocaleString()}`,
+                    alignment: 'right'
+                  },
+                  { 
+                    text: `Relatório Nº : ${((Math.random() *1000).toFixed(0))}`,
+                    alignment: 'right'
+                  }
+                ]
+              ]
+            },
+
+
+            {
+              table: {
+                headerRows: 1,
+                widths: ['auto', '*', 'auto'],
+                body: [
+                  ['Id', 'Beneficiário', 'CPF'],  
+                  ...this.inscricoesSelecionadasRetornadas.map(b => ([b.id, b.nome, b.cpf])),
+                  [{text: 'Total', colSpan: 3}, this.inscricoesSelecionadasRetornadas.length]
+                ]
+              }
+            },
+            {
+              text: 'OBS',
+              style: 'sectionHeader'
+            },
+            {
+                ul: [
+                  'Lista beneficiários da base de dados',
+                  'Apenas beneficiários dos programas da SDS - Prefeitura de Monteiro - PB.',
+                  'Elaborado com base em dados atuais.',
+                ],
+                margin: [0, 5, 0, 5]
+            },
+          ],
+          styles: {
+            sectionHeader: {
+              bold: true,
+              decoration: 'underline',
+              fontSize: 14,
+              margin: [0, 15,0, 15]          
+            }
+          }
+        };   
+        pdfMake.createPdf(docDefinition2).open();
+      }
+  }
+
+  //Gerencia a quantidade de itens selecionados na tabela de seleção
+  onRowSelect(event){
+    this.quantidade +=1;
+    if(this.quantidade > this.beneficioSelecionado.limiteVagas){
+      this.toastr.info("Há mais selecionados que o número de vagas disponível. Selecione até "
+      + (this.quantidade - this.beneficioSelecionado.limiteVagas) + ". inscrições!")
+    }else if(this.quantidade == this.beneficioSelecionado.limiteVagas){
+      this.toastr.success("Limite de vagas atingido!")
+    }else{
+      this.toastr.info("É necessário selecionar mais "+ 
+      (this.beneficioSelecionado.limiteVagas - this.quantidade) + 
+        " inscrições para atingir o limite de vagas!")
+    }
+  }
+
+  //Gerencia a quantidade de itens desselecionados na tabela de seleção
+  onRowUnselect(event){    
+    this.quantidade -=1;
+    if(this.quantidade == this.beneficioSelecionado.limiteVagas){
+      this.toastr.success("Limite de vagas atingido!")
+    }else if(this.quantidade > this.beneficioSelecionado.limiteVagas){
+      this.toastr.info("É necessário desselecionar "+ 
+      (this.quantidade - this.beneficioSelecionado.limiteVagas) + 
+      " inscrições para atingir o limite de vagas!")
+    }
+    else{
+      this.toastr.info("É necessário selecionar mais "+ 
+      (this.beneficioSelecionado.limiteVagas - this.quantidade) + 
+        " inscrições para atingir o limite de vagas!")
+    }
+  }
 
 }

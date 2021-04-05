@@ -43,6 +43,7 @@
                 <th>Pontuação</th>
                 <th>Data Preenchimento</th>
                 <th>Última Atualização</th>
+                <th>Imprimir dados</th>
                 <th>
                     <button pButton type="button" label="Novo" icon="pi pi-plus"
                         class="p-button-success btnNovo" 
@@ -60,7 +61,10 @@
                 <td>{{dado.beneficiarioTitular.cpf }}</td>
                 <td>{{dado.pontuacao}}</td>
                 <td>{{dado.dataPreenchimento | date: 'dd/MM/yyyy'}}</td>
-                <td>{{dado.dataUltimaAtualizacao | date: 'dd/MM/yyyy'}}</td>                
+                <td>{{dado.dataUltimaAtualizacao | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-file-pdf" (click)="gerarPdf(dado)" class="p-button-secondary p-button-text"></button>
+                </td>                
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary p-button-text" (click)="navegate(['/dados/cadastro-dados/'+dado.id])" ></button>
                     

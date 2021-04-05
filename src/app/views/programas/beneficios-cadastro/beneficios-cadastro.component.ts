@@ -37,6 +37,7 @@ export class BeneficiosCadastroComponent implements OnInit {
     vigenciaInicio: null,
     vigenciaTermino: null,
     beneficiosDTO: null,
+    ano: null
   };
 
   constructor(

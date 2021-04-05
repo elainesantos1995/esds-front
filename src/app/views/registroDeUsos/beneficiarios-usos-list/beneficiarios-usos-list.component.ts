@@ -12,6 +12,12 @@ import { BeneficiarioEnderecoDTO } from 'src/app/dto/beneficiarioEnderecoDTO';
 import { UsoDeBeneficioDTO } from 'src/app/dto/usoDeBeneficio';
 import { UsoDeBeneficioService } from 'src/app/_servicos/usoDeBeneficioService';
 
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-beneficiarios-usos-list',
   templateUrl: './beneficiarios-usos-list.component.html',
@@ -29,7 +35,8 @@ export class BeneficiariosUsosListComponent implements OnInit {
   displayModal: boolean;
   uso: UsoDeBeneficioDTO = {
    id: null, dataDoUso: null,	controleBiometria: null,	controleDocumento: null,
-	controleCarteirinha: null,  idInscricao: null,  idBeneficio: null }
+	controleCarteirinha: null,  idInscricao: null,  idBeneficio: null,
+  beneficio: null, inscricao: null}
 
   biometria: string = null;
   documento: string = null;
@@ -74,13 +81,100 @@ export class BeneficiariosUsosListComponent implements OnInit {
   }
 
   buscarUsosDeBeneficiosDeUsuario(){
-  //  if(this.inscricao.id){
       this.usoDeBeneficioService.buscarUsoDeUmBeneficiario(this.inscricao.id)
       .subscribe(response => {
         this.usosDoBeneficiario = response;
         console.log(response);
       });
-  //  }
+  }
+
+  converterTipo(usoDeBeneficio: UsoDeBeneficioDTO): string{
+    if(usoDeBeneficio.controleBiometria){
+      return 'Biometria';
+    }else if(usoDeBeneficio.controleCarteirinha){
+      return 'Carteirinha';
+    }else{
+      return 'Documento';
+    }
+  }
+
+  relatorioUsosBeneficiosPorPrograma(){    
+    let docDefinition2 = {
+      header: 'e-SDS Relatórios',
+          Headers: '',
+          content: [
+            {
+              text: 'Usos de benefício de Programa Social',
+              fontSize: 16,
+              alignment: 'center',
+              color: '#047886'
+            },
+            {
+              text: 'Detalhes',
+              style: 'sectionHeader'
+            },
+            {
+              columns: [
+                [
+                  {
+                    text: 'Beneficiário: '+ this.inscricao.beneficiario.nome,
+                    bold:false
+                  },
+                  {
+                    text: 'CPF: '+ this.inscricao.beneficiario.cpf,
+                    bold:false,
+                    margin: [0, 0, 0, 10]
+                  },
+                ],
+                [
+                  {
+                    text: `Data: ${new Date().toLocaleString()}`,
+                    alignment: 'right'
+                  }
+                ]
+              ]
+            },
+            {
+              table: {
+                headerRows: 1,
+                widths: ['auto', '*', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+                body: [
+                  ['Número', 'Beneficiário', 'CPF', 'Data de uso', 'Registro', 'Benefício', 'Programa', 'Edição'],  
+                  ...this.usosDoBeneficiario.map(u => ([u.id, u.inscricao.beneficiario.nome, u.inscricao.beneficiario.cpf, moment(u.dataDoUso).format('DD/MM/yyyy'), this.converterTipo(u),u.beneficio.nome, u.beneficio.programa.nome, u.beneficio.programa.ano])),
+                  [{text: 'Total', colSpan: 4}, {}, {}, {}, {}, {}, {}, this.usosDoBeneficiario.length]
+                ]
+              }
+            },
+            {
+              text: 'OBS',
+              style: 'sectionHeader'
+            },
+            {
+                ul: [
+                  'Detalha usos de benefícios de um beneficiário contemplado em programa social.',
+                  'Apenas benefícios ofertados pela e-SDS - Prefeitura de Monteiro - PB.',
+                  'Elaborado com base em dados atuais.',
+                ],
+                margin: [0, 10, 0, 10]
+            },
+            {  
+              columns: [  
+                  [{ qr: `'ID: '${this.inscricao.id}`, fit: '50' }],  
+                  [{ text: 'Signature', alignment: 'right', italics: true }],  
+              ]  
+            },
+          ],
+          styles: {
+            sectionHeader: {
+              bold: true,
+              decoration: 'underline',
+              fontSize: 14,
+              margin: [0, 15,0, 15]          
+            }
+          }
+        };   
+        pdfMake.createPdf(docDefinition2).open();
+      
   }
 
 

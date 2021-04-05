@@ -2,6 +2,11 @@
     <p-breadcrumb [model]="items"></p-breadcrumb>
 
     <br>
+        <div style="width: 100%; ">  
+            <button pButton label="Imprimir" class="btnNovo"
+            (click)=" relatorioUsosBeneficiosPorPrograma()"
+            style="display: inline-block; margin-top: 0%; margin-left: 90%;"></button>
+        </div>      
     <br>
 
     <p-table #dt [value]="usosDoBeneficiario" [globalFilterFields]="['id','data','parecer']"
@@ -29,8 +34,6 @@
                 <th>ID</th>
                 <th>Data</th>
                 <th>Carteira</th>
-                <th>Documento</th>
-                <th>Biometria</th>
                 <th>Benefício</th>
                 <th></th>                
             </tr>
@@ -41,9 +44,7 @@
                 
                 <td>{{uso.id}}</td>
                 <td>{{uso.dataDoUso | date: 'dd/MM/yyyy'}}</td>
-                <td>{{uso.controleCarteirinha ?'sim': 'nao' }}</td>
-                <td>{{uso.controleDocumento ?'sim': 'nao'}}</td>
-                <td>{{uso.controleBiometria ?'sim': 'nao'}}</td>
+                <td>{{converterTipo(uso)}}</td>
                 <td>{{uso.beneficio.nome}}</td>
                 <td>
                    

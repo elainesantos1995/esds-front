@@ -34,6 +34,13 @@ buscarPorId(id: number): Observable<ProgramaDTO>{
   return this.http.get<ProgramaDTO>(`http://localhost:8090/api/programas-e-beneficios/${id}`);
 }
 
+buscarPorAno(ano: number): Observable<ProgramaDTO[]>{
+  return this.http.get<ProgramaDTO[]>(`http://localhost:8090/api/programas-e-beneficios/buscar/ano/${ano}`)
+  .pipe(
+    retry(2),
+    catchError(this.handleError)) 
+}
+
 buscarTodos(): Observable<ProgramaDTO[]>{
   return this.http.get<any>(this.url)
   .pipe(

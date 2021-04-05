@@ -7,7 +7,9 @@
         
         <div id="div-expedicao" class="p-field tamanhoSecundario">
             <label for="cpf">CPF do Beneficiário*</label>
-            <p-inputMask id="cpf" type="text" disabled class="p-float-label" mask="999.999.999-99" name="cpf" [(ngModel)]="inscricaoDTO.cpfBeneficiario" required #campocpf="ngModel"></p-inputMask>
+            <p-inputMask id="cpf" type="text" disabled class="p-float-label" mask="999.999.999-99" name="cpf"
+                [(ngModel)]="inscricaoDTO.cpfBeneficiario" required #campocpf="ngModel">
+            </p-inputMask>
     
             <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
                 CPF do Beneficiário inválido! 

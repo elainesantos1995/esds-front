@@ -26,11 +26,16 @@ export class UsosDeBeneficioComponent implements OnInit {
   displayModal: boolean;
   uso: UsoDeBeneficioDTO = {
    id: null, dataDoUso: null,	controleBiometria: null,	controleDocumento: null,
-	controleCarteirinha: null,  idInscricao: null,  idBeneficio: null }
+	controleCarteirinha: null,  idInscricao: null,  idBeneficio: null,
+  beneficio: null, inscricao: null}
 
   biometria: string = null;
   documento: string = null;
   carteirinha: string = null;
+
+  //Dropdown de tipos
+  tipos: any = null;
+  tipoSelecionado: any = null;
 
   constructor(
     private toastr: ToastrService,
@@ -42,16 +47,16 @@ export class UsosDeBeneficioComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarItensBreadCrumb();
+    this.carregarTipos();
   }
 
   navegate(url: string[]): any{
     this.router.navigate(url);
   }
 
-  salvar(){    
-    this.uso.controleDocumento = this.documento === "sim";
-    this.uso.controleCarteirinha = this.carteirinha === "sim";
-    this.uso.controleBiometria = this.biometria === "sim";
+  salvar(){  
+    
+    this.converterTipoDeUso(this.tipoSelecionado)
 
     this.usoDeBeneficioService.salvar(this.inscricao.id, this.uso).subscribe(response => {
       console.log(response)
@@ -91,6 +96,31 @@ export class UsosDeBeneficioComponent implements OnInit {
 
   setarInscricao(inscricao: InscricaoDTO): void{
     this.inscricao = inscricao;
+  }
+
+  carregarTipos(){
+    this.tipos = [
+      {name: 'Carteirinha', value: 'true'},
+      {name: 'Documento', value: 'true'},
+      {name: 'Biometria', value: 'true'}
+  ];
+  }
+
+  //Método pra setar o tipo de uso 
+  converterTipoDeUso(tipo: string){
+    if(tipo === 'Carteirinha'){
+      this.uso.controleDocumento = false;
+      this.uso.controleCarteirinha = true;
+      this.uso.controleBiometria = false;
+    }else if(tipo === 'Documento'){
+      this.uso.controleDocumento = true;
+      this.uso.controleCarteirinha = false;
+      this.uso.controleBiometria = false;
+    }else{
+      this.uso.controleDocumento = false;
+      this.uso.controleCarteirinha = false;
+      this.uso.controleBiometria = true;
+    }
   }
 
 }

@@ -1,0 +1,111 @@
+<div class="conteudo">
+
+    <p-breadcrumb [model]="items"></p-breadcrumb>
+
+    <div style="margin-top: 2%">
+
+    <div style="margin-top: 2%; display: inline;">
+        
+        <div id="div-ano"  style="display: inline;">
+            <label for="ano">Ano* </label>
+            <input id="ano" type="number" [(ngModel)]="anoPrograma" pInputText>         
+        </div>        
+
+        <div style="display: inline;">           
+            <button pButton pRipple type="button" icon="pi pi-search" 
+                class="p-button-rounded p-button-success p-button-text"
+                (click)="buscarPorAno()">
+            </button>
+        </div>
+
+    </div>
+
+
+    <div style="display: inline;">
+        <div id="div-programa" style="display: inline;" *ngIf="anoPrograma != null">
+            <label for="dropdown">Programas* </label>
+            <span>
+                
+            <p-dropdown [options]="programas" [(ngModel)]="programa"
+                placeholder="Selecione o Programa" optionLabel="nome" 
+                [showClear]="true" [ngModelOptions]="{standalone: true}" required ></p-dropdown>
+            </span>              
+    
+        </div>
+
+        <div style="display: inline;" *ngIf="anoPrograma != null">           
+            <button pButton pRipple type="button" icon="pi pi-search" 
+                class="p-button-rounded p-button-success p-button-text"
+                (click)="buscarProgramaPorId()" 
+                (click)="buscarBeneficiosDoPrograma()"
+                (click)="buscarInscricoesDeUmBeneficio()">
+            </button>
+        </div>
+
+    </div>
+
+        <div id="div-beneficio" *ngIf="anoPrograma != null" style="display: inline;">
+            <label for="dropdown">Benefícios* </label>
+            <span>
+        
+            <p-dropdown [options]="beneficios" [(ngModel)]="beneficio"
+                placeholder="Selecione o Benefício" optionLabel="nome" 
+                [showClear]="true" [ngModelOptions]="{standalone: true}" required ></p-dropdown>
+            </span>          
+        </div>
+
+        <div style="display: inline;" *ngIf="anoPrograma != null">           
+            <button pButton pRipple type="button" icon="pi pi-search" 
+                class="p-button-rounded p-button-success p-button-text"
+                (click)="buscarInscricoesDeUmBeneficio()"
+                (click)="buscarUsos()">
+            </button>
+        </div>
+
+    </div>
+
+    <div style="margin-top: 1%;">
+        <div style="margin-top: 1%; margin-left: 1%;">
+            <button pButton label="Geral" (click)="relatorioGeralProgramaBeneficioAno()"></button>
+            <label style="margin-left: 1%;">Detalha programas e benefícios ofertados em um ano específico</label>
+        </div>
+        <div style="margin-top: 1%; margin-left: 1%;">
+            <button pButton label="Beneficiários" 
+                (click)="relatorioBeneficiariosTotal()"
+               ></button>
+            <label style="margin-left: 1%; margin-top: -1%;">Detalha benefíciários com cadastro na SDS</label>
+        </div>
+        
+        <!-- <div style="margin-top: 1%; margin-left: 1%;">
+            <button pButton label="Adimplentes" 
+                (click)="relatorioAdimplentesPorBeneficio()"
+                [disabled]="programa === null">
+            </button>
+            <label style="margin-left: 1%; margin-top: -1%">Detalha a adimpência em usos de um benefício</label>
+        </div>
+        <div style="margin-top: 1%; margin-left: 1%;">
+            <button pButton label="Inadimplentes" 
+                (click)="relatorioInadimplentesPorBeneficio()"
+                [disabled]="programa === null">
+            </button>
+            <label style="margin-left: 1%; margin-top: -1%">Detalha a inadimplência em usos de um benefício</label>
+        </div> -->
+        <div style="margin-top: 1%; margin-left: 1%;">
+            <button pButton label="Inscrições" 
+                
+                (click)="relatorioInscricoesPorBeneficio()"
+                [disabled]="programa === null">
+            </button>
+            <label style="margin-left: 1%; margin-top: -1%">Detalha inscrições em um benefício</label>
+        </div>
+        <div style="margin-top: 1%; margin-left: 1%;">
+            <button pButton label="Usos de Benefícios" 
+                (click)="relatorioUsoBeneficiosPorPrograma()"
+                [disabled]="programa === null"></button>
+            <label style="margin-left: 1%; margin-top: -1%">Detalha usos de benefícios de um programa</label>
+        </div>
+        
+
+    </div>
+
+</div>

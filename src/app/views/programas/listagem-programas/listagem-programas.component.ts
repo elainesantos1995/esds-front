@@ -30,7 +30,8 @@ export class ListagemProgramasComponent implements OnInit {
     descricao: '',
     vigenciaInicio: null,
     vigenciaTermino: null,
-    beneficiosDTO: null
+    beneficiosDTO: null,
+    ano: null
   };
 
   items: MenuItem[];

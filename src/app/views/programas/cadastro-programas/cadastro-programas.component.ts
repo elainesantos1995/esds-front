@@ -30,6 +30,7 @@ export class CadastroProgramasComponent implements OnInit {
     vigenciaInicio: null,
     vigenciaTermino: null,
     beneficiosDTO: null,
+    ano: null
   };
 
   display: boolean = false;  

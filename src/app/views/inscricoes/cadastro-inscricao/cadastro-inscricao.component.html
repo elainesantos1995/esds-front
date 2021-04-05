@@ -1,13 +1,23 @@
 <div class="conteudo">
     <p-breadcrumb [model]="items"></p-breadcrumb>
 
-    <div style="width: 100%; ">  
+
+    <div style="width: 100%;" >
+        <!-- <div style="display: inline-block; width: 80%;">  
+            <button pButton type="button" label="Carteirinhas" 
+                class="btnNovo"
+                style="margin-left: 100%;"
+                (click)="navegate(['/inscricoes/selecao/'])">
+            </button>
+        </div> -->
+    <!-- <div style="display: inline-block;">   -->
         <button pButton type="button" label="Seleção" 
-            class="p-button-success btnNovo"
-            style="display: inline-block; margin-top: 0%; margin-left: 90%;"
+            class="btnNovo"
+            style="margin-left: 90%;"
             (click)="navegate(['/inscricoes/selecao/'])">
         </button>
     </div>
+    <!-- </div> -->
     
     <p-panel header="Incrição">
 

@@ -1,3 +1,4 @@
+import { BeneficiarioEnderecoDTO } from "./beneficiarioEnderecoDTO";
 import { BeneficioDTO } from "./beneficioDTO";
 
 export class InscricaoDTO{
@@ -12,7 +13,8 @@ export class InscricaoDTO{
 	cpfBeneficiario: string;
 
 	idBeneficio: number;
-	beneficiosDTO: any;
-	beneficiarioDTO: any;
-	
+	// beneficiosDTO: any;
+	// beneficiarioDTO: any;
+	beneficiosDTO: BeneficioDTO;
+	beneficiario: BeneficiarioEnderecoDTO;
 }

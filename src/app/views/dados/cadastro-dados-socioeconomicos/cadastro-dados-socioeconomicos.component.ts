@@ -52,7 +52,8 @@ export class CadastroDadosSocioeconomicosComponent implements OnInit {
       idBeneficiario: '',
       cpfBeneficiario: '',
       dataPreenchimento: null,
-	    dataUltimaAtualizacao: null, pontuacao: null
+	    dataUltimaAtualizacao: null, pontuacao: null,
+      beneficiarioTitular: null
   }
 
   nomesDosDependentes: string[];

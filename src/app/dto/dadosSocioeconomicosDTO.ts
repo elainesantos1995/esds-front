@@ -1,3 +1,5 @@
+import { BeneficiarioEnderecoDTO } from "./beneficiarioEnderecoDTO";
+
 export class DadosSocioeconomicosDTO{
 
 	id: number;
@@ -34,5 +36,7 @@ export class DadosSocioeconomicosDTO{
 	dataPreenchimento: Date;
 	dataUltimaAtualizacao: Date;
 	pontuacao: number;	
+//_________________________________
+	beneficiarioTitular: BeneficiarioEnderecoDTO;
 	
 }

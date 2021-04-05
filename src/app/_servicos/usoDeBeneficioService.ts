@@ -51,6 +51,13 @@ buscarUsoDeUmBeneficiario(idInscricao: number): Observable<UsoDeBeneficioDTO[]>{
     catchError(this.handleError))
 }
 
+buscarUsosDeUmBeneficio(idBeneficio: number): Observable<UsoDeBeneficioDTO[]>{
+  return this.http.get<any>(`http://localhost:8090/api/usosDeBeneficios/usos/beneficio/${idBeneficio}`)
+  .pipe(
+    retry(2),
+    catchError(this.handleError))
+}
+
 handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

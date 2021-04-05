@@ -21,6 +21,7 @@
 
     </div>
 
+    <br>
 
         <div> 
             <div *ngIf="beneficiario" style="display: inline-block;">
@@ -90,8 +91,8 @@
                 <th>Recursos Retirados</th>
                 <th>Benefício</th>
                 <th>Beneficiario</th> 
-                <th></th> 
-                <th></th>               
+                <th>Registrar Uso</th> 
+                <th>Listar</th>               
             </tr>
         </ng-template>
 
@@ -107,50 +108,23 @@
                 <td>{{inscricao.beneficio.nome}}</td>
                 <td>{{inscricao.beneficiario.nome}}</td>
                 <td>
-                    <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-text" (click)="showModalDialog()" (click)="setarInscricao(inscricao)"></button>
+                    <button pButton pRipple icon="pi pi-check" tooltip="Registrar Uso" class="p-button-rounded p-button-text" (click)="showModalDialog()" (click)="setarInscricao(inscricao)"></button>
                     <p-dialog header="Registrar Uso" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
                         [draggable]="false" [resizable]="false">
                         
                         <div *ngIf="inscricao">
-                            <!-- <p class="p-m-0">Confirmar registro de uso do benefício?</p> -->
+
+                            <div id="div-tipo" class="p-field p-col-12 p-md-4" >
+                                <label for="dropdown">Selecione o tipo* </label>
+                                <span>
+                                    <p-dropdown [options]="tipos" [(ngModel)]="tipoSelecionado" 
+                                    placeholder="Selecione" optionLabel="name" 
+                                    [showClear]="true" [ngModelOptions]="{standalone: true}" required #tipo="ngModel"></p-dropdown>
+                                </span>
                             
-                            <div id="div-admin" class="p-field tamanhoSecundario">
-                                <label for="admin">Registro Por Documento</label>
-                                
-                               <div style="display: inline-flexbox;"> 
-                                    <p-radioButton lable="Sim" value="sim" name="valorDocumentoSelecionado" [(ngModel)]="documento" inputId="documentoSim" required #sim="ngModel"></p-radioButton>
-                                    <label for="documentoSim">Sim</label>
-                                </div> 
-                                <div style="display: inline-flexbox;">
-                                    <p-radioButton lable="Não" value="nao" name="valorDocumentoSelecionado" [(ngModel)]="documento" inputId="documentoNao" required #nao="ngModel"></p-radioButton>
-                                    <label for="documentoNao">Não</label>
-                                </div>                             
-                            </div>
-
-                            <div id="div-admin" class="p-field tamanhoSecundario">
-                                <label for="admin">Registro por Carteirinha</label>
-                                
-                               <div style="display: inline-flexbox;"> 
-                                    <p-radioButton lable="Sim" value="sim" name="valorCarteirinhaSelecionado" [(ngModel)]="carteirinha" inputId="carteirinhaSim" required #sim="ngModel"></p-radioButton>
-                                    <label for="carteirinhaSim">Sim</label>
-                                </div> 
-                                <div style="display: inline-flexbox;">
-                                    <p-radioButton lable="Não" value="nao" name="valorCarteirinhaSelecionado" [(ngModel)]="carteirinha" inputId="carteirinhaNao" required #nao="ngModel"></p-radioButton>
-                                    <label for="carteirinhaNao">Não</label>
-                                </div>                             
-                            </div>
-
-                            <div id="div-admin" class="p-field tamanhoSecundario">
-                                <label for="admin">Registro por Biometria</label>
-                                
-                               <div style="display: inline-flexbox;"> 
-                                    <p-radioButton lable="Sim" value="sim" name="valorBiometriaSelecionado" [(ngModel)]="biometria" inputId="biometriaSim" required #sim="ngModel"></p-radioButton>
-                                    <label for="biometriaSim">Sim</label>
-                                </div> 
-                                <div style="display: inline-flexbox;">
-                                    <p-radioButton lable="Não" value="nao" name="valorBiometriaSelecionado" [(ngModel)]="biometria" inputId="biometriaNao" required #nao="ngModel"></p-radioButton>
-                                    <label for="biometriaNao">Não</label>
-                                </div>                             
+                                <div *ngIf="!tipo.valid && tipo.touched" class="alerta">
+                                    Tipo de registro em branco! 
+                                </div>                
                             </div>
                         
                         </div>
@@ -163,7 +137,7 @@
                     </p-dialog>
                 </td>
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" 
+                    <button pButton pRipple icon="pi pi-ellipsis-v" 
                         class="p-button-secondary p-button-text" 
                         (click)="navegate(['usos/beneficiarios-usos/'+inscricao.id])" >
                     </button>                   

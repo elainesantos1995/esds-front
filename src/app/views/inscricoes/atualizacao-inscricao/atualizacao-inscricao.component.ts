@@ -39,7 +39,7 @@ export class AtualizacaoInscricaoComponent implements OnInit {
     id: null, dataInscricao: null, parecer: '', status: '',
     quantBeneficiosASeremRetiradados: null,
     quantBeneficiosRetirados: null, cpfBeneficiario: '',
-    idBeneficio: null, beneficiosDTO: null, beneficiarioDTO: null
+    idBeneficio: null, beneficiosDTO: null, beneficiario: null
   }
 
   beneficiosDTO: BeneficioDTO[] = null;
@@ -66,7 +66,10 @@ export class AtualizacaoInscricaoComponent implements OnInit {
         this.selecaoStatus = response.status;
         this.id = response.id;
         this.idBeneficio = response.idBeneficio;
-        console.log(response)
+
+      this.beneficioService.buscarPorId(this.idBeneficio).subscribe(response => {
+        this.beneficioDTO = response;
+      });
                 
         let funcData: Date = new Date(this.inscricaoDTO.dataInscricao);
         this.dataInscricao = moment(funcData).format('yyyy-MM-DD');      
@@ -76,7 +79,7 @@ export class AtualizacaoInscricaoComponent implements OnInit {
       this.carregarItensBreadCrumb();
       this.carregarStatus();
       this.buscarBeneficios();
-    //  this.buscarBeneficio();
+      
   }
 
   onSubmit(){
