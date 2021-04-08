@@ -7,6 +7,7 @@ import { BeneficioDTO } from 'src/app/dto/beneficioDTO';
 import {HttpClientModule} from '@angular/common/http';
 import { ProgramaDTO } from 'src/app/dto/programaDTO';
 import { ToastrService } from 'ngx-toastr';
+import { BeneficioService } from 'src/app/_servicos/beneficioService';
 
 @Component({
   selector: 'app-listagem-programas',
@@ -44,7 +45,8 @@ export class ListagemProgramasComponent implements OnInit {
   constructor(
     private programaService: ProgramaService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private beneficiosService: BeneficioService
   ) { }
 
   ngOnInit(): void {
@@ -69,12 +71,22 @@ export class ListagemProgramasComponent implements OnInit {
   }
 
   deletar(){
+
+    let beneficios: any = null;
+    this.beneficiosService.listarBeneficiosDeUmPrograma(this.programaSelecionadoDTO.id).subscribe(response => {
+      beneficios = response;
+    })
+
+    if(beneficios !== null ){
+      this.toastr.error("Não é possível deletar programa com benefícios selecionados!")
+    }else{
     this.programaService.deletar(this.programaSelecionadoDTO.id)
       .subscribe(response => {  
         this.toastr.success("Programa deletado com sucesso!" )
         location.reload();
         return false;      
       });
+    }
   }
 
   // carregamento de valores de itens de breadcrump
@@ -85,8 +97,9 @@ export class ListagemProgramasComponent implements OnInit {
   }
 
   // Exibe modal para deleção
-showModalDialog() {
-    this.displayModal = true;
-}
+  showModalDialog() {
+      this.displayModal = true;
+  }
+
 
 }

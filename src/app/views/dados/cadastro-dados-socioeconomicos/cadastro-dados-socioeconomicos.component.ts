@@ -22,38 +22,16 @@ export class CadastroDadosSocioeconomicosComponent implements OnInit {
   id: number;
 
   dados: DadosSocioeconomicosDTO = {
-      id: null,	
-      temBanheiro: null,
-      aguaEncanada: null,
-      energiaEletrica: null,
-      coletaEsgoto: null,
-      familiaIndigena: null,
-      familiaQuilombola: null,
-      membroEmpregado: null,
-      doencaCronica: null,	
-      membroDeficiente: null,
-    //_________________________________	
-      composicaoDomicilio: '',
-      localidade: '',
-      condicaoResidencia: '',
-      quantComodos: '',	
-      quantMembrosFamilia: '',
-      quantMembrosIdosos: '',
-      tipoDeTrabalho: '',
-      rendaPerCapita: '',
-      quantMembrosCriancas: '',
-    //_________________________________		
-      nomesMembrosFamilia: null,
-      rendaFamiliar: null,	
-      doencasCronicas: null,
-      quantMembroDeficiente: null,
-      tipoDeficiencia: null,
-    //_________________________________		
-      idBeneficiario: '',
-      cpfBeneficiario: '',
-      dataPreenchimento: null,
-	    dataUltimaAtualizacao: null, pontuacao: null,
-      beneficiarioTitular: null
+      id: null,	temBanheiro: null, aguaEncanada: null, energiaEletrica: null,
+      coletaEsgoto: null, familiaIndigena: null, familiaQuilombola: null,
+      membroEmpregado: null, doencaCronica: null,	membroDeficiente: null,
+      composicaoDomicilio: '', localidade: '', condicaoResidencia: '',
+      quantComodos: '',	quantMembrosFamilia: '', quantMembrosIdosos: '',
+      tipoDeTrabalho: '', rendaPerCapita: '', quantMembrosCriancas: '',	
+      nomesMembrosFamilia: null, rendaFamiliar: null,	doencasCronicas: null,
+      quantMembroDeficiente: null, tipoDeficiencia: null,	idBeneficiario: '',
+      cpfBeneficiario: '', dataPreenchimento: null, dataUltimaAtualizacao: null, 
+      pontuacao: null, beneficiarioTitular: null, parecer: ''
   }
 
   nomesDosDependentes: string[];
@@ -192,13 +170,12 @@ export class CadastroDadosSocioeconomicosComponent implements OnInit {
       this.dados.rendaPerCapita = this.faixasDeRendaSelecionada;
       this.dados.quantMembrosCriancas = this.quantMembrosCriancaSelecionada;
       this.dados.localidade = this.localidadeDomicilioSelecionado;
-      //Alterado aqui
+      
       this.dados.idBeneficiario = this.cpfBeneficiario;
       this.dados.rendaFamiliar = this.dados.rendaFamiliar;
 
       this.dadosSocioeconomicoService.editar(this.id, this.dados).subscribe(resposta => {
         this.toastr.success("Cadastro atualizado com sucesso!" )
-        console.log(resposta)
         this.navegate(['/dados/']);
       });
     }

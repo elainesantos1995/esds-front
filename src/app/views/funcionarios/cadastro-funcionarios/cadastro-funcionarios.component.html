@@ -262,6 +262,7 @@
 
     <button pButton id="enviar" label="Salvar" type="submit" 
     style="width: 100px; margin-left: 20px;" *ngIf="!funcionarioEnderecoDTO.id" 
+    class="p-button-outlined p-button-info"
     [disabled]="funcionarioEnderecoDTO.nome == '' 
     || funcionarioEnderecoDTO.rg == '' 
     || funcionarioEnderecoDTO.rgOrgaoEmissor == ''
@@ -282,8 +283,16 @@
     ">
     </button>    
     
-    <button pButton id="atualizar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="funcionarioEnderecoDTO.id"></button>
-    <button pButton id="cancelar" label="Voltar" (click)="navegate(['/funcionarios/'])" style="width: 100px; margin-left: 5px;"></button>
+    <button pButton id="atualizar" label="Atualizar" type="submit"
+        class="p-button-outlined p-button-info"
+         style="width: 100px; margin-left: 20px;" 
+         *ngIf="funcionarioEnderecoDTO.id">
+    </button>
+    <button pButton id="cancelar" label="Voltar" 
+        (click)="navegate(['/funcionarios/'])" 
+        class="p-button-outlined p-button-info"
+        style="width: 100px; margin-left: 5px;"
+    ></button>
         
 </form>
 

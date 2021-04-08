@@ -6,7 +6,7 @@
 
     <div style="margin-top: 2%; display: inline;">
         
-        <div id="div-ano"  style="display: inline;">
+        <div id="div-ano"  style="display: inline; margin-left: 1%;">
             <label for="ano">Ano* </label>
             <input id="ano" type="number" [(ngModel)]="anoPrograma" pInputText>         
         </div>        
@@ -66,12 +66,14 @@
 
     <div style="margin-top: 1%;">
         <div style="margin-top: 1%; margin-left: 1%;">
-            <button pButton label="Geral" (click)="relatorioGeralProgramaBeneficioAno()"></button>
+            <button pButton label="Geral" (click)="relatorioGeralProgramaBeneficioAno()"
+                class="p-button-outlined p-button-info"></button>
             <label style="margin-left: 1%;">Detalha programas e benefícios ofertados em um ano específico</label>
         </div>
         <div style="margin-top: 1%; margin-left: 1%;">
             <button pButton label="Beneficiários" 
                 (click)="relatorioBeneficiariosTotal()"
+                class="p-button-outlined p-button-info"
                ></button>
             <label style="margin-left: 1%; margin-top: -1%;">Detalha benefíciários com cadastro na SDS</label>
         </div>
@@ -92,16 +94,19 @@
         </div> -->
         <div style="margin-top: 1%; margin-left: 1%;">
             <button pButton label="Inscrições" 
-                
+                class="p-button-outlined p-button-info"
                 (click)="relatorioInscricoesPorBeneficio()"
                 [disabled]="programa === null">
             </button>
             <label style="margin-left: 1%; margin-top: -1%">Detalha inscrições em um benefício</label>
         </div>
+        
         <div style="margin-top: 1%; margin-left: 1%;">
             <button pButton label="Usos de Benefícios" 
+                class="p-button-outlined p-button-info"
                 (click)="relatorioUsoBeneficiosPorPrograma()"
-                [disabled]="programa === null"></button>
+                [disabled]="programa === null"
+            ></button>
             <label style="margin-left: 1%; margin-top: -1%">Detalha usos de benefícios de um programa</label>
         </div>
         

@@ -1,13 +1,14 @@
 <div class="conteudo">
     <p-breadcrumb [model]="items"></p-breadcrumb>
+    <br>
 
-    <p-panel header="Seleção">
+    <div style="margin: 0 auto; width: 50%; ">
 
-        <div style="width: 100%;">
-    
-        <div  style="width: 50%;">
+    <p-panel header="Seleção" style="margin: 0 auto; width: 50%; ">
+
+        <div>
             <div id="div-cpf2" class="p-field tamanhoSecundario" style="display: inline-block;">
-                <label for="cpf">CPF*</label>
+                <label for="cpf">CPF* </label>
                 <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="cpf" required #campocpf="ngModel"></p-inputMask>
             
             </div>
@@ -44,21 +45,13 @@
 
         </div>
 
-    </div>
-
     </p-panel>
 
-    <br>
-
-    <!-- <div style="width: 100%;" *ngIf="beneficiario">
-        <button pButton type="button" label="Detalhes"
-            (click)="navegate(['usos/beneficiarios-usos/'+inscricao.id])">
-        </button>
-    </div> -->
+    </div>
 
     <br>
 
-    <div id="htmlData">
+    <div id="htmlData" style="margin: 0 auto; width: 99%; ">
 
     <p-table #dt [value]="inscricoes" [globalFilterFields]="['id','data','parecer']"
         [paginator]="true" [rows]="5" styleClass="p-datatable-sm" 

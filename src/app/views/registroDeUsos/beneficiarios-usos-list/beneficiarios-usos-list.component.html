@@ -3,11 +3,14 @@
 
     <br>
         <div style="width: 100%; ">  
-            <button pButton label="Imprimir" class="btnNovo"
+            <button pButton label="Imprimir" class="p-button-outlined p-button-info"
             (click)=" relatorioUsosBeneficiosPorPrograma()"
             style="display: inline-block; margin-top: 0%; margin-left: 90%;"></button>
         </div>      
     <br>
+
+    
+    <div style="margin: 0 auto; width: 99%; ">
 
     <p-table #dt [value]="usosDoBeneficiario" [globalFilterFields]="['id','data','parecer']"
         [paginator]="true" [rows]="5" styleClass="p-datatable-sm" 
@@ -54,4 +57,7 @@
         </ng-template>
         
     </p-table>
+
+    </div>
+
 </div>

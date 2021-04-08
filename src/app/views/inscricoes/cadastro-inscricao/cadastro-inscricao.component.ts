@@ -34,6 +34,8 @@ export class CadastroInscricaoComponent implements OnInit {
     idBeneficio: null, beneficiosDTO: null, beneficiario: null
   }
 
+  displayCadastro = false;
+
   constructor(
     private dadosSocioeconomicosService: DadosSocioeconomicosService,
     private beneficioService: BeneficioService,
@@ -69,6 +71,10 @@ export class CadastroInscricaoComponent implements OnInit {
 
   showModalDialog() {
     this.displayModal = true;
+  }
+
+  showModalDialogCadastro() {
+    this.displayCadastro = true;
   }
 
   setarInscricaoDTO(inscricaoDTO: InscricaoDTO): void{

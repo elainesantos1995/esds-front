@@ -38,5 +38,6 @@ export class DadosSocioeconomicosDTO{
 	pontuacao: number;	
 //_________________________________
 	beneficiarioTitular: BeneficiarioEnderecoDTO;
+	parecer: string;
 	
 }

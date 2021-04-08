@@ -69,11 +69,10 @@
         </div>
         <div style="width: 20%; display: inline-table;">
             <button label="Selecionar" pButton (click)="salvarSelecao()"
-            style="margin-left: 50%;" ></button>
+            style="margin-left: 50%;" [disabled]="!inscricoesselecionadas"></button>
         </div>                                                                  
      
     </div>
-
 
     <div id="htmlData">
 

@@ -343,6 +343,14 @@
                 </div>
             </p-tabPanel>
 
+            <p-tabPanel header="Parecer" *ngIf="dados.id">
+
+                <p>Parecer* </p>
+                <textarea [rows]="5" [cols]="30" pInputTextarea name="parecer"
+                [(ngModel)]="dados.parecer" style="display: inline-block;"              
+                ></textarea>
+
+            </p-tabPanel>
 
         </p-tabView>
 

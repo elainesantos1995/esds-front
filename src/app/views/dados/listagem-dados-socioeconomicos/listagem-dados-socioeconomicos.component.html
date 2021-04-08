@@ -14,6 +14,9 @@
     </div> -->
 
     <!-- Usar ngIf para renderizar apenas caso o beneficiário exista -->
+
+    <div style="margin: 0 auto; width: 99%; ">
+
     <p-table #dt [value]="dadosSocioeconomicos" [paginator]="true" 
     [rows]="5" [globalFilterFields]="['id', 'beneficiarioTitular.nome',
     'beneficiarioTitular.cpf',
@@ -46,7 +49,7 @@
                 <th>Imprimir dados</th>
                 <th>
                     <button pButton type="button" label="Novo" icon="pi pi-plus"
-                        class="p-button-success btnNovo" 
+                        class="p-button-outlined p-button-success" 
                         (click)="navegate(['/dados/cadastro-dados/'])">
                     </button>
                 </th>
@@ -66,7 +69,15 @@
                     <button pButton pRipple icon="pi pi-file-pdf" (click)="gerarPdf(dado)" class="p-button-secondary p-button-text"></button>
                 </td>                
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary p-button-text" (click)="navegate(['/dados/cadastro-dados/'+dado.id])" ></button>
+
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-success p-button-text" 
+                        (click)="navegate(['/dados/cadastro-dados/'+dado.id])" 
+                        *ngIf="dado.parecer"
+                    ></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-info p-button-text" 
+                        (click)="navegate(['/dados/cadastro-dados/'+dado.id])" 
+                        *ngIf="!dado.parecer"
+                    ></button>
                     
                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text" 
                        (click)="showModalDialog()" (click)="setarDadosDTO(dado)"></button>
@@ -87,5 +98,7 @@
             </tr>
         </ng-template>
     </p-table> 
+
+    </div>
 
 </div>

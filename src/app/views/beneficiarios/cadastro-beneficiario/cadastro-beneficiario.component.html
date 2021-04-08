@@ -230,6 +230,7 @@
     </div>
 
     <button pButton id="enviar" label="Salvar" type="submit" 
+    class="p-button-outlined p-button-info"
     style="width: 100px; margin-left: 20px;" *ngIf="!beneficiarioEnderecoDTO.id"
     [disabled]="beneficiarioEnderecoDTO.nome == '' 
     || beneficiarioEnderecoDTO.rg == '' 
@@ -246,8 +247,15 @@
     || beneficiarioEnderecoDTO.pontoDeReferencia == ''
     "></button>    
     
-    <button pButton id="atualizar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="beneficiarioEnderecoDTO.id"></button>
-    <button pButton id="cancelar" label="Voltar" (click)="navegate(['/beneficiarios/'])" style="width: 100px; margin-left: 5px;"></button>
+    <button pButton id="atualizar" label="Atualizar" type="submit" 
+        style="width: 100px; margin-left: 20px;" 
+        class="p-button-outlined p-button-info"
+        *ngIf="beneficiarioEnderecoDTO.id">
+    </button>
+    <button pButton id="cancelar" label="Voltar" 
+        (click)="navegate(['/beneficiarios/'])" style="width: 100px; margin-left: 5px;"
+        class="p-button-outlined p-button-info"
+    ></button>
     
     <p-dialog header="Erro!" [(visible)]="display" [modal]="true" [style]="{width: '30vw'}" [baseZIndex]="500"
     [draggable]="false" [resizable]="false">

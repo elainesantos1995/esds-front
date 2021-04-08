@@ -9,7 +9,7 @@
     <br>
     <div style="width: 100%; ">  
         <button pButton type="button" label="Novo" icon="pi pi-plus"
-            class="p-button-success btnNovo"
+            class="p-button-outlined p-button-success"
             style="display: inline-block; margin-top: 0%; margin-left: 90%;"
             (click)="navegate(['/funcionarios/funcionarios-cadastro/'])">
         </button>
@@ -19,7 +19,8 @@
     <br>
 
 
-<div>
+    <div style="margin: 0 auto; width: 99%; ">
+
         <p-table #dt [value]="funcionariosDTO" [globalFilterFields]="['nome','cpf']"
         [paginator]="true" [rows]="5" styleClass="p-datatable-gridlines">
         

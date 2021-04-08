@@ -21,6 +21,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {PanelModule} from 'primeng/panel';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 @NgModule({
   exports: [
@@ -44,7 +45,8 @@ import {PanelModule} from 'primeng/panel';
     DropdownModule,
     SelectButtonModule,
     MultiSelectModule,
-    PanelModule  
+    PanelModule,
+    InputTextareaModule  
    
   ]
 })

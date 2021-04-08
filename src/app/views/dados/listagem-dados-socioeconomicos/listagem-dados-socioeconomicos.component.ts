@@ -44,7 +44,7 @@ export class ListagemDadosSocioeconomicosComponent implements OnInit {
       quantMembrosCriancas: '',	nomesMembrosFamilia: null, rendaFamiliar: null,	
       doencasCronicas: null, quantMembroDeficiente: null, tipoDeficiencia: null, 
       idBeneficiario: '', cpfBeneficiario: '', dataPreenchimento: null,
-	    dataUltimaAtualizacao: null, pontuacao: null, beneficiarioTitular: null
+	    dataUltimaAtualizacao: null, pontuacao: null, beneficiarioTitular: null, parecer: ''
   }
 
   dataPreenchimento: string = null;

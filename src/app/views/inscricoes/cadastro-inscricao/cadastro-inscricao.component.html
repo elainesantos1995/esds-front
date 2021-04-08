@@ -1,25 +1,33 @@
 <div class="conteudo">
     <p-breadcrumb [model]="items"></p-breadcrumb>
 
-
     <div style="width: 100%;" >
-        <!-- <div style="display: inline-block; width: 80%;">  
-            <button pButton type="button" label="Carteirinhas" 
-                class="btnNovo"
+        <div style="display: inline-block; width: 80%;">  
+            <button pButton type="button" label="Inscrição" 
+                icon="pi pi-plus"
+                class="p-button-outlined p-button-success"
                 style="margin-left: 100%;"
-                (click)="navegate(['/inscricoes/selecao/'])">
+                (click)="showModalDialogCadastro()">
             </button>
-        </div> -->
-    <!-- <div style="display: inline-block;">   -->
+        </div>
+    <div style="display: inline-block; width: 20%;">  
         <button pButton type="button" label="Seleção" 
-            class="btnNovo"
-            style="margin-left: 90%;"
+            class="p-button-outlined p-button-info"
+            style="margin-left: 55%;"
             (click)="navegate(['/inscricoes/selecao/'])">
         </button>
     </div>
-    <!-- </div> -->
-    
-    <p-panel header="Incrição">
+    </div>
+
+<!-- ____________________________________________________________________________ -->
+
+
+<p-dialog header="Inscrição" [(visible)]="displayCadastro" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+                        
+
+    <!-- <div style="margin: 0 auto; width: 50%; ">     -->
+    <p-panel header="Nova Incrição">
 
     <div id="div-expedicao" class="p-field tamanhoSecundario">
         <label for="cpf">CPF do Beneficiário*</label>
@@ -46,11 +54,27 @@
     </div>
     <br>
 
-    <button pButton label="Salvar" (click)="onSubmit()"></button>
+    <!-- <button pButton label="Salvar" (click)="onSubmit()"
+        class="p-button-info p-button-outlined" 
+    ></button> -->
     
-</p-panel>
+    </p-panel>   
 
-<div>
+    <!-- </div> -->
+
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayModal=false" label="Cancelar" styleClass="p-button-text" ></p-button>
+        <p-button icon="pi pi-check" (click)="onSubmit()" (click)="displayModal=false" label="Salvar" styleClass="p-button-text"></p-button>
+    </ng-template>
+
+</p-dialog> 
+
+
+    <!-- ____________________________________________________________________________ -->
+
+    <br>
+
+    <div style="margin: 0 auto; width: 99%; ">
     
     <p-table #dt [value]="inscricoesDTO" [globalFilterFields]="['id','data','parecer']"
         [paginator]="true" [rows]="5" styleClass="p-datatable-sm" styleClass="p-datatable-gridlines">
@@ -82,7 +106,7 @@
                 <th>Benefício</th>
                 <th>Beneficiario</th>
                 <th></th>                  
-                <th></th>
+                
             </tr>
         </ng-template>
 

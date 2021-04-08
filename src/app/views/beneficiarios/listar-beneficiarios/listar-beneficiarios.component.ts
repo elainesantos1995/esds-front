@@ -10,6 +10,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { InscricaoService } from 'src/app/_servicos/inscricaoService';
  
 @Component({
   selector: 'app-listar-beneficiarios',
@@ -51,7 +52,8 @@ imageName: any;
     private browserModule: BrowserModule, 
     private sanitizer: DomSanitizer,
     private httpClient: HttpClient,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private inscricaoService: InscricaoService
   ) { }
 
   ngOnInit(): void {
@@ -82,11 +84,22 @@ imageName: any;
   }
 
   deletar(){
+
+    let inscricoes: any = null;
+    this.inscricaoService.listarInscricoesDeUmBeneficiario(this.beneficiarioSelecionadoDTO.id).subscribe(response => {
+      inscricoes = response;
+    })
+
+    if(inscricoes !== null){
+      this.toastr.info("Não é possível deletar beneficiário inscrito em benefícios de programas!")
+    }
+    else{
     this.beneficiariosService.deletar(this.beneficiarioSelecionadoDTO.id)
       .subscribe(response => {  
         location.reload();
         return false;      
       });
+    }
   }
 
   // carregamento de valores de itens de breadcrump

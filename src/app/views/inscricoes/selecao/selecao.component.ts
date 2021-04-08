@@ -115,6 +115,10 @@ export class SelecaoComponent implements OnInit {
     this.inscricaoService.buscarInscricoesSelecionadas(this.beneficioSelecionado.id)
     .subscribe((inscricoes: InscricaoSelecionadaDTO[]) => {
       this.inscricoesSelecionadasRetornadas = inscricoes;
+      if(inscricoes != null){
+        this.toastr.info("O programa selecionado possui uma lista de inscrições selecionadas. "+
+        "Você pode imprimir ou gerar uma nova lista!")
+      }
       console.log(this.inscricoesSelecionadasRetornadas)
     })
   }
@@ -132,6 +136,8 @@ export class SelecaoComponent implements OnInit {
     }
     else if(this.beneficioSelecionado === null){
       this.toastr.error("Selecione um benefício!" )
+    }else if(this.programaSelecionadoDTO.vigenciaInicio > new Date()){
+      this.toastr.error("Data de seleção excedida! Não é possível alterar a lista!" )
     }
     else{
 

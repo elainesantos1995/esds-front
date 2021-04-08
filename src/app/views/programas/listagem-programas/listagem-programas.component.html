@@ -15,7 +15,7 @@
     <br>
     <div style="width: 100%; ">  
         <button id="btnNovoPrograma" pButton type="button" label="Novo" icon="pi pi-plus"
-            class="p-button-success btnNovo"
+            class="p-button-outlined p-button-success"
             style="display: inline-block; margin-top: 0%; margin-left: 90%;"
             (click)="navegate(['/programas/programas-cadastro/'])">
         </button>
@@ -24,7 +24,7 @@
     <br>
     <br>
 
-    <div>
+    <div style="margin: 0 auto; width: 99%; ">
         <p-table #dt [value]="programasDTO" [globalFilterFields]="['nome','descricao']"
             [paginator]="true" [rows]="5">
             
@@ -67,7 +67,8 @@
                     <td>{{programa.vigenciaInicio | date: 'dd/MM/yyyy'}}</td>
                     <td>{{programa.vigenciaTermino | date: 'dd/MM/yyyy'}}</td>
                     <td>                        
-                        <button pButton type="button" class="p-button-secondary" label="Benefícios" (click)="navegate(['/programas/beneficios/'+ programa.id])"></button>
+                        <button pButton type="button" class="p-button-text" 
+                        label="Benefícios" (click)="navegate(['/programas/beneficios/'+ programa.id])"></button>
                     </td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary p-button-text" (click)="navegate(['/programas/programas-cadastro/'+ programa.id])" ></button>
