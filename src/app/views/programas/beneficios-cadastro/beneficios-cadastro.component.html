@@ -101,7 +101,6 @@
                         name="cancelamento" required >                                           
                 </div>
 
-                <!-- Aqui -->
                 <div id="div-ttl-bene" class="p-field tamanhoSecundario">
                     <label for="ttl-bene">Qtd Benefícios Disponibilizados*</label>
                     <input id="ttl-bene" [(ngModel)]="beneficio.totalBeneficios" type="number" pInputText
@@ -119,7 +118,15 @@
 
     <button pButton id="enviar" label="Salvar" type="submit" 
         style="width: 100px; margin-left: 20px;" *ngIf="!beneficio.id"
-        class="p-button-outlined p-button-info">
+        class="p-button-outlined p-button-info"
+        [disabled]="beneficio.nome == ''
+        || beneficio.periodicidade == ''
+        || beneficio.limiteVagas == null
+        || beneficio.justificativa == ''
+        || beneficio.toleranciaUsosCancelado == null
+        || beneficio.toleranciaUsosInadimplente == null
+        || beneficio.totalBeneficios == null
+        || beneficio.totalRecursosAportados == null">
     </button>    
     
     <button pButton id="atualizar" label="Atualizar" type="submit" 
@@ -128,7 +135,7 @@
     ></button>
 
     <button pButton id="cancelar" label="Voltar" 
-        (click)="navegate(['/programas/beneficios/'])" 
+        (click)="navegate(['/programas/beneficios/'+this.programa.id])" 
         style="width: 100px; margin-left: 5px;"
         class="p-button-outlined p-button-info"
     ></button>

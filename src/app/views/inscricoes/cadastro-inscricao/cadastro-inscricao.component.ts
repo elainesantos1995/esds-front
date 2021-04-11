@@ -7,6 +7,10 @@ import { DadosSocioeconomicosService } from 'src/app/_servicos/dadosSocioeconomi
 import { BeneficioDTO } from 'src/app/dto/beneficioDTO';
 import { BeneficioService } from 'src/app/_servicos/beneficioService';
 import { InscricaoService } from 'src/app/_servicos/inscricaoService';
+import { ProgramaDTO } from 'src/app/dto/programaDTO';
+import { ProgramaService } from 'src/app/_servicos/programaService';
+import { ApiServiceBeneficiarios } from 'src/app/_servicos/beneficiarioService';
+import { BeneficiarioEnderecoDTO } from 'src/app/dto/beneficiarioEnderecoDTO';
 
 @Component({
   selector: 'app-cadastro-inscricao',
@@ -33,28 +37,37 @@ export class CadastroInscricaoComponent implements OnInit {
     quantBeneficiosRetirados: null, cpfBeneficiario: '',
     idBeneficio: null, beneficiosDTO: null, beneficiario: null
   }
-
+  
   displayCadastro = false;
+  
+  anoPrograma: number = null;
+  programa: ProgramaDTO = null;
+  programas: ProgramaDTO [] = null;
+
+  beneficiarioEncontrado: BeneficiarioEnderecoDTO = null;
 
   constructor(
     private dadosSocioeconomicosService: DadosSocioeconomicosService,
     private beneficioService: BeneficioService,
     private inscricaoService: InscricaoService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private programaService: ProgramaService,
+    private beneficiarioService: ApiServiceBeneficiarios
   ) { }
 
   ngOnInit(): void {
     this.carregarItensBreadCrumb();
     this.carregarStatus();
     this.buscarInscricoes();
-    this.buscarBeneficios();
   }
 
   onSubmit(){
       this.selecaoStatus = 'EM_ANALISE';
       this.inscricaoDTO.status = this.selecaoStatus;
       this.inscricaoDTO.idBeneficio = this.beneficioDTO.id;
+      
+      console.log(this.inscricaoDTO)
       this.inscricaoService.salvar(this.inscricaoDTO).subscribe(resposta => {
         this.toastr.success("Incrição realizada com sucesso!" )
         location.reload();
@@ -82,16 +95,11 @@ export class CadastroInscricaoComponent implements OnInit {
   }
 
   buscarInscricoes(): void{
+     
     this.inscricaoService.buscarTodos().subscribe((inscricoesDTO: InscricaoDTO[]) => {
       this.inscricoesDTO = inscricoesDTO;
+      console.log("Inscrições total")
       console.log(this.inscricoesDTO)
-    });
-  }
-
-  buscarBeneficios(): void{
-    this.beneficioService.buscarTodos().subscribe((beneficiosDTO: BeneficioDTO[]) => {
-      this.beneficiosDTO = beneficiosDTO;
-    //  console.log(this.beneficiosDTO)
     });
   }
 
@@ -120,6 +128,39 @@ export class CadastroInscricaoComponent implements OnInit {
       {name: 'Concedido', value: 'CONCEDIDO'},
       {name: 'Cancelado', value: 'CANCELADO'}
     ];
+  }
+
+  buscarPorAno(): void{
+    console.log('Programa: '+ this.programa)
+    this.programaService.buscarPorAno(this.anoPrograma).subscribe((programas: ProgramaDTO[]) => {
+      this.programas = programas;
+      if(this.programas == null){
+        this.toastr.info("Programas não encontrados para o ano informado!")
+      }
+    }); 
+  }
+
+  buscarBeneficiosDoPrograma(): void{
+    console.log('Id do programa: '+ this.programa.id)
+    this.beneficioService.listarBeneficiosDeUmPrograma(this.programa.id)
+    .subscribe((beneficiosDTO: BeneficioDTO[]) => {
+      this.beneficiosDTO = beneficiosDTO;
+      if(beneficiosDTO == null){
+        this.toastr.info("Programa não possui benefícios cadastrados!")
+      }
+      console.log(this.beneficiosDTO)
+    });
+  }
+
+  buscarBeneficiarioPorCPF(){
+    console.log("cpf: " + this.inscricaoDTO.cpfBeneficiario)
+    this.beneficiarioService.buscarPorCPF(this.inscricaoDTO.cpfBeneficiario).subscribe(response => {
+      this.beneficiarioEncontrado = response;
+      if(this.beneficiarioEncontrado == null){
+        this.toastr.error("CPF não encontrado!")
+      }
+      console.log("response: " + response)
+    })
   }
 
 }

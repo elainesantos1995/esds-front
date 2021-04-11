@@ -46,6 +46,8 @@ export class CadastroFuncionariosComponent implements OnInit {
     email: '', telefone1: '', telefone2: '', idEndereco: null
   }
 
+  loginValido: boolean = null;
+
   constructor(
     private funcionarioService: ApiServiceFuncionarios,
     private activatedRoute: ActivatedRoute,
@@ -93,6 +95,7 @@ export class CadastroFuncionariosComponent implements OnInit {
 
   onSubmit(): void{
     // Atualiza um funcionário
+
     if(this.id){
       this.funcionarioEnderecoDTO.admin = this.selecaoAdmin === "sim";
       this.funcionarioEnderecoDTO.dataNascimento = this.converterDataNascimento(this.dataNascimento);
@@ -102,7 +105,11 @@ export class CadastroFuncionariosComponent implements OnInit {
         this.toastr.error("Data de Nascimento não deve ser maior que a data atual!" )
       }else if(this.compararDataInicialComDataFinal(this.funcionarioEnderecoDTO.dataNascimento, this.funcionarioEnderecoDTO.rgDataEmissao)){
         this.toastr.error("Data de Emissão do RG não deve ser maior que a Data de Nascimento!" )
-      }else{
+      }
+      // if(this.loginValido == false){
+      //   this.toastr.error("Login indisponível!")
+      // }
+      else{
 
       this.funcionarioService.editar(this.id, this.funcionarioEnderecoDTO).subscribe(resposta => {
         this.toastr.success("Cadastro atualizado com sucesso!" )
@@ -124,10 +131,11 @@ export class CadastroFuncionariosComponent implements OnInit {
       }else if(this.compararDataInicialComDataFinal(this.funcionarioEnderecoDTO.dataNascimento, this.funcionarioEnderecoDTO.rgDataEmissao)){
         this.toastr.error("Data de Emissão do RG não deve ser maior que a Data de Nascimento!" )
       }
-      // else if(this.checarDisponibilidadeLogin() === false){
-      //   this.toastr.error("Login indisponível!")
-      // }
+      if(this.loginValido == false){
+        this.toastr.error("Login indisponível!")
+      }
       else{
+
         this.funcionarioEnderecoDTO.tipo = this.tipoSelecionado;
         this.funcionarioEnderecoDTO.sexo = this.genero;
         this.funcionarioService.salvar(this.funcionarioEnderecoDTO)
@@ -277,10 +285,22 @@ checarEmail(email: string): boolean{
   return regex_validation.test(email);
 }
 
-checarDisponibilidadeLogin(): any{
-  var disponivel: boolean;
-  disponivel = this.funcionarioService.verificarDisponibilidadeLogin(this.funcionarioEnderecoDTO.login);
-  return disponivel;
+checarDisponibilidadeLogin(): boolean{
+//  var valido: boolean;
+  var funcionarioValido: FuncionarioEnderecoDTO;
+  this.funcionarioService.verificarDisponibilidadeLogin(this.funcionarioEnderecoDTO.login).subscribe(response => {
+    funcionarioValido = response;
+    console.log("validar")
+    console.log(funcionarioValido)
+    if(funcionarioValido === null){
+      this.loginValido = true;
+       this.toastr.success("Login válido!")
+    }else{
+       this.toastr.error("Login inválido!")
+      this.loginValido = false;
+    }
+  });
+  return this.loginValido;
 }
 
 }

@@ -355,11 +355,39 @@
         </p-tabView>
 
         <button pButton id="enviar" label="Salvar" type="submit" 
-    style="width: 100px; margin-left: 20px;" *ngIf="!dados.id">
+            class="p-button-outlined p-button-info"
+            style="width: 100px; margin-left: 20px;" *ngIf="!dados.id"
+            [disabled]="dados.localidade == ''
+            || dados.localidade ==''
+            || dados.quantComodos ==''
+            || dados.temBanheiro == null
+            || dados.tipoDeficiencia == null
+            || dados.tipoDeTrabalho ==''
+            || dados.aguaEncanada  == null
+            || dados.coletaEsgoto == null
+            || dados.composicaoDomicilio ==''
+            || dados.doencaCronica == null
+            || dados.energiaEletrica == null
+            || dados.familiaIndigena == null
+            ||dados.familiaQuilombola == null
+            || dados.membroDeficiente == null
+            || dados.quantMembrosCriancas == ''
+            || dados.quantMembrosFamilia == ''
+            || dados.quantMembrosIdosos == ''
+            || dados.rendaFamiliar == null
+            || dados.rendaPerCapita == ''
+            || dados.doencaCronica == null
+            || dados.cpfBeneficiario == ''">
     </button>    
     
-    <button pButton id="atualizar" label="Atualizar" type="submit" style="width: 100px; margin-left: 20px;" *ngIf="dados.id"></button>
-    <button pButton id="cancelar" label="Voltar" (click)="navegate(['/dados/'])" style="width: 100px; margin-left: 5px;"></button>
+    <button pButton id="atualizar" label="Atualizar" 
+        class="p-button-outlined p-button-info"
+        type="submit" style="width: 100px; margin-left: 20px;" *ngIf="dados.id"
+    ></button>
+    <button pButton id="cancelar" label="Voltar" 
+        (click)="navegate(['/dados/'])" class="p-button-outlined p-button-info"
+        style="width: 100px; margin-left: 5px;"
+    ></button>
 
 </form>
 

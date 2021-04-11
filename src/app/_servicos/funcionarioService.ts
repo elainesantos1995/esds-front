@@ -59,7 +59,7 @@ export class ApiServiceFuncionarios{
     return this.http.delete<any>(`http://localhost:8090/api/funcionarios/${id}`);
   }
 
-  verificarDisponibilidadeLogin(login: string): any{
+  verificarDisponibilidadeLogin(login: string): Observable<FuncionarioEnderecoDTO>{
     return this.http.get<any>(`http://localhost:8090/api/funcionarios/verificar/${login}`);
   
   }

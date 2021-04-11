@@ -121,10 +121,18 @@
     <button pButton id="atualizar" label="Atualizar" type="submit" 
         style="width: 100px; margin-left: 20px;" *ngIf="beneficio.id"
         class="p-button-outlined p-button-info"
+        [disabled]="beneficio.nome == ''
+        || beneficio.periodicidade == ''
+        || beneficio.limiteVagas == null
+        || beneficio.justificativa == ''
+        || beneficio.toleranciaUsosCancelado == null
+        || beneficio.toleranciaUsosInadimplente == null
+        || beneficio.totalBeneficios == null
+        || beneficio.totalRecursosAportados == null"
     ></button>
     <button pButton id="cancelar" label="Voltar" 
         class="p-button-outlined p-button-info"
-        (click)="navegate(['/programas/beneficios/'+programa.id])" 
+        (click)="navegate(['/programas/beneficios/'+this.programa.id])" 
         style="width: 100px; margin-left: 5px;"
     ></button>
         

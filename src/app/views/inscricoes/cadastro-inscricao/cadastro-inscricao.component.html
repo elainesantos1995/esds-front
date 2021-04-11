@@ -23,21 +23,66 @@
 
 
 <p-dialog header="Inscrição" [(visible)]="displayCadastro" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
-    [draggable]="false" [resizable]="false">
+    [draggable]="false" [resizable]="false" (click)="setarInscricaoDTO(this.inscricaoDTO)">
                         
 
     <!-- <div style="margin: 0 auto; width: 50%; ">     -->
     <p-panel header="Nova Incrição">
 
-    <div id="div-expedicao" class="p-field tamanhoSecundario">
-        <label for="cpf">CPF do Beneficiário*</label>
-        <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" 
-        [(ngModel)]="inscricaoDTO.cpfBeneficiario" required
-        #campocpf="ngModel" class="p-float-label"></p-inputMask>
+    <div style="margin-top: 2%;">
 
-        <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
-            CPF do Beneficiário inválido! 
+        <div id="div-expedicao" class="p-field tamanhoSecundario" style="display: inline-block;">
+            <label for="cpf">CPF do Beneficiário*</label>
+            <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" 
+            [(ngModel)]="inscricaoDTO.cpfBeneficiario" required
+            #campocpf="ngModel" class="p-float-label"></p-inputMask>
+
         </div>
+
+        <div style="display: inline-block;">           
+            <button pButton pRipple type="button" icon="pi pi-search" 
+                class="p-button-rounded p-button-success p-button-text"
+                (click)="buscarBeneficiarioPorCPF()">
+            </button>
+        </div>
+
+    </div>
+
+     <div>
+        
+        <div id="div-ano"  style="display: inline-block; margin-left: 1%;">
+            <label for="ano">Ano* </label>
+            <input id="ano" type="number" [(ngModel)]="anoPrograma" pInputText>         
+        </div>        
+
+        <div style="display: inline-block;">           
+            <button pButton pRipple type="button" icon="pi pi-search" 
+                class="p-button-rounded p-button-success p-button-text"
+                (click)="buscarPorAno()">
+            </button>
+        </div>
+
+    </div>    
+
+    <div>
+        <div id="div-programa" style="display: inline-block;">
+            <label for="dropdown">Programas* </label>
+            <span>
+                
+            <p-dropdown [options]="programas" [(ngModel)]="programa"
+                placeholder="Selecione o Programa" optionLabel="nome" 
+                [showClear]="true" [ngModelOptions]="{standalone: true}" required ></p-dropdown>
+            </span>              
+    
+        </div>
+
+        <div style="display: inline-block;">           
+            <button pButton pRipple type="button" icon="pi pi-search" 
+                class="p-button-rounded p-button-success p-button-text"                 
+                (click)="buscarBeneficiosDoPrograma()">
+            </button>
+        </div>
+
     </div>
 
     <div id="div-estado-civil" class="p-field p-col-12 p-md-4">
@@ -53,24 +98,18 @@
         </div>                
     </div>
     <br>
-
-    <!-- <button pButton label="Salvar" (click)="onSubmit()"
-        class="p-button-info p-button-outlined" 
-    ></button> -->
     
     </p-panel>   
 
-    <!-- </div> -->
-
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-check" (click)="displayModal=false" label="Cancelar" styleClass="p-button-text" ></p-button>
-        <p-button icon="pi pi-check" (click)="onSubmit()" (click)="displayModal=false" label="Salvar" styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-check" (click)="displayCadastro=false" label="Cancelar" styleClass="p-button-text" ></p-button>
+        <p-button icon="pi pi-check" (click)="onSubmit()" (click)="displayModal=false" 
+            label="Salvar" styleClass="p-button-text"
+            [disabled]="beneficioDTO == null
+                || inscricaoDTO.cpfBeneficiario == ''"></p-button>
     </ng-template>
 
 </p-dialog> 
-
-
-    <!-- ____________________________________________________________________________ -->
 
     <br>
 

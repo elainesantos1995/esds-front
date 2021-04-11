@@ -132,7 +132,8 @@
                         Tipo de Funcionário inválido! 
                     </div>                
                 </div> 
-                <div id="div-email" class="p-field tamanhoSecundario">
+
+                <div id="div-email" class="p-field tamanhoSecundario" style="display: inline;">
                     <label for="email">Email*</label>
                     <input id="email" type="text"pInputText name="email" 
                     [(ngModel)]="funcionarioEnderecoDTO.email" class="form-control" 
@@ -143,17 +144,26 @@
                     </div>
                 
                 </div>
-                <div id="div-login" class="p-field tamanhoSecundario">
-                    <label for="login">Login*</label>
-                    <input id="login" type="text"pInputText name="login" [(ngModel)]="funcionarioEnderecoDTO.login" class="form-control" required #login="ngModel"> 
-                    
-                    <div *ngIf="!login.valid && login.touched" class="alerta">
-                        Login inválido! 
+
+                <div class="p-field ">
+
+                    <div id="div-login" class="p-field tamanhoSecundario" style="display: inline-block;">
+                        <label for="login">Login*</label>
+                        <input id="login" type="text"pInputText name="login" [(ngModel)]="funcionarioEnderecoDTO.login" class="form-control" required #login="ngModel"> 
+                        
+                        <div *ngIf="!login.valid && login.touched" class="alerta">
+                            Login inválido! 
+                        </div>
+
                     </div>
 
-                    <!-- <div *ngIf="checarDisponibilidadeLogin() == false" class="alerta">
-                        Login indisponível!
-                    </div>                 -->
+                    <div style="display: inline-block;" *ngIf="!funcionarioEnderecoDTO.id">           
+                        <button pButton pRipple type="button" icon="pi pi-search" 
+                            class="p-button-rounded p-button-success p-button-text"                 
+                            (click)="checarDisponibilidadeLogin()">
+                        </button>
+                    </div>
+
                 </div>
 
                 <div id="div-senha" class="p-field tamanhoSecundario" *ngIf="!funcionarioEnderecoDTO.id">

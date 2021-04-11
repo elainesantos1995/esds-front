@@ -39,14 +39,14 @@
             </div>
         </div>
 
-    <div id="div-parecer" class="p-field tamanhoSecundario" *ngIf="inscricaoDTO.id">
+    <!-- <div id="div-parecer" class="p-field tamanhoSecundario" *ngIf="inscricaoDTO.id">
         <label for="parecer">Parecer*</label>
         <input id="parecer" type="text" class="p-float-label" pInputText name="parecer" class="p-float-label" [(ngModel)]="inscricaoDTO.parecer" required #parecer="ngModel"> 
     
         <div *ngIf="!parecer.valid && parecer.touched" class="alerta">
             Parecer inválido! 
         </div>
-    </div>
+    </div> -->
 
     <div id="div-status" class="p-field tamanhoSecundario" *ngIf="inscricaoDTO.id">
         <label for="status">Status*</label>
@@ -82,7 +82,11 @@
         </div>
     </div>   
 
-    <button pButton label="Atualizar" type="submit"></button>
+    <button pButton label="Atualizar" type="submit" style="margin-top: 1%;"
+        class="p-button-outlined p-button-info"
+        [disabled]="selecaoStatus == ''
+        || beneficioDTO == null"
+    ></button>
 
 </p-panel>
 
