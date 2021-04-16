@@ -4,8 +4,6 @@ import { HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http'
 import { catchError, tap, map, retry } from 'rxjs/operators';
 import { FuncionarioEnderecoDTO } from '../dto/funcionarioEnderecoDTO';
 
-
-
 @Injectable({
     providedIn: 'root'
 })
@@ -51,8 +49,7 @@ export class ApiServiceFuncionarios{
     return this.http.get<any>('http://localhost:8090/api/funcionarios/')
     .pipe(
       retry(2),
-      catchError(this.handleError))
-    
+      catchError(this.handleError))    
   }
 
   deletar(id : number): Observable<any>{
@@ -61,7 +58,10 @@ export class ApiServiceFuncionarios{
 
   verificarDisponibilidadeLogin(login: string): Observable<FuncionarioEnderecoDTO>{
     return this.http.get<any>(`http://localhost:8090/api/funcionarios/verificar/${login}`);
-  
+  }
+
+  buscarCPF(cpf: string): Observable<FuncionarioEnderecoDTO>{
+    return this.http.get<any>(`http://localhost:8090/api/funcionarios/verificar/cpf/${cpf}`);
   }
 
     handleError(error: HttpErrorResponse) {

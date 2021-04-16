@@ -13,6 +13,8 @@ import { InscricaoSelecionadaDTO } from 'src/app/dto/InscricaoSelecionadaDTO';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
+import { Location } from '@angular/common';
+
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs
@@ -49,17 +51,22 @@ export class SelecaoComponent implements OnInit {
 
   quantidade: number = null;
 
+  inscricoesContempladas2: BeneficioDTO[] = null;
+
+  anoPrograma: number = null;
+
   constructor(
     private toastr: ToastrService,
     private programaService: ProgramaService,
     private beneficioService: BeneficioService,
     private router: Router,
+    private location: Location,
     private inscricaoService: InscricaoService
   ) { }
 
   ngOnInit(): void {    
     this.carregarItensBreadCrumb();
-    this.carregarProgramas();
+  //  this.carregarProgramas();
  
     // this.exportColumns = this.inscricoesselecionadas.map(col => (
     //   {title: col.id, dataKey: col.status}));
@@ -69,6 +76,10 @@ export class SelecaoComponent implements OnInit {
     this.router.navigate(url);
   }
 
+  recarregar(){
+    location.reload();
+  }
+
   carregarItensBreadCrumb(){
     this.items = [
       {label:' Listagem', url: 'http://localhost:4200/inscricoes', icon: 'pi pi-home'},
@@ -76,25 +87,39 @@ export class SelecaoComponent implements OnInit {
   ];
   }
 
-  carregarProgramas(): void{
-    this.programaService.buscarTodos().subscribe((programasDTO: ProgramaDTO[]) => {
-      this.programas = programasDTO;
-      console.log(this.programas)
-    });
-  }
-  
-  // buscarBeneficios(): void{
-  //   this.beneficioService.buscarTodos().subscribe((beneficiosDTO: BeneficioDTO[]) => {
-  //     this.beneficios = beneficiosDTO;
-  //     console.log(this.beneficiosDoPrograma)
+  // carregarProgramas(): void{
+  //   this.programaService.buscarTodos().subscribe((programasDTO: ProgramaDTO[]) => {
+  //     this.programas = programasDTO;
+  //     console.log(this.programas)
   //   });
   // }
 
+  buscarPorAno(): void{
+
+    this.programaService.buscarPorAno(this.anoPrograma).subscribe((programas: ProgramaDTO[]) => {
+      this.programas = programas;
+      if(this.programas == null){
+        this.toastr.info("Programas não encontrados para o ano informado!")
+      }
+    }); 
+  }
+
+  buscarInscricoesContempladasPorBeneficio2(){
+    this.beneficioService.inscricoesContempladasPorBeneficio(this.beneficioSelecionado.id)
+      .subscribe((beneficios: BeneficioDTO[]) => {
+        this.inscricoesContempladas2 = beneficios;
+        console.log("Inscrições comtempladas 2")
+        console.log(this.inscricoesContempladas2)
+      })
+  }
+
   //Lista os benefícios de um programa para listagem 
   buscarBeneficiosDeUmPrograma(){
+    
     this.beneficioService.listarBeneficiosDeUmPrograma(this.programaSelecionadoDTO.id)
       .subscribe((beneficios: BeneficioDTO[]) => {
         this.beneficiosDoPrograma = beneficios;
+        console.log("benefícios de um programa")
         console.log(this.beneficiosDoPrograma)
       })
   }
@@ -102,10 +127,13 @@ export class SelecaoComponent implements OnInit {
   // Recupera as inscrições realizadas para um benefício 
   // através do id do benefício selecionado
   buscarInscricoesDeUmBeneficio(){
+    console.log("Benefício selecionado ")
+    console.log(this.beneficioSelecionado)
     console.log(this.beneficioSelecionado.id)
     this.inscricaoService.buscarBeneficioDeUmPrograma(this.beneficioSelecionado.id)
     .subscribe((inscricoes: InscricaoDTO[]) => {
       this.inscricoes = inscricoes;
+      console.log("Inscrições de um benefício")
       console.log(this.inscricoes)
     })
   }
@@ -115,10 +143,12 @@ export class SelecaoComponent implements OnInit {
     this.inscricaoService.buscarInscricoesSelecionadas(this.beneficioSelecionado.id)
     .subscribe((inscricoes: InscricaoSelecionadaDTO[]) => {
       this.inscricoesSelecionadasRetornadas = inscricoes;
-      if(inscricoes != null){
-        this.toastr.info("O programa selecionado possui uma lista de inscrições selecionadas. "+
-        "Você pode imprimir ou gerar uma nova lista!")
+      if(this.inscricoesSelecionadasRetornadas != null){
+        // this.toastr.info("O programa selecionado possui uma lista de inscrições selecionadas."+
+        // "Você pode imprimir ou gerar uma nova lista!")
+        this.toastr.info("Não existem inscrições contempladas para o benefícios selecionado!")
       }
+      console.log("Inscrições selecionadas")
       console.log(this.inscricoesSelecionadasRetornadas)
     })
   }
@@ -138,6 +168,8 @@ export class SelecaoComponent implements OnInit {
       this.toastr.error("Selecione um benefício!" )
     }else if(this.programaSelecionadoDTO.vigenciaInicio > new Date()){
       this.toastr.error("Data de seleção excedida! Não é possível alterar a lista!" )
+    }else if(this.inscricoes == null){
+      this.toastr.error("Não existem inscrições para o benefício selecionado!" )
     }
     else{
 
@@ -148,9 +180,10 @@ export class SelecaoComponent implements OnInit {
       this.inscricaoService
       .salvarInscricoesSelecionadas(this.beneficioSelecionado.id, this.inscricoesselecionadas
         ).subscribe(response => {
-        //  console.log(response)
+          console.log("Inscricoes salvas")
+          console.log(response)
         });
-        this.toastr.success("Benefícios gerados com Sucesso!" )
+        this.toastr.success("Lista de beneficiários gerada com sucesso!" )
       }
     }
   }
@@ -164,6 +197,10 @@ export class SelecaoComponent implements OnInit {
       this.toastr.error("Selecione os benefícios  do programa!")
     }else if(this.beneficioSelecionado === null){
       this.toastr.error("Selecione um benefício!")
+    }else if(this.inscricoes == null){
+      this.toastr.error("Não existem inscrições para o benefício selecionado!" )
+    }else if(this.inscricoesSelecionadasRetornadas.length == 0){
+      this.toastr.error("Não existem inscrições selecionadas para o benefício informado!" )
     }else{
 
     let docDefinition2 = {

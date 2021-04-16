@@ -152,6 +152,7 @@ export class CadastroInscricaoComponent implements OnInit {
     });
   }
 
+  // Preciso verificar se o cpf já está inscrito no benefício
   buscarBeneficiarioPorCPF(){
     console.log("cpf: " + this.inscricaoDTO.cpfBeneficiario)
     this.beneficiarioService.buscarPorCPF(this.inscricaoDTO.cpfBeneficiario).subscribe(response => {

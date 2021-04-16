@@ -47,6 +47,7 @@ export class CadastroFuncionariosComponent implements OnInit {
   }
 
   loginValido: boolean = null;
+  cpfValido: boolean = false;
 
   constructor(
     private funcionarioService: ApiServiceFuncionarios,
@@ -106,10 +107,11 @@ export class CadastroFuncionariosComponent implements OnInit {
       }else if(this.compararDataInicialComDataFinal(this.funcionarioEnderecoDTO.dataNascimento, this.funcionarioEnderecoDTO.rgDataEmissao)){
         this.toastr.error("Data de Emissão do RG não deve ser maior que a Data de Nascimento!" )
       }
-      // if(this.loginValido == false){
-      //   this.toastr.error("Login indisponível!")
-      // }
       else{
+
+        console.log("Funcionario a ser editado")
+        console.log(this.funcionarioEnderecoDTO)
+        console.log("Id"+ this.funcionarioEnderecoDTO.id)
 
       this.funcionarioService.editar(this.id, this.funcionarioEnderecoDTO).subscribe(resposta => {
         this.toastr.success("Cadastro atualizado com sucesso!" )
@@ -120,6 +122,9 @@ export class CadastroFuncionariosComponent implements OnInit {
     }
     // Salva um funcionário
     else{
+      if(this.cpfValido === false){
+        this.toastr.error("CPF já cadastrado na base de dados!")
+      }else{
       this.funcionarioEnderecoDTO.admin = this.selecaoAdmin === "sim";
       this.funcionarioEnderecoDTO.dataNascimento = this.converterDataNascimento(this.dataNascimento);
       if(this.testaCPF(this.funcionarioEnderecoDTO.cpf) === false){
@@ -147,7 +152,8 @@ export class CadastroFuncionariosComponent implements OnInit {
           this.toastr.success("Cadastro criado com sucesso!" )
           this.navegate(['/funcionarios/']);
       });
-    }
+      }
+      }
     }
   }
 
@@ -230,7 +236,7 @@ export class CadastroFuncionariosComponent implements OnInit {
   this.funcionario = {} as Funcionario;
 }
 
-// Valida um CPF informado
+// Valida se um CPF informado corresponde ao formato válido conforme RF
 testaCPF(cpf: string): boolean {
   var Soma = 0;
   // Verifica se a variável cpf é igual a "undefined", exibindo uma msg de erro
@@ -285,14 +291,9 @@ checarEmail(email: string): boolean{
   return regex_validation.test(email);
 }
 
-checarDisponibilidadeLogin(): boolean{
-//  var valido: boolean;
-  var funcionarioValido: FuncionarioEnderecoDTO;
+checarDisponibilidadeLogin(){
   this.funcionarioService.verificarDisponibilidadeLogin(this.funcionarioEnderecoDTO.login).subscribe(response => {
-    funcionarioValido = response;
-    console.log("validar")
-    console.log(funcionarioValido)
-    if(funcionarioValido === null){
+    if(response == null){
       this.loginValido = true;
        this.toastr.success("Login válido!")
     }else{
@@ -300,7 +301,18 @@ checarDisponibilidadeLogin(): boolean{
       this.loginValido = false;
     }
   });
-  return this.loginValido;
+}
+
+buscarCPF(){
+  this.funcionarioService.buscarCPF(this.funcionarioEnderecoDTO.cpf).subscribe(response => {
+    if(response == null){
+      this.cpfValido = true;
+      this.toastr.success("CPF Válido!")
+    }else{
+      this.cpfValido = false;
+      this.toastr.error("CPF Inválido!")
+    }
+  });
 }
 
 }

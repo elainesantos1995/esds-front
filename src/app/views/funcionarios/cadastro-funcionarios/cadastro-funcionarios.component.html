@@ -55,15 +55,29 @@
                         </div>
                 </div>
 
-                <div id="div-cpf1" class="p-field tamanhoSecundario" *ngIf="!funcionarioEnderecoDTO.id">
-                    <label for="cpf1">CPF*</label>
-                    <p-inputMask id="cpf1" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="funcionarioEnderecoDTO.cpf" required #campocpf="ngModel"></p-inputMask>
-                
-                    <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
-                        CPF inválido! 
+                <div class="p-field tamanhoSecundario">
+                    <div id="div-cpf1" class="p-field tamanhoSecundario" 
+                        *ngIf="!funcionarioEnderecoDTO.id"
+                        style="display: inline-block; width: 90%;">
+                        <label for="cpf1">CPF*</label>
+                        <p-inputMask id="cpf1" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="funcionarioEnderecoDTO.cpf" required #campocpf="ngModel"></p-inputMask>
+                    
+                        <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
+                            CPF inválido! 
+                        </div>
+                    
                     </div>
-                
+
+                    <div *ngIf="!funcionarioEnderecoDTO.id" 
+                        style="display: inline-block; width: 10%;" 
+                        class="p-field tamanhoSecundario">
+                        <button pButton pRipple type="button" icon="pi pi-search" 
+                            class="p-button-rounded p-button-success p-button-text"
+                            (click)="buscarCPF()">
+                        </button>
+                    </div>
                 </div>
+
                 <div id="div-cpf2" class="p-field tamanhoSecundario" *ngIf="funcionarioEnderecoDTO.id">
                     <label for="cpf2">CPF*</label>
                     <p-inputMask id="cpf2" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="funcionarioEnderecoDTO.cpf" required #campocpf="ngModel" disabled="funcionarioEnderecoDTO.id"></p-inputMask>

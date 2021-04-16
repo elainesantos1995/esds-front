@@ -47,6 +47,13 @@ buscarTodos(): Observable<BeneficioDTO[]>{
     catchError(this.handleError))  
 }
 
+inscricoesContempladasPorBeneficio(id: number): Observable<BeneficioDTO[]>{
+  return this.http.get<any>(this.url+ `/inscricoes-contempladas/${id}`)
+  .pipe(
+    retry(2),
+    catchError(this.handleError))  
+}
+
 deletar(id : number): Observable<any>{
   return this.http.delete<any>(this.url+`/${id}`);
 }

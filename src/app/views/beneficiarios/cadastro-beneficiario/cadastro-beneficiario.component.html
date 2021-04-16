@@ -11,8 +11,7 @@
             <div>
                 <div class="p-fluid">
                     
-                    <table>
-                        
+                    <table>                        
 
                  <td> 
 
@@ -25,7 +24,8 @@
                         Nome inválido! 
                     </div>
                 </div>
-                <div id="div-nascimento" class="p-field tamanhoSecundario" *ngIf="!beneficiarioEnderecoDTO.id">
+
+                <div id="div-nascimento" class="p-field tamanhoSecundario" *ngIf="!beneficiarioEnderecoDTO.id" style="display: inline;">
                     <label for="dataNascimento">Data de Nascimento*</label>
                     <input id="dataNascimento" type="date" pInputText
                         name="dataNascimento" [(ngModel)]="dataNascimento" required #data="ngModel">                         
@@ -34,6 +34,8 @@
                             Data de Nascimento inválida! 
                         </div>
                 </div>
+
+               
                 <div id="div-nascimento2" class="p-field tamanhoSecundario" *ngIf="beneficiarioEnderecoDTO.id">
                     <label for="dataNascimento2">Data de Nascimento*</label>
                     <input id="dataNascimento2" type="date" pInputText
@@ -43,15 +45,30 @@
                             Data de Nascimento inválida! 
                         </div>
                 </div>
-                <div id="div-cpf" class="p-field tamanhoSecundario" *ngIf="!beneficiarioEnderecoDTO.id">
-                    <label for="cpf">CPF*</label>
-                    <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="beneficiarioEnderecoDTO.cpf" required #campocpf="ngModel"></p-inputMask>
-                
-                    <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
-                        CPF em branco! 
-                    </div> 
-                                 
-                </div>
+
+                <div class="p-field tamanhoSecundario">
+                    <div id="div-cpf" class="p-field tamanhoSecundario" 
+                        *ngIf="!beneficiarioEnderecoDTO.id" 
+                        style="display: inline-block; width: 90%;">
+                        <label for="cpf">CPF*</label>
+                        <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="beneficiarioEnderecoDTO.cpf" required #campocpf="ngModel"></p-inputMask>
+                    
+                        <div *ngIf="!campocpf.valid && campocpf.touched" class="alerta">
+                            CPF em branco! 
+                        </div> 
+                                    
+                    </div>
+
+                    <div *ngIf="!beneficiarioEnderecoDTO.id" 
+                        style="display: inline-block; width: 10%;" 
+                        class="p-field tamanhoSecundario">
+                        <button pButton pRipple type="button" icon="pi pi-search" 
+                            class="p-button-rounded p-button-success p-button-text"
+                            (click)="buscarPorCPF()">
+                        </button>
+                    </div>
+            </div>
+
                 <div id="div-cpf2" class="p-field tamanhoSecundario" *ngIf="beneficiarioEnderecoDTO.id">
                     <label for="cpf">CPF*</label>
                     <p-inputMask id="cpf" type="text" mask="999.999.999-99" name="cpf" [(ngModel)]="beneficiarioEnderecoDTO.cpf" required #campocpf="ngModel" disabled></p-inputMask>
@@ -245,6 +262,7 @@
     || beneficiarioEnderecoDTO.cep == ''
     || beneficiarioEnderecoDTO.cidade == ''
     || beneficiarioEnderecoDTO.pontoDeReferencia == ''
+    || fotoSubmetida == false
     "></button>    
     
     <button pButton id="atualizar" label="Atualizar" type="submit" 

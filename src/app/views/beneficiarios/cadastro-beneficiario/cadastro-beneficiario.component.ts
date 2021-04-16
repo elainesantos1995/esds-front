@@ -50,6 +50,9 @@ displayModalAddImagem: boolean;
   cidade: '', cep: '', pontoDeReferencia: '', beneficiarioTitular: null, idEndereco: 
   null, imagem: null, idImagem: null};
 
+  cpfValido: boolean = false;
+  fotoSubmetida: boolean = false;
+
   constructor(
     private beneficiariosService: ApiServiceBeneficiarios,
     private activatedRoute: ActivatedRoute,
@@ -75,6 +78,7 @@ displayModalAddImagem: boolean;
     if(this.id){
       // Busca o beneficiário de acordo com o id recebido via url setando o beneficiário
       // retornado no objeto da classe
+      this.fotoSubmetida = true;
       this.beneficiariosService.buscarPorId(this.id)
       .pipe(first())
       .subscribe(response => {
@@ -120,6 +124,10 @@ displayModalAddImagem: boolean;
     // Salva um beneficiário 
 
     else{ 
+
+      if(this.cpfValido === false){
+        this.toastr.error("CPF já cadastrado na base de dados!")
+      }else{   
        
       this.beneficiarioEnderecoDTO.dataNascimento = this.converterDataNascimento(this.dataNascimento);
       if(this.testaCPF(this.beneficiarioEnderecoDTO.cpf) === false){
@@ -130,7 +138,8 @@ displayModalAddImagem: boolean;
         this.toastr.error("Data de Nascimento não deve ser maior que a data atual!" )
       }else if(this.compararDataInicialComDataFinal(this.beneficiarioEnderecoDTO.dataNascimento, this.beneficiarioEnderecoDTO.rgDataEmissao)){
         this.toastr.error("Data de Emissão do RG não deve ser maior que a Data de Nascimento!" )
-      }else{
+      }   
+      else{
     //  this.beneficiarioEnderecoDTO.imagem = this.uploadedFiles;
       this.beneficiarioEnderecoDTO.sexo = this.genero;
       this.beneficiarioEnderecoDTO.estadoCivil = this.estadoCivil;
@@ -143,6 +152,7 @@ displayModalAddImagem: boolean;
         this.navegate(['/beneficiarios/']);
       });
       }
+      } 
     }
   }
 
@@ -156,16 +166,7 @@ compararDataInformadaComDataAtual(dataInformada: Date) {
     return dataInformada >= dataAtual ? true : false;
 }
 
-  // onFileSelected(event){
-  //   this.selectedFile = event.target.files[0];
-  // }
-
-  // onUpload() {    
-  //   this.beneficiarioEnderecoDTO.imagem = this.uploadedFiles;
-  //   this.toastr.success("Imagem caregada com sucesso!")
-  // }
-
-  // Exibe uma mensagem toast 
+// Exibe uma mensagem toast 
 showToaster(){
   this.toastr.success("Cadastro criado com sucesso!" )
 } 
@@ -269,11 +270,10 @@ checarEmail(email: string): boolean{
 ValidaTelefone(telefone: string): any{
   let exp = /\(\d{2}\)\ \d{5}\-\d{4}/
   if(!exp.test(telefone)){
-          alert('Numero de Telefone Invalido!');
+    this.toastr.error('Numero de Telefone Invalido!');
   }
   return exp.test(telefone);
 }
-
 
 // Exibe modal para deleção
 showModalDialogAddImagem() {
@@ -289,11 +289,29 @@ showModalDialogAddImagem() {
  
   //Método chamado quando o usuário clica em submeter a imagem
   onUpload() {
-   //A API FormData provê métodos e propriedades que permitem preparar facilmente os dados do formulário a serem enviados na requisição http POST
-   const uploadImageData = new FormData();
-   uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name); 
-   this.beneficiariosService.salvarImagemSemBeneficiario(uploadImageData);
+
+    if(this.cpfValido == true){
+    //A API FormData provê métodos e propriedades que permitem preparar facilmente os dados do formulário a serem enviados na requisição http POST
+    const uploadImageData = new FormData();
+    uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name); 
+    this.beneficiariosService.salvarImagemSemBeneficiario(uploadImageData);
+    this.fotoSubmetida = true;
+    }else{
+      this.selectedFile = null;
+      this.fotoSubmetida = false;
+      this.toastr.error("Verifique o CPF e tente novamente!")
+    }
  }
  
-
+ buscarPorCPF(){
+    this.beneficiariosService.buscarPorCPF(this.beneficiarioEnderecoDTO.cpf).subscribe(response => {
+      if(response == null){
+        this.cpfValido = true;
+        this.toastr.success("CPF Válido!")
+      }else{
+        this.cpfValido = false;
+        this.toastr.error("CPF Inválido!")
+      }
+    })
+ }
 }
