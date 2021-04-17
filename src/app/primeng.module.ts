@@ -22,6 +22,7 @@ import {SelectButtonModule} from 'primeng/selectbutton';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {PanelModule} from 'primeng/panel';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import {PaginatorModule} from 'primeng/paginator'
 
 @NgModule({
   exports: [
@@ -46,8 +47,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     SelectButtonModule,
     MultiSelectModule,
     PanelModule,
-    InputTextareaModule  
-   
+    InputTextareaModule,  
+    PaginatorModule
   ]
 })
 export class PrimeNgModule { }

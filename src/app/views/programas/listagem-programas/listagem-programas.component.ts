@@ -9,6 +9,9 @@ import { ProgramaDTO } from 'src/app/dto/programaDTO';
 import { ToastrService } from 'ngx-toastr';
 import { BeneficioService } from 'src/app/_servicos/beneficioService';
 
+import { Pageable } from 'src/app/_helpers/Pageable';
+import {LazyLoadEvent} from 'primeng/api';
+
 @Component({
   selector: 'app-listagem-programas',
   templateUrl: './listagem-programas.component.html',
@@ -42,6 +45,12 @@ export class ListagemProgramasComponent implements OnInit {
   periodicidade: any = null;
   displayModal = false;
 
+  dataArray: any = [];
+  loadingDots: boolean;
+  totalRecords: number;
+  first = 0;
+  rows = 2;
+
   constructor(
     private programaService: ProgramaService,
     private router: Router,
@@ -57,6 +66,7 @@ export class ListagemProgramasComponent implements OnInit {
   buscarTodos(){
     this.programaService.buscarTodos().subscribe((programasDTO: ProgramaDTO[]) => {
      this.programasDTO = programasDTO;
+     this.totalRecords = programasDTO.length
      console.log(programasDTO)
    });
   }
@@ -101,5 +111,23 @@ export class ListagemProgramasComponent implements OnInit {
       this.displayModal = true;
   }
 
+loadDataLazy(event: LazyLoadEvent): void {
+    this.loadingDots = true; 
+
+    const pageableData: Pageable = {
+        page: event.first / 2,
+        size: event.rows
+    };
+    this.programaService.getDataPaginated(pageableData).subscribe(
+        dataPaginated => {
+          this.dataArray = dataPaginated;
+          console.log(' pageable data:', this.dataArray.content);
+          this.loadingDots = false; 
+        },
+        error => {
+          console.log('error fetching paginated data', error);
+        }
+    );
+}
 
 }

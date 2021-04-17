@@ -4,6 +4,8 @@ import { catchError, tap, map, retry } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 import { ProgramaDTO } from '../dto/programaDTO';
 
+import { Pageable } from 'src/app/_helpers/Pageable';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -51,6 +53,17 @@ buscarTodos(): Observable<ProgramaDTO[]>{
 deletar(id : number): Observable<any>{
   return this.http.delete<any>(this.url+`/${id}`);
 }
+
+/**
+* getDataPaginated
+* @param {number} page
+* @param {number} size
+* @returns {Observable<Array<Data>>}
+* @memberof DataService
+*/
+getDataPaginated(pageableData: Pageable): Observable<Array<ProgramaDTO[]>> {
+  return this.http.get<any>(this.url+`/entity/pagination?page=${pageableData.page}&size=${pageableData.size}`);
+}  
 
 handleError(error: HttpErrorResponse) {
     let errorMessage = '';
