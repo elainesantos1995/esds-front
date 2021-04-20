@@ -130,7 +130,7 @@ export class ListagemDadosSocioeconomicosComponent implements OnInit {
           text: 'Nome: '+ dados.beneficiarioTitular.nome  
         },
         {  
-          text: 'Data de Nascimento: '+ dados.beneficiarioTitular.dataNascimento 
+          text: 'Data de Nascimento: ' + moment(dados.beneficiarioTitular.dataNascimento).format('DD/MM/yyyy') 
         }, 
         {  
           text: 'Estato Civil: '+ dados.beneficiarioTitular.estadoCivil  

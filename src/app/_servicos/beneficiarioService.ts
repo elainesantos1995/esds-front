@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse} from '@angular/common/http'
 import { catchError, tap, map, retry } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 import { BeneficiarioEnderecoDTO } from '../dto/beneficiarioEnderecoDTO';
-
+import { Pageable } from 'src/app/_helpers/Pageable';
 
 @Injectable({
     providedIn: 'root'
@@ -74,6 +74,9 @@ removerFoto(id: any){
   return this.http.get('http://localhost:8090/api/image/delete/image/'+id);
 }
 
+getDataPaginated(pageableData: Pageable): Observable<Array<BeneficiarioEnderecoDTO[]>> {
+  return this.http.get<any>(this.url+`/entity/pagination?page=${pageableData.page}&size=${pageableData.size}`);
+}
 
 handleError(error: HttpErrorResponse) {
     let errorMessage = '';

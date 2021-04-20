@@ -120,7 +120,7 @@
         style="width: 100px; margin-left: 20px;" *ngIf="!beneficio.id"
         class="p-button-outlined p-button-info"
         [disabled]="beneficio.nome == ''
-        || beneficio.periodicidade == ''
+        || periodicidade == ''
         || beneficio.limiteVagas == null
         || beneficio.justificativa == ''
         || beneficio.toleranciaUsosCancelado == null
@@ -139,7 +139,6 @@
         style="width: 100px; margin-left: 5px;"
         class="p-button-outlined p-button-info"
     ></button>
-        
 
 </form>
 

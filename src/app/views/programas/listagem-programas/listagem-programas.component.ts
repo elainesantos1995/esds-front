@@ -48,8 +48,6 @@ export class ListagemProgramasComponent implements OnInit {
   dataArray: any = [];
   loadingDots: boolean;
   totalRecords: number;
-  first = 0;
-  rows = 2;
 
   constructor(
     private programaService: ProgramaService,
@@ -115,13 +113,13 @@ loadDataLazy(event: LazyLoadEvent): void {
     this.loadingDots = true; 
 
     const pageableData: Pageable = {
-        page: event.first / 2,
+        page: event.first / 5,
         size: event.rows
     };
     this.programaService.getDataPaginated(pageableData).subscribe(
         dataPaginated => {
           this.dataArray = dataPaginated;
-          console.log(' pageable data:', this.dataArray.content);
+          console.log(' pageable data:', this.dataArray);
           this.loadingDots = false; 
         },
         error => {

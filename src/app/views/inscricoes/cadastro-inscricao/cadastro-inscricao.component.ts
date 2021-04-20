@@ -77,6 +77,7 @@ export class CadastroInscricaoComponent implements OnInit {
   deletar(){
     this.inscricaoService.deletar(this.inscricaoSelecionadaDTO.id)
       .subscribe(response => {  
+        this.toastr.success("Deletado com sucesso!")
         location.reload();
         return false;      
       });

@@ -11,6 +11,9 @@ import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { InscricaoService } from 'src/app/_servicos/inscricaoService';
+
+import { Pageable } from 'src/app/_helpers/Pageable';
+import {LazyLoadEvent} from 'primeng/api';
  
 @Component({
   selector: 'app-listar-beneficiarios',
@@ -35,7 +38,7 @@ export class ListarBeneficiariosComponent implements OnInit {
 	rgOrgaoEmissor: '', sexo: this.genero, estadoCivil: this.estadoCivil, telefone1: '',
   telefone2: '', email: '', logradouro: '', numero: '', complemento: '', bairro: '', 
   cidade: '', cep: '', pontoDeReferencia: '', beneficiarioTitular: null, 
-  idEndereco: null, imagem: null, idImagem: null};
+  idEndereco: null, imagem: null, idImagem: null, img: null};
 
 // Variáveis da imagem
 selectedFile: File;
@@ -44,6 +47,11 @@ base64Data: any;
 retrieveResonse: any;
 message: string;
 imageName: any;
+
+//Paginação
+dataArray: any = [];
+loadingDots: boolean;
+totalRecords: number;
 
   constructor(
     private beneficiariosService: ApiServiceBeneficiarios,
@@ -64,6 +72,7 @@ imageName: any;
   buscarTodos(){
     this.beneficiariosService.buscarTodos().subscribe((beneficiariosDTO: BeneficiarioEnderecoDTO[]) => {
      this.beneficiariosDTO = beneficiariosDTO;
+     this.totalRecords = beneficiariosDTO.length;
      console.log(beneficiariosDTO)
    });
   }
@@ -144,6 +153,9 @@ showModalDialogAddImagem() {
 
 //Recupera e renderiza a imagem do beneficiário para que possa ser renderizada na tabela
 recuperarImagemBeneficiario(imagem: any): any {
+
+  console.log("imagem" + imagem)
+  
   var retrievedImage = null; 
     
       this.retrieveResonse = imagem;
@@ -166,6 +178,25 @@ recuperarImagemPorId(id: number){
 
 removerImagem(id: number){
   this.beneficiariosService.removerFoto(id);
+}
+
+loadDataLazy(event: LazyLoadEvent): void {
+  this.loadingDots = true; 
+
+  const pageableData: Pageable = {
+      page: event.first / 5,
+      size: event.rows
+  };
+  this.beneficiariosService.getDataPaginated(pageableData).subscribe(
+      dataPaginated => {
+        this.dataArray = dataPaginated;
+        console.log(' pageable data:', this.dataArray);
+        this.loadingDots = false; 
+      },
+      error => {
+        console.log('error fetching paginated data', error);
+      }
+  );
 }
 
 }

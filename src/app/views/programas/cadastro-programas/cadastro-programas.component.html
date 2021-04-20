@@ -36,7 +36,7 @@
                 </div>
                 <div id="div-ano" class="p-field tamanhoSecundario" *ngIf="programa.id">
                     <label for="ano">Edição</label>
-                    <input id="ano" type="date" pInputText
+                    <input id="ano" type="number" pInputText
                         name="ano" [(ngModel)]="programa.ano" required #ano="ngModel" disabled>                         
                                    
                         <div *ngIf="!ano.valid && ano.touched" class="alerta">

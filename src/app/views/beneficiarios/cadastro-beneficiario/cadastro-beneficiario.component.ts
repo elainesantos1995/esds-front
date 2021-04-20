@@ -48,7 +48,7 @@ displayModalAddImagem: boolean;
 	rgOrgaoEmissor: '', sexo: this.genero, estadoCivil: this.estadoCivil, telefone1: '',
   telefone2: '', email: '', logradouro: '', numero: '', complemento: '', bairro: '', 
   cidade: '', cep: '', pontoDeReferencia: '', beneficiarioTitular: null, idEndereco: 
-  null, imagem: null, idImagem: null};
+  null, imagem: null, idImagem: null, img: null};
 
   cpfValido: boolean = false;
   fotoSubmetida: boolean = false;
@@ -299,7 +299,9 @@ showModalDialogAddImagem() {
     }else{
       this.selectedFile = null;
       this.fotoSubmetida = false;
-      this.toastr.error("Verifique o CPF e tente novamente!")
+      if(this.id == null){
+        this.toastr.error("Verifique o CPF e tente novamente!")
+      }
     }
  }
  

@@ -1,3 +1,4 @@
+import { FotoDTO } from "./fotoDTO";
 
 export class BeneficiarioEnderecoDTO{
 	id: number;
@@ -26,4 +27,6 @@ export class BeneficiarioEnderecoDTO{
 
 	imagem: any;
 	idImagem: number;
+
+	img: FotoDTO;
 }

@@ -66,11 +66,12 @@ export class CadastroProgramasComponent implements OnInit {
         if(this.id){
           let funcDataInicioVigencia: Date = new Date(this.programa.vigenciaInicio);
           this.dataInicioVigencia = moment(funcDataInicioVigencia).format('yyyy-MM-DD');
+         
           let funcDataTerminoVigencia: Date = new Date(this.programa.vigenciaTermino);
-          this.dataInicioVigencia = moment(funcDataTerminoVigencia).format('yyyy-MM-DD');
+          this.dataTerminoVigencia = moment(funcDataTerminoVigencia).format('yyyy-MM-DD');
         }
         this.programa.vigenciaInicio = response.vigenciaInicio;
-        this.programa.vigenciaInicio = response.vigenciaTermino;
+        this.programa.vigenciaTermino = response.vigenciaTermino;
         console.log(response);
       },
         erroResponse => new ProgramaDTO());

@@ -24,8 +24,10 @@
             [paginator]="true" [rows]="5" styleClass="p-datatable-gridlines">
             
             <ng-template pTemplate="caption" style="height: min-content;">    
+
+                Beneficiários
                 
-                <div style="display: inline-block;" >
+                <!-- <div style="display: inline-block;" >
                     <h3 class="p-m-0" >Beneficiários</h3>
                 </div>    
             
@@ -34,7 +36,7 @@
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." />
                     </span>
-                </div>                
+                </div>                 -->
            
             </ng-template>
     
@@ -93,24 +95,7 @@
                             </ng-template>                        
                         </p-dialog>
 
-
-                        <!-- Diálogo com todos os dados do beneficiário -->
-                        <!-- <button pButton pRipple icon="pi pi-external-link" class="p-button-secondary p-button-text" 
-                            (click)="showModalDialogBeneficiario()" (click)="setarBeneficiarioDTO(benefi)"></button>
-                       
-                        <p-dialog id="dialogo-del-imagem" header="Dados do beneficiário: {{benefi.nome}}" [(visible)]="displayModalBeneficiario" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
-                            [draggable]="false" [resizable]="false">
-                            
-                            <div *ngIf="beneficiarioSelecionadoDTO">
-                            </div>
-                            
-                            <ng-template pTemplate="footer">
-                                <p-button icon="pi pi-check" (click)="displayModalBeneficiario=false" label="Cancelar" styleClass="p-button-text" ></p-button>
-                                </ng-template>                        
-                        </p-dialog> -->
-
-                    </td>
-                    
+                    </td>                    
 
                     <td>
                     
@@ -138,5 +123,111 @@
             
         </p-table>
     </div>
+
+    <br>
+    <br>
+
+    <!-- <p-table #dt [value]="dataArray.content"
+        [paginator]="true" 
+        [lazy]="true"
+        [loading]="loadingDots"
+        (onLazyLoad)="loadDataLazy($event)" 
+        [autoLayout]="true" 
+        [responsive]="true" 
+        [totalRecords]="totalRecords" 
+        [showCurrentPageReport]="true"  
+        [rowsPerPageOptions]="[5,10,15]"     
+        [rows]="5"
+
+        [globalFilterFields]="['nome','descricao, ano']"
+        >
+       
+        <ng-template pTemplate="caption" style="height: min-content;">                   
+            Beneficiários       
+        </ng-template>
+
+        <ng-template pTemplate="header" > 
+
+            <tr>                   
+                <th>ID</th>
+                <th>Beneficiário</th>
+                <th>Nome</th>
+                <th>Data de Nascimento</th>
+                <th>CPF</th>
+                <th>RG</th>
+                <th>Data de Emissão</th>
+                <th>órgão Emissor</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-benefi>
+            <tr>
+               
+                <td>{{benefi.id}}</td>
+                <td>
+                    <img [src]="recuperarImagemBeneficiario(benefi.imagem)" height="60px" width="60px" alt="foto">
+                </td>
+                <td>{{benefi.nome}}</td>
+                <td>{{benefi.dataNascimento | date: 'dd/MM/yyyy'}}</td>
+                <td>{{benefi.cpf}}</td>
+                <td>{{benefi.rg}}</td>
+                <td>{{benefi.rgDataEmissao}}</td>
+                <td>{{benefi.rgOrgaoEmissor}}</td>
+                <td>
+                   
+                    <button pButton pRipple icon="pi pi-image" class="p-button-secondary p-button-text" 
+                    (click)="showModalDialogAddImagem()" (click)="setarBeneficiarioDTO(benefi)"></button>
+
+                    <p-dialog id="dialogo-add-imagem" header="Adicionar foto ao cadastro" [(visible)]="displayModalAddImagem" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+                        [draggable]="false" [resizable]="false"> 
+
+                        <div class="container row">            
+                            <div class="col-md-6">            
+                                <input type="file" (change)="onFileChanged($event)">            
+                            </div>
+                        
+                            <div class="col-md-6">            
+                                <input type="button" (click)="onUpload()" value="upload">            
+                            </div>  
+                            <div class="col-md-6">            
+                               <button type="button" (click)="displayModalAddImagem=false">Salvar</button>
+                            </div>                           
+                        </div>
+                        
+                        <ng-template pTemplate="footer">
+                            <p-button icon="pi pi-check" (click)="displayModalAddImagem=false" label="Cancelar" styleClass="p-button-text" ></p-button>
+                        </ng-template>                        
+                    </p-dialog>
+
+                </td>  
+
+                <td>
+                
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary p-button-text" (click)="navegate(['/beneficiarios/beneficiarios-cadastro/'+ benefi.id])" ></button>
+                
+                   <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text" 
+                   (click)="showModalDialog()" (click)="setarBeneficiarioDTO(benefi)"></button>
+                    
+                   <p-dialog id="dialogo-del-beneficiario" header="Deleção" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+                        [draggable]="false" [resizable]="false">
+                        
+                        <div *ngIf="beneficiarioSelecionadoDTO">
+                            <p class="p-m-0">Deseja realmente deletar o beneficiário {{ beneficiarioSelecionadoDTO.nome }} ?</p>
+                        </div>
+                        
+                        <ng-template pTemplate="footer">
+                            <p-button icon="pi pi-check" (click)="displayModal=false" label="Cancelar" styleClass="p-button-text" ></p-button>
+                            <p-button icon="pi pi-check" (click)="deletar()" (click)="displayModal=false" label="Ok" styleClass="p-button-text"></p-button>
+                        </ng-template>                        
+                    </p-dialog>
+                </td>
+
+
+            </tr>
+        </ng-template>
+    </p-table> -->
     
+
     </div>
