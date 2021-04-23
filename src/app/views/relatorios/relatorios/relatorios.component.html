@@ -21,7 +21,7 @@
     </div>
 
 
-    <div style="display: inline;">
+    <div style="display: inline;" *ngIf="anoPrograma != null">
         <div id="div-programa" style="display: inline;" *ngIf="anoPrograma != null">
             <label for="dropdown">Programas* </label>
             <span>
@@ -44,7 +44,7 @@
 
     </div>
 
-        <div id="div-beneficio" *ngIf="anoPrograma != null" style="display: inline;">
+        <div id="div-beneficio" *ngIf="programa != null" style="display: inline;">
             <label for="dropdown">Benefícios* </label>
             <span>
         
@@ -54,7 +54,7 @@
             </span>          
         </div>
 
-        <div style="display: inline;" *ngIf="anoPrograma != null">           
+        <div style="display: inline;" *ngIf="programa != null">           
             <button pButton pRipple type="button" icon="pi pi-search" 
                 class="p-button-rounded p-button-success p-button-text"
                 (click)="buscarInscricoesDeUmBeneficio()"

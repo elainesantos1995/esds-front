@@ -4,8 +4,8 @@
        
     <form id="formInscricao" #inscricaoForm="ngForm" (ngSubmit)="onSubmit()">
 
-        <p-tabView id="table-view-funcionarios">
-            <p-tabPanel id="table-panel-funcionarios" header="Condições de Moradia">       
+        <p-tabView id="table-view-dados">
+            <p-tabPanel id="table-panel-dados" header="Condições de Moradia">       
             
                 <div>
                     <div class="p-fluid">
@@ -14,7 +14,7 @@
     
                             <td>
 
-                                <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" *ngIf="!dados.id">
+                                <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" >
                                     <label for="dropdown">Composição do Domicílio*</label>
                                     <span class="p-float-label">
                                         <p-dropdown [options]="composicaoDeDomicilio" [(ngModel)]="composicaoDomicilioSelecionado" 
@@ -27,7 +27,7 @@
                                     </div>                
                                 </div>
 
-                                <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" *ngIf="!dados.id">
+                                <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" >
                                     <label for="dropdown">Condições da Residência*</label>
                                     <span class="p-float-label">
                                         <p-dropdown [options]="condicoesMoradia" [(ngModel)]="condicoesMoradiaSelecionada" 
@@ -68,7 +68,7 @@
                                 
                             </td>
 
-                            <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" *ngIf="!dados.id">
+                            <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" >
                                 <label for="dropdown">Localidade do Domicílio*</label>
                                 <span class="p-float-label">
                                     <p-dropdown [options]="localidadesDomicilio" [(ngModel)]="localidadeDomicilioSelecionado" 
@@ -81,7 +81,7 @@
                                 </div>                
                             </div>
 
-                            <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" *ngIf="!dados.id">
+                            <div id="div-tipo-funcionario" class="p-field p-col-12 p-md-4" >
                                 <label for="dropdown">Quantidade de Cômodos*</label>
                                 <span class="p-float-label">
                                     <p-dropdown [options]="quantComodos" [(ngModel)]="quantComodosSelecionado" 
@@ -365,7 +365,7 @@
             || dados.tipoDeTrabalho ==''
             || dados.aguaEncanada  == null
             || dados.coletaEsgoto == null
-            || dados.composicaoDomicilio ==''
+            || condicoesMoradiaSelecionada ==''
             || dados.doencaCronica == null
             || dados.energiaEletrica == null
             || dados.familiaIndigena == null
@@ -380,7 +380,7 @@
             || dados.cpfBeneficiario == ''">
     </button>    
     
-    <button pButton id="atualizar" label="Salvar" 
+    <button pButton id="atualizar" label="Atualizar" 
         class="p-button-outlined p-button-info"
         type="submit" style="width: 100px; margin-left: 20px;" *ngIf="dados.id"
     ></button>

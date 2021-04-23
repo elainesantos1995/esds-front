@@ -128,7 +128,7 @@ export class CadastroDadosSocioeconomicosComponent implements OnInit {
           this.membroEmpregado= "nao";
         }
 
-        this.composicaoDomicilioSelecionado = response.condicaoResidencia;
+        this.composicaoDomicilioSelecionado = response.composicaoDomicilio;
         this.localidadeDomicilioSelecionado = response.localidade;
         this.condicoesMoradiaSelecionada = response.condicaoResidencia;
         this.quantComodosSelecionado = response.quantComodos;

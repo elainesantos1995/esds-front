@@ -66,7 +66,7 @@ export class RelatoriosComponent implements OnInit {
   buscarTodos(){
     this.programaService.buscarTodos().subscribe((programasDTO: ProgramaDTO[]) => {
      this.programasDTO = programasDTO;
-     console.log(programasDTO)
+    //  console.log(programasDTO)
    });
   }
 
@@ -81,14 +81,14 @@ export class RelatoriosComponent implements OnInit {
     this.beneficioService.listarBeneficiosDeUmPrograma(this.programa.id)
     .subscribe((beneficiosDTO: BeneficioDTO[]) => {
       this.beneficios = beneficiosDTO;
-      console.log(this.beneficios)
+      // console.log(this.beneficios)
     });
   }
 
   buscarTodosBeneficios(){
     this.beneficioService.buscarTodos().subscribe((beneficiosDTO: BeneficioDTO[]) => {
      this.beneficiosTodos = beneficiosDTO;
-     console.log(beneficiosDTO)
+    //  console.log(beneficiosDTO)
    });
   }
 
@@ -115,23 +115,23 @@ buscarInscricoesDeUmBeneficio(){
   this.inscricaoService.buscarBeneficioDeUmPrograma(this.beneficio.id)
   .subscribe((inscricoes: InscricaoDTO[]) => {
     this.inscricoes = inscricoes;
-    console.log(this.inscricoes)
+    // console.log(this.inscricoes)
   })
 }
 
 buscarUsos(){
   this.usosService.buscarUsosDeUmBeneficio(this.beneficio.id).subscribe((usoDeBeneficioDTO: UsoDeBeneficioDTO[]) => {
    this.usosDeBeneficio = usoDeBeneficioDTO;
-   console.log('Usos de benefício')
-   console.log(usoDeBeneficioDTO)
+  //  console.log('Usos de benefício')
+  //  console.log(usoDeBeneficioDTO)
  });
 }
 
 buscarBeneficiarios(){
   this.beneficiariosService.buscarTodos().subscribe((response: BeneficiarioEnderecoDTO[]) => {
    this.beneficiarios = response;
-   console.log("beneficiários")
-   console.log(this.beneficiarios)
+  //  console.log("beneficiários")
+  //  console.log(this.beneficiarios)
  });
 }
 
@@ -139,11 +139,8 @@ buscarBeneficiarios(){
 
 relatorioGeralProgramaBeneficioAno(){
 
-  if(this.programa === null){
-    this.toastr.error("Selecione um programa!");
-  }
-  else if(this.beneficios === null){
-    this.toastr.error("Selecione um benefício!");
+  if(this.anoPrograma === null){
+    this.toastr.error("Informe um ano!");
   }
   else{
   let docDefinition2 = {
@@ -173,12 +170,9 @@ relatorioGeralProgramaBeneficioAno(){
               [
                 {
                   text: `Date: ${new Date().toLocaleString()}`,
-                  alignment: 'right'
+                  alignment: 'left'
                 },
-                { 
-                  text: `Rel. Nº : ${((Math.random() *1000).toFixed(0))}`,
-                  alignment: 'right'
-                }
+                
               ]
             ]
           },
@@ -193,7 +187,7 @@ relatorioGeralProgramaBeneficioAno(){
               body: [
                 ['Id', 'Programa', 'Edição', 'Início', 'Término', 'Justificativa'],  
                 ...this.programasDTO.map(p => ([p.id, p.nome, p.ano, moment(p.vigenciaInicio).format('DD/MM/yyyy'), moment(p.vigenciaTermino).format('DD/MM/yyyy'), p.descricao])),
-                [{text: 'Programas encontrados', colSpan: 3}, {}, {}, {}, {}, this.programasDTO.length]
+                [{text: 'Programas encontrados', colSpan: 5}, {}, {}, {}, {}, this.programasDTO.length]
               ]
             }
           },
@@ -207,8 +201,9 @@ relatorioGeralProgramaBeneficioAno(){
                 widths: ['auto', '*', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],  
                 body: [  
                   ['Id', 'Nome', 'Justificativa', 'Periodicidade', 'Vagas', 'Recursos', 'Programa', 'Edição'],  
-                    ...this.beneficiosTodos.map(b => ([b.id, b.nome, b.justificativa, b.periodicidade, b.limiteVagas, b.totalRecursosAportados, b.programa.nome, b.programa.ano]))  
-              
+                    ...this.beneficiosTodos.map(b => ([b.id, b.nome, b.justificativa, b.periodicidade, b.limiteVagas, b.totalRecursosAportados, b.programa.nome, b.programa.ano])),  
+                    [{text: 'Benefícios encontrados', colSpan: 7}, {}, {}, {}, {}, {}, {}, this.beneficiosTodos.length]
+
                 ]  
             }  
           },
@@ -241,7 +236,7 @@ relatorioGeralProgramaBeneficioAno(){
         }
       };   
       pdfMake.createPdf(docDefinition2).open();
-    }
+  }
 }
 
 //Adimplentes
@@ -618,10 +613,7 @@ relatorioUsoBeneficiosPorPrograma(){
                   text: `Data: ${new Date().toLocaleString()}`,
                   alignment: 'right'
                 },
-                { 
-                  text: `Relatório Nº : ${((Math.random() *1000).toFixed(0))}`,
-                  alignment: 'right'
-                }
+                
               ]
             ]
           },
@@ -632,7 +624,7 @@ relatorioUsoBeneficiosPorPrograma(){
               body: [
                 ['Id', 'Beneficiário', 'CPF', 'Data de uso', 'Benefício'],  
                 ...this.usosDeBeneficio.map(u => ([u.id, u.inscricao.beneficiario.nome, u.inscricao.beneficiario.cpf, moment(u.dataDoUso).format('DD/MM/yyyy'), this.beneficio.nome])),
-                [{text: 'Total', colSpan: 4}, {}, {}, {}, this.inscricoes.length]
+                [{text: 'Total', colSpan: 4}, {}, {}, {}, this.usosDeBeneficio.length]
               ]
             }
           },
@@ -697,47 +689,6 @@ relatorioBeneficiariosTotal(){
             text: `Data: ${new Date().toLocaleString()}`,
             alignment: 'right'
           },
-          { 
-          text: `Relatório Nº : ${((Math.random() *1000).toFixed(0))}`,
-          alignment: 'right'
-          },
-              
-
-          // {
-          //   columns: [
-          //     [
-          //       {
-          //         text: 'Programa: '+ this.programa.nome,
-          //         bold:false
-          //       },
-          //       {
-          //         text: 'Benefício: '+this.beneficio.nome,
-          //         bold: false
-          //       },
-          //       {
-          //         text: 'Limite de Vagas: '+ this.beneficio.limiteVagas,
-          //         bold:false
-          //       },
-          //       {
-          //         text: 'Total de Recursos Aportados: '+ this.beneficio.totalRecursosAportados,
-          //         bold:false
-          //       },
-          //       { text: 'Ano: ' + this.programa.ano },
-          //     ],
-          //     [
-          //       {
-          //         text: `Data: ${new Date().toLocaleString()}`,
-          //         alignment: 'right'
-          //       },
-          //       { 
-          //         text: `Relatório Nº : ${((Math.random() *1000).toFixed(0))}`,
-          //         alignment: 'right'
-          //       }
-          //     ]
-          //   ]
-          // },
-
-
           {
             table: {
               headerRows: 1,
